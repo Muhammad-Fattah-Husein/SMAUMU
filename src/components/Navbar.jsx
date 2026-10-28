@@ -1,91 +1,173 @@
 import React from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { GraduationCap, LogIn, LogOut, LayoutDashboard } from 'lucide-react';
+import {
+  GraduationCap,
+  Home,
+  LayoutDashboard,
+  LogOut,
+  LogIn,
+  FileText,
+  Clock,
+  UserCheck
+} from 'lucide-react';
 
+/**
+ * Minimalist Floating Navbar for SMAUMU
+ * Adapts dynamically:
+ * - In Student Portal (/student): 3 Sections -> Pendaftaran, Status Pendaftaran, Informasi Akun.
+ * - In Admin Portal: Beranda, Dashboard Admin, Logout.
+ * - In Public Portal: Beranda, Portal Siswa, Masuk.
+ */
 export const Navbar = () => {
-  const { user, isAuthenticated, logout } = useAuth();
+  const { isAuthenticated, logout, user } = useAuth();
+  const location = useLocation();
   const navigate = useNavigate();
 
-  const handleLogout = () => {
-    logout();
-    navigate('/');
+  const handleLogout = async () => {
+    try {
+      await logout();
+      navigate('/login');
+    } catch (err) {
+      console.error('Logout failed:', err);
+      navigate('/');
+    }
   };
 
+  const isHome = location.pathname === '/';
+  const isStudentPortal = location.pathname.startsWith('/student') || 
+                          location.pathname.startsWith('/pendaftaran');
+  const isAdminRoute = location.pathname.startsWith('/admin') || 
+                       location.pathname.startsWith('/login-admin');
+  const isLogin = location.pathname.startsWith('/login');
+
+  const demoStudent = !isAuthenticated ? (() => {
+    try {
+      return JSON.parse(localStorage.getItem('smaumu_demo_student') || 'null');
+    } catch {
+      return null;
+    }
+  })() : null;
+
+  const effectiveRole = user?.user_metadata?.role || demoStudent?.user_metadata?.role;
+  const isStudentUser = (isAuthenticated && effectiveRole === 'student') || Boolean(demoStudent);
+  const isAdminUser = isAuthenticated && effectiveRole !== 'student';
+
+  // Read active tab for student dashboard (pendaftaran | status | akun)
+  const searchParams = new URLSearchParams(location.search);
+  const activeStudentTab = searchParams.get('tab') || 'pendaftaran';
+
   return (
-    <header className="sticky top-0 z-50 bg-smaumu-surface/95 backdrop-blur-md border-b border-gray-200/80 shadow-sm transition-all font-body">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16 sm:h-20">
+    <nav
+      id="floating-navbar"
+      aria-label="Navigasi Utama"
+      className="fixed top-6 left-1/2 transform -translate-x-1/2 w-[92%] max-w-4xl bg-white/75 backdrop-blur-lg border border-gray-100 rounded-full shadow-sm hover:shadow-md transition-all duration-300 z-50 px-3 sm:px-6 py-2.5 sm:py-3 font-body"
+    >
+      <div className="flex items-center justify-between">
+        
+        {/* Brand Logo (SMAUMU) on the left */}
+        <Link
+          to="/"
+          className="flex items-center space-x-2 sm:space-x-2.5 group focus:outline-none focus:ring-2 focus:ring-primary/20 rounded-full flex-shrink-0"
+          title="SMAUMU - Sistem Informasi Kuota SMAN"
+        >
+          <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-primary flex items-center justify-center text-white shadow-sm group-hover:scale-105 transition-transform duration-200">
+            <GraduationCap className="w-4 h-4 sm:w-5 sm:h-5 text-accent" />
+          </div>
+          <div className="flex items-center space-x-1 sm:space-x-1.5">
+            <span className="font-heading font-black text-base sm:text-xl tracking-tight text-primary group-hover:text-primary-hover transition-colors">
+              SMAUMU
+            </span>
+            <span className="hidden md:inline-flex items-center px-1.5 py-0.5 rounded-full text-[10px] font-bold bg-accent/20 text-amber-900 border border-accent/40 leading-none">
+              PPDB
+            </span>
+          </div>
+        </Link>
+
+        {/* Top Navbar navigation links */}
+        <div className="flex items-center space-x-1 sm:space-x-2 text-xs sm:text-sm">
           
-          {/* Brand / Logo */}
-          <Link to="/" className="flex items-center space-x-3 group">
-            <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-smaumu-primary flex items-center justify-center text-white shadow-md shadow-smaumu-primary/20 group-hover:scale-105 transition-transform duration-200">
-              <GraduationCap className="w-6 h-6" />
-            </div>
-            <div>
-              <div className="flex items-center space-x-2">
-                <span className="font-heading text-xl sm:text-2xl font-black tracking-tight text-smaumu-primary">
-                  SMAUMU
-                </span>
-                <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-bold bg-amber-50 text-amber-800 border border-smaumu-accent/40">
-                  <span className="w-2 h-2 rounded-full bg-smaumu-accent mr-1.5 animate-ping"></span>
-                  Live PPDB
-                </span>
-              </div>
-              <p className="text-xs text-gray-500 hidden sm:block font-medium">
-                SMA UntukMu &bull; Transparansi Kuota Siswa Kelas 9 Nasional
-              </p>
-            </div>
+          {/* 1. Beranda */}
+          <Link
+            to="/"
+            className={`flex items-center space-x-1 px-2.5 sm:px-3.5 py-1.5 rounded-full font-heading font-bold transition-all duration-200 ${
+              isHome
+                ? 'bg-primary text-white shadow-sm shadow-primary/25'
+                : 'text-gray-700 hover:text-primary hover:bg-gray-100/70'
+            }`}
+          >
+            <Home className="w-3.5 h-3.5 hidden sm:inline" />
+            <span>Beranda</span>
           </Link>
 
-          {/* Nav Actions */}
-          <nav className="flex items-center space-x-2 sm:space-x-4">
+          {/* 2. Portal Siswa (Tampil untuk siswa & publik; disembunyikan untuk admin) */}
+          {!isAdminUser && (
             <Link
-              to="/"
-              className="px-3.5 py-2 rounded-lg text-sm font-bold text-gray-700 hover:text-smaumu-primary hover:bg-gray-100 transition-colors"
+              to="/student"
+              className={`flex items-center space-x-1 px-2.5 sm:px-3.5 py-1.5 rounded-full font-heading font-bold transition-all duration-200 ${
+                isStudentPortal
+                  ? 'bg-primary text-white shadow-sm shadow-primary/25'
+                  : 'text-gray-700 hover:text-primary hover:bg-gray-100/70'
+              }`}
             >
-              Beranda Publik
+              <GraduationCap className="w-3.5 h-3.5 hidden sm:inline" />
+              <span>Portal Siswa</span>
             </Link>
+          )}
 
-            {isAuthenticated ? (
-              <div className="flex items-center space-x-2 sm:space-x-3">
-                <Link
-                  to="/admin"
-                  className="font-heading inline-flex items-center px-4 py-2 rounded-xl text-sm font-bold bg-gray-100 text-gray-800 hover:bg-gray-200 border border-gray-300 transition-colors shadow-sm"
-                >
-                  <LayoutDashboard className="w-4 h-4 mr-1.5 text-smaumu-primary" />
-                  Dashboard Sekolah
-                </Link>
+          {/* 3. Dashboard Admin (Hanya untuk Admin / Bukan Siswa) */}
+          {isAdminUser && (
+            <Link
+              to="/admin"
+              className={`flex items-center space-x-1 px-2.5 sm:px-3.5 py-1.5 rounded-full font-heading font-bold transition-all duration-200 ${
+                isAdminRoute
+                  ? 'bg-primary text-white shadow-sm shadow-primary/25'
+                  : 'text-gray-700 hover:text-primary hover:bg-gray-100/70'
+              }`}
+            >
+              <LayoutDashboard className="w-3.5 h-3.5 hidden sm:inline" />
+              <span className="hidden md:inline">Dashboard</span>
+              <span>Admin</span>
+            </Link>
+          )}
 
-                <div className="h-6 w-px bg-gray-200 hidden sm:block"></div>
-
-                <div className="flex items-center space-x-2">
-                  <span className="text-xs font-semibold text-gray-600 hidden md:inline">
-                    {user?.assignedSchool?.name || user?.email || user?.name || user?.username || 'Admin SMAN'}
-                  </span>
-                  <button
-                    onClick={handleLogout}
-                    className="inline-flex items-center px-3 py-2 rounded-lg text-xs sm:text-sm font-bold text-smaumu-primary hover:bg-red-50 transition-colors"
-                    title="Keluar dari akun admin"
-                  >
-                    <LogOut className="w-4 h-4 mr-1" />
-                    Keluar
-                  </button>
-                </div>
-              </div>
-            ) : (
-              <Link
-                to="/login"
-                className="font-heading inline-flex items-center px-4 py-2 sm:px-5 sm:py-2.5 rounded-xl text-sm font-bold text-white bg-smaumu-primary hover:bg-[#B30F20] shadow-md shadow-smaumu-primary/20 hover:shadow-lg transition-all duration-200 transform hover:-translate-y-0.5"
+          {/* 4. Masuk vs Logout */}
+          {isAuthenticated ? (
+            <div className="flex items-center space-x-1 sm:space-x-1.5">
+              <span className="hidden lg:inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold bg-gray-100 text-gray-700 border border-gray-200">
+                {user?.user_metadata?.role === 'student' ? '🎓 Siswa' : '🛡️ Admin'}
+              </span>
+              <button
+                onClick={handleLogout}
+                className="flex items-center space-x-1 px-3 sm:px-3.5 py-1.5 rounded-full font-heading font-bold text-gray-600 hover:text-primary hover:bg-red-50/80 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-primary/20"
+                title={`Keluar (${user?.email || 'Akun'})`}
               >
-                <LogIn className="w-4 h-4 mr-2 text-smaumu-accent" />
-                Login Admin SMAN
-              </Link>
-            )}
-          </nav>
+                <LogOut className="w-3.5 h-3.5 text-primary" />
+                <span>Logout</span>
+              </button>
+            </div>
+          ) : (
+            <Link
+              to="/login"
+              className={`flex items-center space-x-1 px-3 sm:px-3.5 py-1.5 rounded-full font-heading font-bold transition-all duration-200 ${
+                isLogin
+                  ? 'bg-primary text-white shadow-sm shadow-primary/25'
+                  : 'text-gray-700 hover:text-primary hover:bg-gray-100/70'
+              }`}
+              title="Masuk ke Akun Calon Siswa atau Petugas Admin"
+            >
+              <LogIn className="w-3.5 h-3.5" />
+              <span>Masuk</span>
+            </Link>
+          )}
 
         </div>
+
       </div>
-    </header>
+    </nav>
   );
 };
+
+export const TopNavbar = Navbar;
+export default Navbar;
+

@@ -1,0 +1,42 @@
+import Navbar from './Navbar';
+import Footer from './Footer';
+import { ShieldCheck, Info } from 'lucide-react';
+
+export default function Layout({ children, noContainer = false }) {
+  return (
+    <div className="min-h-screen flex flex-col bg-[#F8FAFC] text-slate-900 font-sans selection:bg-blue-600 selection:text-white">
+      {/* Banner Ringkas di Paling Atas */}
+      <div className="bg-[#1E3A8A] text-white text-xs py-1.5 px-4 border-b border-white/10 shadow-sm">
+        <div className="max-w-7xl mx-auto flex items-center justify-between text-xs">
+          <div className="flex items-center gap-2">
+            <span className="bg-white/10 text-white border border-white/20 text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider">
+              WIA MIA 2026
+            </span>
+            <span className="text-slate-200 text-[11px] font-medium hidden sm:inline">
+              Transparansi PPDB SMAN: Sisa kuota, jarak zonasi, dan audit publik terbuka.
+            </span>
+          </div>
+          <div className="flex items-center gap-2 text-[11px] text-emerald-400 font-semibold">
+            <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+            <span>Real-Time</span>
+          </div>
+        </div>
+      </div>
+
+      {/* Floating Side Navbar (Desktop di Kiri, Mobile di Bawah) */}
+      <Navbar />
+
+      {/* Main Content Area dengan ruang leluasa di samping floating dock */}
+      <div className="flex-1 lg:pl-28 pb-24 lg:pb-12 transition-all">
+        <main className={`w-full ${noContainer ? '' : 'max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8'}`}>
+          {children}
+        </main>
+      </div>
+
+      {/* Footer dengan ruang leluasa di samping floating dock */}
+      <div className="lg:pl-28">
+        <Footer />
+      </div>
+    </div>
+  );
+}

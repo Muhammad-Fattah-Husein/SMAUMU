@@ -1,0 +1,25 @@
+{
+  "compilerOptions": {
+    "baseUrl": "./project-wia",
+    "paths": {
+      "@/components/*": ["src/components/*"],
+      "@/services/*": ["src/services/*"],
+      "@/utils/*": ["src/utils/*"],
+      "@/styles/*": ["src/styles/*"],
+      "@/*": ["src/*"]
+    },
+    "jsx": "preserve",
+    "target": "ES2022",
+    "module": "ESNext",
+    "moduleResolution": "node",
+    "allowJs": true
+  },
+  "include": [
+    "project-wia/src/**/*"
+  ],
+  "exclude": [
+    "node_modules",
+    "project-wia/node_modules",
+    "project-wia/.next"
+  ]
+}

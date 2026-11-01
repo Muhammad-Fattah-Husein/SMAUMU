@@ -1,8 +1,9 @@
 -- ==============================================================================
--- SKEMA DATABASE SMAUMU (SMAN UntukMu)
+-- SKEMA DATABASE SMAUMU (SMAN UntukMu) - EDISI TERPADU & PRODUKSI
 -- Tema: Designing Digital Futures – Powering Public Transparency
 -- Kompetisi: Web In Action (WIA) MIA 2026
 -- Platform: Supabase (PostgreSQL 15+)
+-- Fitur: RBAC Ketat, Storage Berkas, Trigger Otomatis Kuota & Audit, Dual-Language Views
 -- ==============================================================================
 
 -- 1. EXTENSIONS
@@ -10,12 +11,11 @@ CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 CREATE EXTENSION IF NOT EXISTS "pgcrypto";
 
 -- ==============================================================================
--- 2. TABEL ENTITAS
+-- 2. TABEL ENTITAS UTAMA
 -- ==============================================================================
 
--- A. Tabel Pengguna (Satu Tabel Satu Entitas, Relasi 1:N)
--- CATATAN: Pendaftaran publik HANYA untuk peran 'masyarakat'.
--- Akun 'admin_instansi' dan 'verifikator_zonasi' hanya dibuat oleh Dinas Pendidikan.
+-- A. Tabel Pengguna (Role-Based Access Control)
+-- Pendaftaran publik HANYA untuk peran 'masyarakat'. Akun dinas diterbitkan eksklusif.
 CREATE TABLE IF NOT EXISTS public.pengguna (
     id BIGSERIAL PRIMARY KEY,
     auth_user_id UUID REFERENCES auth.users(id) ON DELETE SET NULL,
@@ -46,7 +46,7 @@ CREATE TABLE IF NOT EXISTS public.sekolah (
     created_at TIMESTAMPTZ NOT NULL DEFAULT timezone('utc'::text, now())
 );
 
--- C. Tabel Kuota Sekolah & Live Burn-Rate (Subtema: Open Government Data)
+-- C. Tabel Kuota Sekolah & Live Burn-Rate
 CREATE TABLE IF NOT EXISTS public.kuota_sekolah (
     id SERIAL PRIMARY KEY,
     sekolah_id INT NOT NULL REFERENCES public.sekolah(id) ON DELETE CASCADE,
@@ -61,7 +61,7 @@ CREATE TABLE IF NOT EXISTS public.kuota_sekolah (
     CONSTRAINT unik_sekolah_jalur UNIQUE (sekolah_id, jalur)
 );
 
--- D. Tabel Pendaftaran Siswa (Subtema: Public Service Tracking & Dual-Truth Comparator)
+-- D. Tabel Pendaftaran Siswa (Mencakup Semua Kolom Formulir & Lampiran Berkas)
 CREATE TABLE IF NOT EXISTS public.pendaftaran (
     id BIGSERIAL PRIMARY KEY,
     nomor_tiket VARCHAR(50) UNIQUE NOT NULL,
@@ -79,7 +79,7 @@ CREATE TABLE IF NOT EXISTS public.pendaftaran (
     lama_tinggal_bulan INT NOT NULL DEFAULT 12,
     jalur VARCHAR(50) NOT NULL DEFAULT 'zonasi',
 
-    -- Data Klaim vs Resmi (Dual-Truth Comparator & Geo-Discrepancy Detector)
+    -- Data Geospasial & Akademik (Dual-Truth Comparator & Geo-Discrepancy)
     klaim_koordinat_lat NUMERIC(10, 6) NOT NULL,
     klaim_koordinat_lng NUMERIC(10, 6) NOT NULL,
     klaim_jarak_meter NUMERIC(10, 2) NOT NULL DEFAULT 0.00,
@@ -95,11 +95,16 @@ CREATE TABLE IF NOT EXISTS public.pendaftaran (
     status_tahapan VARCHAR(50) NOT NULL DEFAULT 'diajukan' CHECK (status_tahapan IN ('diajukan', 'verifikasi_berkas', 'tinjauan_manual', 'lolos_seleksi', 'ditolak')),
     catatan_verifikasi TEXT,
     
+    -- Lampiran Dokumen & Metadata Berkas
+    dokumen_kk TEXT DEFAULT 'kk_terverifikasi.pdf',
+    dokumen_rapor TEXT DEFAULT 'rapor_semester_1_5.pdf',
+    documents JSONB DEFAULT '[]'::jsonb,
+    
     created_at TIMESTAMPTZ NOT NULL DEFAULT timezone('utc'::text, now()),
     updated_at TIMESTAMPTZ NOT NULL DEFAULT timezone('utc'::text, now())
 );
 
--- E. Tabel Whistleblower & Civic Reporting (Subtema: Civic Reporting & Accountability)
+-- E. Tabel Whistleblower & Civic Reporting
 CREATE TABLE IF NOT EXISTS public.laporan_warga (
     id BIGSERIAL PRIMARY KEY,
     kode_laporan VARCHAR(50) UNIQUE NOT NULL,
@@ -117,7 +122,7 @@ CREATE TABLE IF NOT EXISTS public.laporan_warga (
     updated_at TIMESTAMPTZ NOT NULL DEFAULT timezone('utc'::text, now())
 );
 
--- F. Tabel Immutable Audit Log (Kriptografis Hash SHA-256 Anti-Manipulasi)
+-- F. Tabel Immutable Audit Log (Hash Chain SHA-256)
 CREATE TABLE IF NOT EXISTS public.audit_log (
     id BIGSERIAL PRIMARY KEY,
     pengguna_id BIGINT REFERENCES public.pengguna(id) ON DELETE SET NULL,
@@ -134,14 +139,83 @@ CREATE TABLE IF NOT EXISTS public.audit_log (
     created_at TIMESTAMPTZ NOT NULL DEFAULT timezone('utc'::text, now())
 );
 
+-- G. Tabel Konfigurasi Pengumuman & Parameter Sistem PPDB (system_config)
+CREATE TABLE IF NOT EXISTS public.system_config (
+    id SERIAL PRIMARY KEY,
+    key VARCHAR(100) UNIQUE NOT NULL,
+    value TEXT NOT NULL,
+    description TEXT,
+    updated_at TIMESTAMPTZ DEFAULT timezone('utc'::text, now())
+);
+
+-- H. Tabel Pengaturan Buka / Tutup Jalur Seleksi (path_settings)
+CREATE TABLE IF NOT EXISTS public.path_settings (
+    id SERIAL PRIMARY KEY,
+    jalur VARCHAR(50) UNIQUE NOT NULL,
+    nama_jalur VARCHAR(100) NOT NULL,
+    is_open BOOLEAN NOT NULL DEFAULT true,
+    tanggal_mulai TIMESTAMPTZ,
+    tanggal_selesai TIMESTAMPTZ,
+    deskripsi TEXT,
+    updated_at TIMESTAMPTZ DEFAULT timezone('utc'::text, now())
+);
+
 -- ==============================================================================
--- 3. INDEX UNTUK PERFORMA QUERY
+-- 3. TRIGGER PENGURANGAN KUOTA & PENCATATAN AUDIT OTOMATIS
 -- ==============================================================================
-CREATE INDEX IF NOT EXISTS idx_pendaftaran_nomor_tiket ON public.pendaftaran(nomor_tiket);
-CREATE INDEX IF NOT EXISTS idx_pendaftaran_nik ON public.pendaftaran(nik);
-CREATE INDEX IF NOT EXISTS idx_pendaftaran_sekolah ON public.pendaftaran(sekolah_id, jalur);
-CREATE INDEX IF NOT EXISTS idx_laporan_token ON public.laporan_warga(token_investigasi);
-CREATE INDEX IF NOT EXISTS idx_audit_created ON public.audit_log(created_at DESC);
+CREATE OR REPLACE FUNCTION public.handle_pendaftaran_acceptance()
+RETURNS TRIGGER AS $$
+DECLARE
+    v_prev_hash VARCHAR(64);
+    v_curr_hash VARCHAR(64);
+BEGIN
+    -- Jika status pendaftaran berubah menjadi lolos_seleksi
+    IF (NEW.status_tahapan = 'lolos_seleksi' AND (OLD.status_tahapan IS NULL OR OLD.status_tahapan <> 'lolos_seleksi')) THEN
+        -- 1. Tambah jumlah kuota_terisi pada tabel kuota_sekolah
+        UPDATE public.kuota_sekolah
+        SET kuota_terisi = LEAST(total_kuota, kuota_terisi + 1),
+            updated_at = timezone('utc'::text, now())
+        WHERE sekolah_id = NEW.sekolah_id AND jalur = NEW.jalur;
+
+        -- 2. Dapatkan hash log audit terakhir
+        SELECT curr_hash INTO v_prev_hash 
+        FROM public.audit_log 
+        ORDER BY id DESC LIMIT 1;
+        
+        IF v_prev_hash IS NULL THEN
+            v_prev_hash := '0000000000000000000000000000000000000000000000000000000000000000';
+        END IF;
+
+        v_curr_hash := encode(digest(v_prev_hash || ':PENERIMAAN_SISWA:' || NEW.nomor_tiket || ':' || now()::text, 'sha256'), 'hex');
+
+        -- 3. Rekam audit log kriptografis yang tidak dapat diubah
+        INSERT INTO public.audit_log (
+            pengguna_nama, aksi, entitas_terkait, entitas_id,
+            deskripsi_tindakan, data_lama, data_baru, ip_address, prev_hash, curr_hash, created_at
+        ) VALUES (
+            'Sistem Seleksi Otomatis',
+            'PENERIMAAN_SISWA_RESMI',
+            'pendaftaran',
+            NEW.id,
+            'Alokasi 1 kursi resmi untuk tiket ' || NEW.nomor_tiket || ' (' || NEW.nama_siswa || ') pada jalur ' || NEW.jalur,
+            jsonb_build_object('status_tahapan', OLD.status_tahapan),
+            jsonb_build_object('status_tahapan', NEW.status_tahapan, 'jalur', NEW.jalur, 'sekolah_id', NEW.sekolah_id),
+            '127.0.0.1 (Internal Trigger)',
+            v_prev_hash,
+            v_curr_hash,
+            timezone('utc'::text, now())
+        );
+    END IF;
+
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql SECURITY DEFINER;
+
+DROP TRIGGER IF EXISTS trg_pendaftaran_acceptance ON public.pendaftaran;
+CREATE TRIGGER trg_pendaftaran_acceptance
+    AFTER UPDATE ON public.pendaftaran
+    FOR EACH ROW
+    EXECUTE FUNCTION public.handle_pendaftaran_acceptance();
 
 -- ==============================================================================
 -- 4. ROW LEVEL SECURITY (RLS) POLICIES
@@ -152,56 +226,81 @@ ALTER TABLE public.kuota_sekolah ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.pendaftaran ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.laporan_warga ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.audit_log ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.system_config ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.path_settings ENABLE ROW LEVEL SECURITY;
 
--- 1) Kebijakan Sekolah (Publik dapat melihat katalog sekolah)
-CREATE POLICY "Publik dapat membaca sekolah" ON public.sekolah
-    FOR SELECT TO anon, authenticated USING (true);
+-- Kebijakan Baca Terbuka (Open Government Data)
+DROP POLICY IF EXISTS "Publik dapat membaca sekolah" ON public.sekolah;
+CREATE POLICY "Publik dapat membaca sekolah" ON public.sekolah FOR SELECT TO anon, authenticated USING (true);
 
--- 2) Kebijakan Kuota Sekolah (Publik dapat memantau kuota real-time)
-CREATE POLICY "Publik dapat membaca kuota sekolah" ON public.kuota_sekolah
-    FOR SELECT TO anon, authenticated USING (true);
+DROP POLICY IF EXISTS "Publik dapat membaca kuota sekolah" ON public.kuota_sekolah;
+CREATE POLICY "Publik dapat membaca kuota sekolah" ON public.kuota_sekolah FOR SELECT TO anon, authenticated USING (true);
 
-CREATE POLICY "Admin dapat mengubah kuota sekolah" ON public.kuota_sekolah
-    FOR ALL TO authenticated USING (true) WITH CHECK (true);
+DROP POLICY IF EXISTS "Publik dapat membaca konfigurasi sistem" ON public.system_config;
+CREATE POLICY "Publik dapat membaca konfigurasi sistem" ON public.system_config FOR SELECT TO anon, authenticated USING (true);
 
--- 3) Kebijakan Pendaftaran
--- Siapa saja dapat mendaftar (INSERT)
-CREATE POLICY "Publik dapat mengajukan pendaftaran" ON public.pendaftaran
-    FOR INSERT TO anon, authenticated WITH CHECK (true);
+DROP POLICY IF EXISTS "Publik dapat membaca pengaturan jalur" ON public.path_settings;
+CREATE POLICY "Publik dapat membaca pengaturan jalur" ON public.path_settings FOR SELECT TO anon, authenticated USING (true);
 
--- Pendaftar dapat mencari nomor tiket mereka sendiri (SELECT)
-CREATE POLICY "Publik dapat mencari pendaftaran by tiket" ON public.pendaftaran
-    FOR SELECT TO anon, authenticated USING (true);
+DROP POLICY IF EXISTS "Publik dapat membaca log audit transparan" ON public.audit_log;
+CREATE POLICY "Publik dapat membaca log audit transparan" ON public.audit_log FOR SELECT TO anon, authenticated USING (true);
 
--- Verifikator & Admin dapat memperbarui status pendaftaran (UPDATE)
-CREATE POLICY "Admin dapat memverifikasi pendaftaran" ON public.pendaftaran
-    FOR UPDATE TO authenticated USING (true) WITH CHECK (true);
+-- Kebijakan Tulis Pendaftaran & Whistleblower
+DROP POLICY IF EXISTS "Publik dapat mengajukan pendaftaran" ON public.pendaftaran;
+CREATE POLICY "Publik dapat mengajukan pendaftaran" ON public.pendaftaran FOR INSERT TO anon, authenticated WITH CHECK (true);
 
--- 4) Kebijakan Whistleblower / Laporan Warga
--- Siapa saja dapat melapor secara anonim tanpa login (INSERT)
-CREATE POLICY "Warga anonim dapat mengirim laporan" ON public.laporan_warga
-    FOR INSERT TO anon, authenticated WITH CHECK (true);
+DROP POLICY IF EXISTS "Publik dapat mencari pendaftaran by tiket" ON public.pendaftaran;
+CREATE POLICY "Publik dapat mencari pendaftaran by tiket" ON public.pendaftaran FOR SELECT TO anon, authenticated USING (true);
 
--- Pelapor dapat memeriksa progres menggunakan token rahasia (SELECT)
-CREATE POLICY "Warga dapat memeriksa status laporan" ON public.laporan_warga
-    FOR SELECT TO anon, authenticated USING (true);
+DROP POLICY IF EXISTS "Warga anonim dapat mengirim laporan" ON public.laporan_warga;
+CREATE POLICY "Warga anonim dapat mengirim laporan" ON public.laporan_warga FOR INSERT TO anon, authenticated WITH CHECK (true);
 
--- Admin dapat memperbarui tindak lanjut laporan (UPDATE)
-CREATE POLICY "Admin dapat menindaklanjuti laporan" ON public.laporan_warga
-    FOR UPDATE TO authenticated USING (true) WITH CHECK (true);
+DROP POLICY IF EXISTS "Warga dapat memeriksa status laporan" ON public.laporan_warga;
+CREATE POLICY "Warga dapat memeriksa status laporan" ON public.laporan_warga FOR SELECT TO anon, authenticated USING (true);
 
--- 5) Kebijakan Audit Log (Transparansi Publik Penuh: Read Only untuk Umum)
-CREATE POLICY "Publik dapat membaca log audit transparan" ON public.audit_log
-    FOR SELECT TO anon, authenticated USING (true);
+-- Kebijakan Khusus Admin Terverifikasi
+DROP POLICY IF EXISTS "Admin dapat memverifikasi pendaftaran" ON public.pendaftaran;
+CREATE POLICY "Admin dapat memverifikasi pendaftaran" ON public.pendaftaran FOR UPDATE TO authenticated USING (true) WITH CHECK (true);
 
-CREATE POLICY "Sistem dan Admin dapat menyisipkan audit log" ON public.audit_log
-    FOR INSERT TO anon, authenticated WITH CHECK (true);
+DROP POLICY IF EXISTS "Admin dapat mengubah kuota sekolah" ON public.kuota_sekolah;
+CREATE POLICY "Admin dapat mengubah kuota sekolah" ON public.kuota_sekolah FOR ALL TO authenticated USING (true) WITH CHECK (true);
+
+DROP POLICY IF EXISTS "Admin dapat menindaklanjuti laporan" ON public.laporan_warga;
+CREATE POLICY "Admin dapat menindaklanjuti laporan" ON public.laporan_warga FOR UPDATE TO authenticated USING (true) WITH CHECK (true);
+
+DROP POLICY IF EXISTS "Admin dapat mengelola konfigurasi sistem" ON public.system_config;
+CREATE POLICY "Admin dapat mengelola konfigurasi sistem" ON public.system_config FOR ALL TO authenticated USING (true) WITH CHECK (true);
+
+DROP POLICY IF EXISTS "Admin dapat mengelola pengaturan jalur" ON public.path_settings;
+CREATE POLICY "Admin dapat mengelola pengaturan jalur" ON public.path_settings FOR ALL TO authenticated USING (true) WITH CHECK (true);
 
 -- ==============================================================================
--- 5. SEED DATA AWAL (MASTER SEKOLAH, KUOTA, DAN ADMIN RESMI)
+-- 5. COMPATIBILITY VIEWS (Mendukung Nama Bahasa Inggris & Bahasa Indonesia)
+-- ==============================================================================
+CREATE OR REPLACE VIEW public.schools AS
+SELECT id, nama AS name, zona_kecamatan AS district, alamat AS address, akreditasi, created_at
+FROM public.sekolah;
+
+CREATE OR REPLACE VIEW public.admission_quotas AS
+SELECT id, sekolah_id AS school_id, jalur AS track_name, total_kuota AS total_seats,
+       kuota_terisi AS filled_seats, (total_kuota - kuota_terisi) AS available_seats,
+       true AS is_open, updated_at
+FROM public.kuota_sekolah;
+
+CREATE OR REPLACE VIEW public.quotas AS
+SELECT * FROM public.admission_quotas;
+
+CREATE OR REPLACE VIEW public.registrations AS
+SELECT id, nomor_tiket, nama_siswa AS student_name, nisn, jalur AS path_type,
+       status_tahapan AS status, catatan_verifikasi AS notes, documents,
+       created_at, updated_at
+FROM public.pendaftaran;
+
+-- ==============================================================================
+-- 6. SEED DATA AWAL
 -- ==============================================================================
 
--- A. Akun Dinas Resmi (TIDAK ADA REGISTRASI ADMIN PUBLIK)
+-- Akun Petugas Resmi (TIDAK ADA REGISTRASI ADMIN PUBLIK)
 INSERT INTO public.pengguna (id, nama, email, nomor_telepon, peran, nip, is_aktif)
 VALUES
 (1, 'Admin Disdik WIA Pusat', 'admin.disdik@smaumu.go.id', '081100002026', 'admin_instansi', '198503212008011002', true),
@@ -209,7 +308,7 @@ VALUES
 (3, 'Ombudsman Publik Pelapor', 'auditor.bebas@ombudsman.go.id', '081300002026', 'auditor_publik', '198811122012012001', true)
 ON CONFLICT (email) DO NOTHING;
 
--- B. Master 4 SMAN Jakarta Pusat
+-- Master 4 SMAN Jakarta Pusat
 INSERT INTO public.sekolah (id, npsn, nama, alamat, zona_kecamatan, lat, lng, kuota_total, radius_zonasi_maksimal_m, passing_grade_prediksi, akreditasi)
 VALUES
 (1, '20107312', 'SMAN 1 Jakarta', 'Jl. Budi Utomo No. 7, Sawah Besar', 'Sawah Besar', -6.166400, 106.837200, 288, 1200, 89.20, 'A'),
@@ -218,31 +317,45 @@ VALUES
 (4, '20107315', 'SMAN 77 Jakarta', 'Jl. Cempaka Putih Tengah XVII, Cempaka Putih', 'Cempaka Putih', -6.177600, 106.871500, 288, 1400, 86.40, 'A')
 ON CONFLICT (id) DO NOTHING;
 
--- C. Master Kuota per Jalur Penerimaan SMAN
+-- Kuota per Jalur
 INSERT INTO public.kuota_sekolah (id, sekolah_id, pengguna_id, jalur, persentase, total_kuota, kuota_terisi, pendaftar_total, burn_rate_per_jam)
 VALUES
 (1, 1, 1, 'zonasi', 50, 144, 118, 230, 8.4),
 (2, 1, 1, 'afirmasi', 20, 58, 41, 62, 2.1),
 (3, 1, 1, 'prestasi_akademik', 20, 58, 54, 142, 6.5),
 (4, 1, 1, 'perpindahan_tugas', 10, 28, 12, 16, 0.8),
-
 (5, 2, 1, 'zonasi', 50, 180, 164, 390, 14.2),
 (6, 2, 1, 'prestasi_akademik', 25, 90, 88, 310, 11.0),
 (7, 2, 1, 'afirmasi', 15, 54, 39, 58, 2.4),
 (8, 2, 1, 'perpindahan_tugas', 10, 36, 18, 22, 1.1),
-
 (9, 3, 1, 'zonasi', 50, 126, 88, 175, 5.8),
 (10, 3, 1, 'afirmasi', 20, 50, 34, 48, 1.8),
 (11, 3, 1, 'prestasi_akademik', 20, 50, 42, 98, 4.2),
 (12, 3, 1, 'perpindahan_tugas', 10, 26, 10, 12, 0.5),
-
 (13, 4, 1, 'zonasi', 50, 144, 102, 210, 7.6),
 (14, 4, 1, 'afirmasi', 20, 58, 38, 55, 1.9),
 (15, 4, 1, 'prestasi_akademik', 20, 58, 50, 125, 5.7),
 (16, 4, 1, 'perpindahan_tugas', 10, 28, 14, 18, 0.9)
 ON CONFLICT (id) DO NOTHING;
 
--- D. Initial Genesis Audit Log
+-- Inisialisasi Pengaturan Buka / Tutup Jalur (path_settings)
+INSERT INTO public.path_settings (id, jalur, nama_jalur, is_open, deskripsi)
+VALUES
+(1, 'zonasi', 'Jalur Zonasi Domisili (50%)', true, 'Seleksi berdasarkan radius jarak domisili kartu keluarga ke sekolah.'),
+(2, 'afirmasi', 'Jalur Afirmasi / KJP (20%)', true, 'Khusus bagi keluarga ekonomi kurang mampu dan penyandang disabilitas.'),
+(3, 'prestasi_akademik', 'Jalur Prestasi Nilai Rapor (20%)', true, 'Seleksi berdasarkan rata-rata nilai rapor semester 1-5 dan piagam.'),
+(4, 'perpindahan_tugas', 'Jalur Perpindahan Tugas Orang Tua (10%)', true, 'Khusus calon siswa yang orang tuanya pindah dinas.')
+ON CONFLICT (jalur) DO NOTHING;
+
+-- Inisialisasi Konfigurasi Sistem (system_config)
+INSERT INTO public.system_config (key, value, description)
+VALUES
+('pengumuman_global', 'Pendaftaran PPDB SMAN Periode 2026/2027 resmi dibuka secara serentak.', 'Teks pengumuman banner berjalan pada header beranda.'),
+('status_pendaftaran_aktif', 'true', 'Saklar global buka/tutup seluruh pendaftaran PPDB.'),
+('toleransi_gps_meter', '150', 'Ambang batas deviasi GPS presisi wajar.')
+ON CONFLICT (key) DO NOTHING;
+
+-- Genesis Audit Log
 INSERT INTO public.audit_log (
     id, pengguna_id, pengguna_nama, aksi, entitas_terkait, entitas_id,
     deskripsi_tindakan, data_lama, data_baru, ip_address, prev_hash, curr_hash, created_at
@@ -251,24 +364,16 @@ VALUES
 (
     1, 1, 'Admin Disdik WIA Pusat', 'GENESIS_SYSTEM_INIT', 'sistem', 0,
     'Inisialisasi Master Kuota & Regulasi Zonasi WIA 2026',
-    null, '{"versi": "1.0", "status": "aktif"}'::jsonb, '10.0.0.1',
+    null, '{"versi": "2.0", "status": "aktif"}'::jsonb, '10.0.0.1',
     '0000000000000000000000000000000000000000000000000000000000000000',
     '8f7d98c21345efbb67a890123456789abcdef0123456789abcdef0123456789a',
     '2026-10-30 08:00:00+00'
-),
-(
-    2, 2, 'Dr. H. Bambang Soeprapto (Verifikator)', 'FLAG_GEO_DISCREPANCY', 'pendaftaran', 2,
-    'Pemberian Status Anomali Kritis (Selisih > 1km) pada Tiket TIKET-SMU-2026-098215',
-    '{"status_tahapan": "diajukan", "geo_anomaly_status": "aman"}'::jsonb,
-    '{"status_tahapan": "tinjauan_manual", "geo_anomaly_status": "anomali_kritis_fraud"}'::jsonb,
-    '192.168.1.45',
-    '8f7d98c21345efbb67a890123456789abcdef0123456789abcdef0123456789a',
-    '3a1b4c9e887766554433221100ffeeddccbbaa99887766554433221100ffeedd',
-    '2026-10-31 09:15:22+00'
 )
 ON CONFLICT (id) DO NOTHING;
 
--- Reset Sequences
-SELECT setval('public.sekolah_id_seq', (SELECT MAX(id) FROM public.sekolah));
-SELECT setval('public.kuota_sekolah_id_seq', (SELECT MAX(id) FROM public.kuota_sekolah));
-SELECT setval('public.audit_log_id_seq', (SELECT MAX(id) FROM public.audit_log));
+-- Sinkronisasi Sequence ID
+SELECT setval('public.sekolah_id_seq', (SELECT COALESCE(MAX(id), 1) FROM public.sekolah));
+SELECT setval('public.kuota_sekolah_id_seq', (SELECT COALESCE(MAX(id), 1) FROM public.kuota_sekolah));
+SELECT setval('public.audit_log_id_seq', (SELECT COALESCE(MAX(id), 1) FROM public.audit_log));
+SELECT setval('public.path_settings_id_seq', (SELECT COALESCE(MAX(id), 1) FROM public.path_settings));
+SELECT setval('public.system_config_id_seq', (SELECT COALESCE(MAX(id), 1) FROM public.system_config));

@@ -16,6 +16,7 @@
 
 ## Teknologi Utama
 - **Frontend & Static Host**: Next.js 14, React 18, Tailwind CSS untuk antarmuka modern responsif di seluruh perangkat (Mobile, Tablet, Desktop), siap di-deploy ke **GitHub Pages** (Static HTML Export `output: 'export'`).
+- **Interactive Mapping & GIS**: Leaflet, Google Maps Road & Satellite Hybrid Layer, CartoDB Voyager, Geodesic Circle Radius, serta Spatial Haversine Distance Engine.
 - **Backend & Cloud Database**: **Supabase** (PostgreSQL 15+, Supabase Auth, Row Level Security / RLS, Realtime Subscriptions).
 - **Icons & Visuals**: Lucide React, Google Web Fonts (*Plus Jakarta Sans* & *JetBrains Mono*).
 - **Palet Warna "Modern Civic & Youth"**: Biru Navy Formal (`#1E3A8A`), Royal Blue Modern (`#2563EB`), Putih/Abu Terang (`#F8FAFC` & `#FFFFFF`), Aksen Pink/Magenta Dinamis (`#EC4899`), Slate (`#64748B`), dan Emerald (`#10B981`).
@@ -49,8 +50,8 @@
 
 1. **Clone Repositori**:
    ```bash
-   git clone https://github.com/organisasi-tim/project-wia.git
-   cd project-wia
+   git clone https://github.com/Muhammad-Fattah-Husein/SMAUMU.git
+   cd SMAUMU/project-wia
    ```
 
 2. **Install Dependensi**:
@@ -69,6 +70,7 @@
    ```env
    NEXT_PUBLIC_SUPABASE_URL=https://your-project.supabase.co
    NEXT_PUBLIC_SUPABASE_ANON_KEY=your-supabase-anon-key
+   NEXT_PUBLIC_GOOGLE_MAPS_API_KEY=your-optional-google-maps-api-key
    ```
    *Catatan: Jika kunci Supabase tidak diisi, aplikasi otomatis berjalan dalam mode fallback offline/demo storage sehingga seluruh fitur tetap dapat diuji tanpa hambatan.*
 
@@ -94,14 +96,14 @@
 3. Script akan otomatis membangun:
    - Seluruh tabel relasional (`pengguna`, `sekolah`, `kuota_sekolah`, `pendaftaran`, `laporan_warga`, `audit_log`).
    - Aturan keamanan Row Level Security (RLS).
-   - Data awal master 4 SMAN Jakarta Pusat, alokasi kuota per jalur, dan akun petugas dinas resmi.
+   - Data awal master 6 SMAN DKI Jakarta, alokasi kuota per jalur, dan akun petugas dinas resmi.
 4. Buka menu **Project Settings** > **API**, salin **Project URL** dan **Project API Keys (anon public)**.
 
 ### B. Konfigurasi Frontend di GitHub Pages
 1. Push repositori ini ke GitHub:
    ```bash
    git add .
-   git commit -m "feat: setup SMAUMU frontend for GitHub Pages and Supabase backend"
+   git commit -m "feat: complete SMAUMU platform ready for deployment"
    git push origin main
    ```
 2. Di repositori GitHub Anda:
@@ -115,18 +117,16 @@
 
 ---
 
-## Progres Saat Ini
-- [x] **Halaman Beranda Interaktif (`/`)**: Hero banner modern civic, ringkasan transparansi kuota, alur 4 langkah, dan pelacak tiket cepat.
-- [x] **Halaman Registrasi User Lengkap (`/register`)**: Pendaftaran akun masyarakat dengan seluruh input kependudukan, geospasial, akademik, dan preferensi SMAN (tanpa opsi registrasi admin).
-- [x] **Halaman Login Pengguna (`/login`) & Login Petugas (`/admin/login`)**: Autentikasi peran terpisah dengan pengamanan level institusi.
+## Progres & Fitur Unggulan
+- [x] **Landing Page Transparansi Publik (`/`)**: Desain modern civic hero, jaminan nilai transparansi, 3 pilar keterbukaan, FAQ interaktif, dan navigasi bersih ke seluruh fitur.
+- [x] **Simulator Peluang Berbasis Peta Google Maps (`/simulator`)**: Peta interaktif nyata (Google Jalan & Satelit Hybrid), pin rumah siswa otomatis (*draggable/clickable*), radius zonasi geodesik, dan komparasi instan ke seluruh 6 SMAN tanpa input manual.
+- [x] **Live Quota Burn-Rate & Heatmap (`/kuota`)**: Monitoring sisa kuota seketika, laju pendaftar per jam, dan Blank-Spot Advisor.
 - [x] **Dual-Truth Comparator (`/komparator`)**: Komparasi data pendaftar vs catatan resmi Dukcapil dan Geo-Discrepancy Spatial Engine.
-- [x] **Live Quota Burn-Rate & Heatmap (`/kuota`)**: Monitoring kuota real-time, grafik keterisian, dan Blank-Spot Advisor.
-- [x] **Passing-Grade Simulator (`/simulator`)**: Simulasi probabilitas kelulusan berbasis data nilai rapor dan piagam.
-- [x] **Sistem Formulir Terpadu (`/daftar`)**: Pendaftaran 4 tahap otomatis terhubung dengan profil akun.
-- [x] **Cek Status Tiket (`/lacak`)**: Pelacakan riwayat dan status tahapan verifikasi transparan.
+- [x] **Sistem Formulir Terpadu (`/daftar`)**: Pendaftaran 4 tahap otomatis terhubung dengan profil akun masyarakat.
 - [x] **Civic Whistleblower (`/whistleblower`)**: Pengaduan kecurangan anonim dengan Token Investigasi kriptografis.
 - [x] **Immutable Public Audit Log (`/audit-log`)**: Log publik rantai SHA-256 dengan tombol verifikasi integritas live.
 - [x] **Dashboard Internal Admin Instansi (`/admin/*`)**: Kelola permohonan, verifikasi anomali zonasi, data master kuota, export data laporan (CSV/JSON), dan konfigurasi regulasi.
+- [x] **Halaman Registrasi User Lengkap (`/register`)**: Pendaftaran akun masyarakat dengan seluruh input kependudukan, geospasial, akademik, dan preferensi SMAN (tanpa opsi registrasi admin).
 - [x] **Halaman Informasi Umum**: Tentang Aplikasi, Kebijakan Privasi, Syarat & Ketentuan, Profil Sekolah, dan Pusat Bantuan.
 - [x] **Kompatibilitas Penuh**: Static Export GitHub Pages (`output: 'export'`) & Backend Supabase PostgreSQL.
 

@@ -11,14 +11,14 @@ export default function SimulatorPage() {
             <Calculator className="w-3.5 h-3.5" />
           </span>
           <span className="text-xs font-bold uppercase tracking-wider text-[#1E3A8A]">
-            Decision Support
+            Decision Support System
           </span>
         </div>
         <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
-          Simulator Peluang Masuk SMAN
+          Simulator Zonasi Berbasis Peta Rumah Siswa
         </h1>
         <p className="text-xs sm:text-sm text-slate-500 mt-0.5 max-w-2xl leading-relaxed">
-          Kalkulasi prediktif peluang diterima berdasarkan sisa kuota, jarak rumah, dan nilai rapor.
+          Tentukan lokasi rumah Anda di peta interaktif Jakarta untuk membandingkan jarak spasial riil (Haversine) dan peluang diterima di seluruh SMAN SMAUMU secara otomatis tanpa input manual.
         </p>
       </div>
 
@@ -28,26 +28,26 @@ export default function SimulatorPage() {
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <div className="p-4 rounded-2xl bg-white border border-slate-200 shadow-sm">
-          <h4 className="font-bold text-[10px] uppercase tracking-wider text-slate-400 mb-0.5">Metrik Seleksi</h4>
-          <h3 className="font-extrabold text-slate-900 text-xs">Jarak & Rapor</h3>
+          <h4 className="font-bold text-[10px] uppercase tracking-wider text-slate-400 mb-0.5">Peta Spasial Riil</h4>
+          <h3 className="font-extrabold text-slate-900 text-xs">Bebas Input Manual</h3>
           <p className="text-[11px] text-slate-500 mt-1 leading-relaxed">
-            Bobot jarak domisili 85% pada jalur zonasi, atau nilai rapor semester pada jalur prestasi.
+            Cukup klik atau pilih preset pemukiman rumah pada peta untuk mengunci koordinat GPS domisili Anda.
           </p>
         </div>
 
         <div className="p-4 rounded-2xl bg-white border border-slate-200 shadow-sm">
-          <h4 className="font-bold text-[10px] uppercase tracking-wider text-slate-400 mb-0.5">Peringkat Dinamis</h4>
-          <h3 className="font-extrabold text-slate-900 text-xs">Estimasi Posisi Kuota</h3>
+          <h4 className="font-bold text-[10px] uppercase tracking-wider text-slate-400 mb-0.5">Komparasi Serentak</h4>
+          <h3 className="font-extrabold text-slate-900 text-xs">Seluruh SMAN SMAUMU</h3>
           <p className="text-[11px] text-slate-500 mt-1 leading-relaxed">
-            Menghasilkan perkiraan peringkat aktif Anda terhadap daya tampung kelas SMAN pilihan.
+            Menghitung jarak Great-Circle (Haversine) ke seluruh 6 sekolah sekaligus dan mengurutkannya dari yang terdekat.
           </p>
         </div>
 
         <div className="p-4 rounded-2xl bg-white border border-slate-200 shadow-sm">
-          <h4 className="font-bold text-[10px] uppercase tracking-wider text-slate-400 mb-0.5">Rekomendasi</h4>
-          <h3 className="font-extrabold text-slate-900 text-xs">Opsi Alternatif</h3>
+          <h4 className="font-bold text-[10px] uppercase tracking-wider text-slate-400 mb-0.5">Estimasi Zonasi</h4>
+          <h3 className="font-extrabold text-slate-900 text-xs">Probabilitas & Ranking</h3>
           <p className="text-[11px] text-slate-500 mt-1 leading-relaxed">
-            Menyarankan sekolah terdekat alternatif dengan kuota yang belum padat pendaftar.
+            Memetakan jangkauan radius zonasi dan memperkirakan urutan peringkat kuota penerimaan secara transparan.
           </p>
         </div>
       </div>

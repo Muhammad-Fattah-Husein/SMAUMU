@@ -7,7 +7,6 @@ import {
   Home, 
   Flame, 
   FileEdit, 
-  Search, 
   Scale, 
   Calculator, 
   AlertTriangle, 
@@ -39,7 +38,6 @@ export default function Navbar() {
       case '/': return <Home className={iconClass} />;
       case '/kuota': return <Flame className={iconClass} />;
       case '/daftar': return <FileEdit className={iconClass} />;
-      case '/lacak': return <Search className={iconClass} />;
       case '/komparator': return <Scale className={iconClass} />;
       case '/simulator': return <Calculator className={iconClass} />;
       case '/whistleblower': return <AlertTriangle className={iconClass} />;
@@ -146,13 +144,13 @@ export default function Navbar() {
               {isExpanded && (
                 <div className="flex items-center gap-1.5 animate-fade-in">
                   {user.nomor_tiket && !isAdmin && (
-                    <Link
-                      href={`/lacak?tiket=${encodeURIComponent(user.nomor_tiket)}`}
-                      className="flex-1 py-1 px-2 rounded-xl bg-white/10 hover:bg-white/20 text-white text-[10px] font-bold text-center truncate flex items-center justify-center gap-1"
+                    <div
+                      title={`Nomor Tiket: ${user.nomor_tiket}`}
+                      className="flex-1 py-1 px-2 rounded-xl bg-white/10 text-white text-[10px] font-bold text-center truncate flex items-center justify-center gap-1"
                     >
                       <Ticket className="w-3 h-3 text-pink-300" />
-                      <span>Tiket Saya</span>
-                    </Link>
+                      <span>{user.nomor_tiket}</span>
+                    </div>
                   )}
                   {isAdmin && (
                     <Link
@@ -272,13 +270,13 @@ export default function Navbar() {
           <span>{isAuthenticated ? 'Formulir' : 'Daftar'}</span>
         </Link>
         <Link
-          href="/lacak"
+          href="/komparator"
           className={`flex flex-col items-center gap-1 p-1.5 rounded-xl text-[10px] ${
-            router.pathname === '/lacak' ? 'text-white font-bold' : 'text-slate-300'
+            router.pathname === '/komparator' ? 'text-white font-bold' : 'text-slate-300'
           }`}
         >
-          <Search className="w-5 h-5" />
-          <span>Lacak</span>
+          <Scale className="w-5 h-5" />
+          <span>Validasi</span>
         </Link>
         <button
           onClick={() => setMobileMenuOpen(true)}

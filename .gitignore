@@ -23,3 +23,12 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 .vercel/
+
+# Large Archives (>100MB blocked by GitHub)
+*.zip
+*.tar
+*.tar.gz
+*.iso
+*.mp4
+*.mov
+*.psd

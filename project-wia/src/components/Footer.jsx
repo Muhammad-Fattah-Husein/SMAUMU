@@ -35,8 +35,8 @@ export default function Footer() {
                 <FileCheck2 className="w-4 h-4 text-emerald-400" />
               </div>
               <div>
-                <h4 className="font-bold text-white text-xs">Pelacakan Berkas</h4>
-                <p className="text-slate-400 text-[11px] mt-0.5">Alur 4 tahap dengan nomor tiket digital.</p>
+                <h4 className="font-bold text-white text-xs">Pendaftaran Terpadu</h4>
+                <p className="text-slate-400 text-[11px] mt-0.5">Alur 4 tahap dengan verifikasi data resmi.</p>
               </div>
             </div>
 
@@ -86,7 +86,6 @@ export default function Footer() {
             <ul className="space-y-2 text-xs">
               <li><Link href="/kuota" className="text-slate-400 hover:text-white transition">Sisa Kuota SMAN</Link></li>
               <li><Link href="/daftar" className="text-slate-400 hover:text-white transition">Pendaftaran (4 Langkah)</Link></li>
-              <li><Link href="/lacak" className="text-slate-400 hover:text-white transition">Lacak Status Tiket</Link></li>
               <li><Link href="/komparator" className="text-slate-400 hover:text-white transition">Validasi Domisili</Link></li>
               <li><Link href="/simulator" className="text-slate-400 hover:text-white transition">Simulator Peluang</Link></li>
               <li><Link href="/whistleblower" className="text-slate-400 hover:text-white transition">Lapor Anonim</Link></li>

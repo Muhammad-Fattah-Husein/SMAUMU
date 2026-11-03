@@ -563,10 +563,10 @@ export default function DaftarPage() {
 
             <div className="pt-2 flex items-center justify-between">
               <Link
-                href={`/lacak?tiket=${encodeURIComponent(generatedTicket.nomor_tiket)}`}
+                href="/kuota"
                 className="px-5 py-2.5 rounded-xl border border-slate-200 text-xs font-bold text-slate-700 hover:bg-slate-50 transition"
               >
-                Cek Perjalanan Berkas
+                Pantau Sisa Kuota SMAN
               </Link>
 
               <button
@@ -669,10 +669,10 @@ export default function DaftarPage() {
               </button>
 
               <Link
-                href="/lacak"
+                href="/"
                 className="w-full sm:w-auto px-6 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold transition flex items-center justify-center gap-2"
               >
-                <span>Buka Menu Lacak Berkas</span>
+                <span>Kembali ke Beranda</span>
                 <ArrowRight className="w-4 h-4" />
               </Link>
             </div>

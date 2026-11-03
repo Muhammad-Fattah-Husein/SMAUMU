@@ -242,10 +242,10 @@ export default function RegisterPage() {
                 <ArrowRight className="w-4 h-4" />
               </Link>
               <Link
-                href={`/lacak?tiket=${encodeURIComponent(successData.nomor_tiket || '')}`}
+                href="/kuota"
                 className="px-5 py-3 rounded-2xl bg-[#1E3A8A] hover:bg-[#2563EB] text-white font-bold text-xs transition flex items-center justify-center gap-2 text-center shadow-md"
               >
-                <span>Lacak Berkas di Peta</span>
+                <span>Pantau Kuota SMAN</span>
               </Link>
               <Link
                 href="/simulator"

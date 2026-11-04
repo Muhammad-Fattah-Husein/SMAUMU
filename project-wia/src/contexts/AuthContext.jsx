@@ -47,7 +47,7 @@ export function AuthProvider({ children }) {
         setLoading(false);
       });
 
-      const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
         if (session?.user) {
           const userMeta = session.user.user_metadata || {};
           const fullUser = {
@@ -61,12 +61,10 @@ export function AuthProvider({ children }) {
           };
           setUser(fullUser);
           localStorage.setItem('smaumu_current_user', JSON.stringify(fullUser));
-        } else {
-          // If signed out from Supabase, clear if not local admin
-          if (user?.peran === 'masyarakat') {
-            setUser(null);
-            localStorage.removeItem('smaumu_current_user');
-          }
+        } else if (event === 'SIGNED_OUT') {
+          // Only clear session when explicitly signed out
+          setUser(null);
+          localStorage.removeItem('smaumu_current_user');
         }
       });
 

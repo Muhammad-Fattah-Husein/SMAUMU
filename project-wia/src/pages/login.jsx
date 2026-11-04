@@ -19,7 +19,7 @@ export default function LoginPage() {
   const router = useRouter();
   const { login, isSupabaseReady } = useAuth();
 
-  const [email, setEmail] = useState('rayhan.pratama@gmail.com');
+  const [email, setEmail] = useState('siti.nurhaliza@gmail.com');
   const [password, setPassword] = useState('password123');
   const [isLoading, setIsLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');
@@ -139,6 +139,18 @@ export default function LoginPage() {
                 <div>
                   <p className="font-bold text-slate-800 text-[11px]">Siti Nurhaliza (Zonasi Boedoet SMAN 1)</p>
                   <p className="text-[10px] text-slate-400 font-mono">siti.nurhaliza@gmail.com</p>
+                </div>
+                <ChevronRight className="w-3.5 h-3.5 text-slate-400" />
+              </button>
+
+              <button
+                type="button"
+                onClick={() => handleDemoFill('rayhan.pratama@gmail.com', 'password123')}
+                className="w-full text-left p-2 rounded-xl bg-white border border-slate-200 hover:border-blue-300 transition flex items-center justify-between"
+              >
+                <div>
+                  <p className="font-bold text-slate-800 text-[11px]">Rayhan Pratama (Prestasi SMAN 1)</p>
+                  <p className="text-[10px] text-slate-400 font-mono">rayhan.pratama@gmail.com</p>
                 </div>
                 <ChevronRight className="w-3.5 h-3.5 text-slate-400" />
               </button>

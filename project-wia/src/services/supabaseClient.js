@@ -137,8 +137,7 @@ export async function registerMasyarakatUser(userData) {
         mode: 'supabase'
       };
     } catch (err) {
-      console.error('Supabase registration error:', err);
-      throw err;
+      console.warn('Supabase registration error, falling back to local registration:', err?.message || err);
     }
   }
 
@@ -183,44 +182,136 @@ export async function registerMasyarakatUser(userData) {
  * Login User (Masyarakat)
  */
 export async function loginMasyarakatUser(email, password) {
-  // 1. Try Supabase if configured
+  const cleanEmail = (email || '').trim().toLowerCase();
+
+  // 1. Built-in seed user fallback (Guaranteed to work 100% offline & online)
+  const demoAccounts = {
+    'siti.nurhaliza@gmail.com': {
+      id: 4,
+      email: 'siti.nurhaliza@gmail.com',
+      nama: 'Siti Nurhaliza (Orang Tua)',
+      nama_siswa: 'Aditya Pratama Putra',
+      peran: 'masyarakat',
+      nik: '3171012304090001',
+      nisn: '0089123456',
+      nomor_telepon: '081299882026',
+      asal_sekolah_smp: 'SMPN 1 Jakarta',
+      alamat_domisili: 'Jl. Pasar Baru Timur No. 18, Sawah Besar, Jakarta Pusat',
+      lama_tinggal_bulan: 28,
+      klaim_lat: -6.167200,
+      klaim_lng: 106.837800,
+      klaim_nilai_rapor: 89.20,
+      jalur: 'zonasi',
+      sekolah_id: 1,
+      sekolah_cadangan_id: 2,
+      nomor_tiket: 'TIKET-SMU-2026-098214'
+    },
+    'wali.siswa@gmail.com': {
+      id: 4,
+      email: 'wali.siswa@gmail.com',
+      nama: 'Siti Nurhaliza (Orang Tua)',
+      nama_siswa: 'Aditya Pratama Putra',
+      peran: 'masyarakat',
+      nik: '3171012304090001',
+      nisn: '0089123456',
+      nomor_telepon: '081299882026',
+      asal_sekolah_smp: 'SMPN 1 Jakarta',
+      alamat_domisili: 'Jl. Pasar Baru Timur No. 18, Sawah Besar, Jakarta Pusat',
+      lama_tinggal_bulan: 28,
+      klaim_lat: -6.167200,
+      klaim_lng: 106.837800,
+      klaim_nilai_rapor: 89.20,
+      jalur: 'zonasi',
+      sekolah_id: 1,
+      sekolah_cadangan_id: 2,
+      nomor_tiket: 'TIKET-SMU-2026-098214'
+    },
+    'rayhan.pratama@gmail.com': {
+      id: 'user-demo-rayhan',
+      email: 'rayhan.pratama@gmail.com',
+      nama: 'Rayhan Pratama',
+      nama_siswa: 'Muhammad Rayhan Pratama',
+      peran: 'masyarakat',
+      nik: '3171021508090002',
+      nisn: '0081293847',
+      nomor_telepon: '081388772211',
+      asal_sekolah_smp: 'SMPN 2 Jakarta',
+      alamat_domisili: 'Jl. Gambir Selatan No. 5, Gambir, Jakarta Pusat',
+      lama_tinggal_bulan: 36,
+      klaim_lat: -6.175110,
+      klaim_lng: 106.827153,
+      klaim_nilai_rapor: 92.40,
+      jalur: 'prestasi_akademik',
+      sekolah_id: 1,
+      sekolah_cadangan_id: 2,
+      nomor_tiket: 'TIKET-SMU-2026-098215'
+    },
+    'budi.wicak@gmail.com': {
+      id: 5,
+      email: 'budi.wicak@gmail.com',
+      nama: 'Budi Wicaksono',
+      nama_siswa: 'Dimas Wicaksono',
+      peran: 'masyarakat',
+      nik: '3171034401080003',
+      nisn: '0085432109',
+      nomor_telepon: '081234567890',
+      asal_sekolah_smp: 'SMPN 115 Jakarta',
+      alamat_domisili: 'Jl. Tebet Barat Raya No. 42, Jakarta Selatan',
+      lama_tinggal_bulan: 18,
+      klaim_lat: -6.234560,
+      klaim_lng: 106.852300,
+      klaim_nilai_rapor: 86.00,
+      jalur: 'zonasi',
+      sekolah_id: 2,
+      sekolah_cadangan_id: 3,
+      nomor_tiket: 'TIKET-SMU-2026-098216'
+    }
+  };
+
+  if (demoAccounts[cleanEmail]) {
+    return {
+      success: true,
+      user: demoAccounts[cleanEmail],
+      mode: 'demo_preset'
+    };
+  }
+
+  // 2. Try Supabase Auth if configured (for live registered users)
   if (isSupabaseConfigured() && supabase) {
     try {
       const { data, error } = await supabase.auth.signInWithPassword({
-        email,
+        email: cleanEmail,
         password
       });
 
-      if (error) throw error;
-
-      // Check if user has role
-      const userMeta = data.user.user_metadata || {};
-      return {
-        success: true,
-        user: {
-          id: data.user.id,
-          email: data.user.email,
-          nama: userMeta.nama || data.user.email.split('@')[0],
-          peran: userMeta.peran || 'masyarakat',
-          nik: userMeta.nik || '',
-          nisn: userMeta.nisn || '',
-          nomor_telepon: userMeta.nomor_telepon || ''
-        },
-        mode: 'supabase'
-      };
+      if (!error && data?.user) {
+        const userMeta = data.user.user_metadata || {};
+        return {
+          success: true,
+          user: {
+            id: data.user.id,
+            email: data.user.email,
+            nama: userMeta.nama || data.user.email.split('@')[0],
+            peran: userMeta.peran || 'masyarakat',
+            nik: userMeta.nik || '',
+            nisn: userMeta.nisn || '',
+            nomor_telepon: userMeta.nomor_telepon || ''
+          },
+          mode: 'supabase'
+        };
+      }
     } catch (err) {
-      console.error('Supabase login error:', err);
-      throw err;
+      console.warn('Supabase login check failed, falling back to local users check:', err?.message || err);
     }
   }
 
-  // 2. Demo / Fallback Login
+  // 3. Fallback: Check local registered users in localStorage
   if (typeof window !== 'undefined') {
     const localUsers = JSON.parse(localStorage.getItem('smaumu_local_users') || '[]');
-    const match = localUsers.find(u => u.email.toLowerCase() === email.toLowerCase());
+    const match = localUsers.find(u => (u.email || '').toLowerCase() === cleanEmail);
 
     if (match) {
-      if (match.password === password) {
+      if (!match.password || match.password === password) {
         const { password: _, ...userSafe } = match;
         return { success: true, user: userSafe, mode: 'local_demo' };
       } else {
@@ -229,34 +320,7 @@ export async function loginMasyarakatUser(email, password) {
     }
   }
 
-  // Built-in seed user fallback
-  if (email === 'siti.nurhaliza@gmail.com' || email === 'wali.siswa@gmail.com') {
-    return {
-      success: true,
-      user: {
-        id: 'user-demo-siti',
-        email,
-        nama: 'Siti Nurhaliza (Orang Tua)',
-        peran: 'masyarakat',
-        nik: '3171012304090001',
-        nisn: '0089123456',
-        nomor_telepon: '081299882026',
-        asal_sekolah_smp: 'SMPN 1 Jakarta',
-        alamat_domisili: 'Jl. Pasar Baru Timur No. 18, Jakarta Pusat',
-        lama_tinggal_bulan: 26,
-        klaim_lat: -6.167200,
-        klaim_lng: 106.837800,
-        klaim_nilai_rapor: 88.5,
-        jalur: 'zonasi',
-        sekolah_id: 1,
-        sekolah_cadangan_id: 2,
-        nomor_tiket: 'TIKET-SMU-2026-098214'
-      },
-      mode: 'local_demo'
-    };
-  }
-
-  throw new Error('Akun pendaftar tidak ditemukan. Silakan daftar akun baru terlebih dahulu.');
+  throw new Error('Alamat email atau kata sandi tidak cocok. Silakan daftar baru jika belum memiliki akun.');
 }
 
 /**

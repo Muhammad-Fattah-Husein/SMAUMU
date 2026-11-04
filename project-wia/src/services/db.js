@@ -66,10 +66,25 @@ class DatabaseService {
       { id: 7, sekolah_id: 2, pengguna_id: 1, jalur: 'afirmasi', persentase: 15, total_kuota: 54, kuota_terisi: 39, pendaftar_total: 58, burn_rate_per_jam: 2.4 },
       { id: 8, sekolah_id: 2, pengguna_id: 1, jalur: 'perpindahan_tugas', persentase: 10, total_kuota: 36, kuota_terisi: 18, pendaftar_total: 22, burn_rate_per_jam: 1.1 },
 
-      { id: 9, sekolah_id: 3, pengguna_id: 1, jalur: 'zonasi', persentase: 50, total_kuota: 162, kuota_terisi: 110, pendaftar_total: 195, burn_rate_per_jam: 7.3 },
-      { id: 10, sekolah_id: 4, pengguna_id: 1, jalur: 'zonasi', persentase: 50, total_kuota: 144, kuota_terisi: 98, pendaftar_total: 180, burn_rate_per_jam: 6.2 },
-      { id: 11, sekolah_id: 5, pengguna_id: 1, jalur: 'zonasi', persentase: 50, total_kuota: 180, kuota_terisi: 150, pendaftar_total: 280, burn_rate_per_jam: 9.8 },
-      { id: 12, sekolah_id: 6, pengguna_id: 1, jalur: 'zonasi', persentase: 50, total_kuota: 160, kuota_terisi: 135, pendaftar_total: 260, burn_rate_per_jam: 8.9 }
+      { id: 9, sekolah_id: 3, pengguna_id: 1, jalur: 'zonasi', persentase: 50, total_kuota: 162, kuota_terisi: 128, pendaftar_total: 245, burn_rate_per_jam: 8.2 },
+      { id: 10, sekolah_id: 3, pengguna_id: 1, jalur: 'afirmasi', persentase: 20, total_kuota: 65, kuota_terisi: 44, pendaftar_total: 68, burn_rate_per_jam: 2.5 },
+      { id: 11, sekolah_id: 3, pengguna_id: 1, jalur: 'prestasi_akademik', persentase: 20, total_kuota: 65, kuota_terisi: 59, pendaftar_total: 180, burn_rate_per_jam: 7.1 },
+      { id: 12, sekolah_id: 3, pengguna_id: 1, jalur: 'perpindahan_tugas', persentase: 10, total_kuota: 32, kuota_terisi: 14, pendaftar_total: 19, burn_rate_per_jam: 1.0 },
+
+      { id: 13, sekolah_id: 4, pengguna_id: 1, jalur: 'zonasi', persentase: 50, total_kuota: 144, kuota_terisi: 116, pendaftar_total: 210, burn_rate_per_jam: 7.5 },
+      { id: 14, sekolah_id: 4, pengguna_id: 1, jalur: 'afirmasi', persentase: 20, total_kuota: 58, kuota_terisi: 38, pendaftar_total: 52, burn_rate_per_jam: 1.8 },
+      { id: 15, sekolah_id: 4, pengguna_id: 1, jalur: 'prestasi_akademik', persentase: 20, total_kuota: 58, kuota_terisi: 52, pendaftar_total: 165, burn_rate_per_jam: 6.8 },
+      { id: 16, sekolah_id: 4, pengguna_id: 1, jalur: 'perpindahan_tugas', persentase: 10, total_kuota: 28, kuota_terisi: 11, pendaftar_total: 15, burn_rate_per_jam: 0.9 },
+
+      { id: 17, sekolah_id: 5, pengguna_id: 1, jalur: 'zonasi', persentase: 50, total_kuota: 180, kuota_terisi: 162, pendaftar_total: 340, burn_rate_per_jam: 12.4 },
+      { id: 18, sekolah_id: 5, pengguna_id: 1, jalur: 'prestasi_akademik', persentase: 25, total_kuota: 90, kuota_terisi: 84, pendaftar_total: 290, burn_rate_per_jam: 10.5 },
+      { id: 19, sekolah_id: 5, pengguna_id: 1, jalur: 'afirmasi', persentase: 15, total_kuota: 54, kuota_terisi: 42, pendaftar_total: 60, burn_rate_per_jam: 2.8 },
+      { id: 20, sekolah_id: 5, pengguna_id: 1, jalur: 'perpindahan_tugas', persentase: 10, total_kuota: 36, kuota_terisi: 20, pendaftar_total: 25, burn_rate_per_jam: 1.2 },
+
+      { id: 21, sekolah_id: 6, pengguna_id: 1, jalur: 'zonasi', persentase: 50, total_kuota: 160, kuota_terisi: 142, pendaftar_total: 295, burn_rate_per_jam: 10.2 },
+      { id: 22, sekolah_id: 6, pengguna_id: 1, jalur: 'afirmasi', persentase: 20, total_kuota: 64, kuota_terisi: 48, pendaftar_total: 72, burn_rate_per_jam: 3.0 },
+      { id: 23, sekolah_id: 6, pengguna_id: 1, jalur: 'prestasi_akademik', persentase: 20, total_kuota: 64, kuota_terisi: 60, pendaftar_total: 210, burn_rate_per_jam: 8.4 },
+      { id: 24, sekolah_id: 6, pengguna_id: 1, jalur: 'perpindahan_tugas', persentase: 10, total_kuota: 32, kuota_terisi: 16, pendaftar_total: 22, burn_rate_per_jam: 1.1 }
     ];
 
     this.pendaftaran = [

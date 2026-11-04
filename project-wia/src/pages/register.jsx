@@ -44,7 +44,7 @@ export default function RegisterPage() {
     nisn: '0089123456',
     asal_sekolah_smp: 'SMPN 1 Jakarta',
 
-    // 3. Domisili & Geospasial (Zonasi, Dual-Truth & Radar Deviasi)
+    // 3. Domisili & Geospasial (Zonasi & Validasi Domisili)
     alamat_domisili: 'Jl. Pasar Baru Timur No. 18, Sawah Besar, Jakarta Pusat',
     lama_tinggal_bulan: 28,
     klaim_lat: -6.167200,
@@ -416,7 +416,7 @@ export default function RegisterPage() {
               </div>
             </div>
 
-            {/* BAGIAN 3: DOMISILI & GEOSPASIAL (Zonasi, Dual-Truth & Radar Deviasi) */}
+            {/* BAGIAN 3: DOMISILI & GEOSPASIAL (Zonasi & Validasi Domisili) */}
             <div className="space-y-4 pt-4 border-t border-slate-100">
               <div className="flex items-center justify-between border-b border-slate-100 pb-2">
                 <div className="flex items-center gap-2">

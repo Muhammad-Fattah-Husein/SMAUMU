@@ -12,12 +12,15 @@ import { supabase, isSupabaseConfigured } from '@/services/supabaseClient';
 import { detectGeoDiscrepancy } from '@/services/geoService';
 import { generateTicketNumber, generateWhistleToken, sha256 } from '@/utils/crypto';
 import { INITIAL_SEKOLAH } from '@/utils/constants';
+import { calculateBurnRateMetrics } from '@/services/quotaService';
 
 class PortalApiService {
   // -------------------------------------------------------------
   // 1. KUOTA SEKOLAH & REAL-TIME BURN RATE
   // -------------------------------------------------------------
   async getKuota() {
+    const localData = db.getAllKuotaWithMetrics();
+
     if (isSupabaseConfigured() && supabase) {
       try {
         const { data, error } = await supabase
@@ -29,14 +32,33 @@ class PortalApiService {
           .order('sekolah_id', { ascending: true });
 
         if (!error && data && data.length > 0) {
-          return { success: true, data, mode: 'supabase' };
+          // Merge Supabase entries over local data baseline to ensure all 24 tracks & schools are preserved
+          const merged = localData.map(localItem => {
+            const remoteItem = data.find(r => r.sekolah_id === localItem.sekolah_id && r.jalur === localItem.jalur);
+            if (remoteItem) {
+              const totalKuota = remoteItem.total_kuota || localItem.total_kuota;
+              const kuotaTerisi = remoteItem.kuota_terisi ?? localItem.kuota_terisi;
+              const pendaftarTotal = remoteItem.pendaftar_total ?? localItem.pendaftar_total;
+              const burnRate = remoteItem.burn_rate_per_jam ?? localItem.burn_rate_per_jam;
+              return {
+                ...localItem,
+                ...remoteItem,
+                total_kuota: totalKuota,
+                kuota_terisi: kuotaTerisi,
+                pendaftar_total: pendaftarTotal,
+                burn_rate_per_jam: burnRate,
+                metrics: calculateBurnRateMetrics(totalKuota, kuotaTerisi, pendaftarTotal, burnRate)
+              };
+            }
+            return localItem;
+          });
+          return { success: true, data: merged, mode: 'supabase_merged' };
         }
       } catch (err) {
         console.warn('Supabase getKuota fallback to local db:', err.message);
       }
     }
 
-    const localData = db.getAllKuotaWithMetrics();
     return { success: true, data: localData, mode: 'local' };
   }
 
@@ -86,10 +108,18 @@ class PortalApiService {
   // -------------------------------------------------------------
   async submitPendaftaran(formData) {
     const sekolahTarget = INITIAL_SEKOLAH.find(s => s.id === parseInt(formData.sekolah_id)) || INITIAL_SEKOLAH[0];
+    const claimedLat = parseFloat(formData.klaim_koordinat_lat || formData.klaim_lat) || sekolahTarget.lat;
+    const claimedLng = parseFloat(formData.klaim_koordinat_lng || formData.klaim_lng) || sekolahTarget.lng;
+    const verifiedLat = parseFloat(formData.resmi_lat || claimedLat);
+    const verifiedLng = parseFloat(formData.resmi_lng || claimedLng);
+
     const geoAnalysis = detectGeoDiscrepancy(
-      sekolahTarget,
-      formData.klaim_koordinat_lat || formData.klaim_lat,
-      formData.klaim_koordinat_lng || formData.klaim_lng
+      claimedLat,
+      claimedLng,
+      verifiedLat,
+      verifiedLng,
+      sekolahTarget.lat,
+      sekolahTarget.lng
     );
 
     const nomorTiket = formData.nomor_tiket || generateTicketNumber();
@@ -107,16 +137,22 @@ class PortalApiService {
       sekolah_id: parseInt(formData.sekolah_id) || 1,
       sekolah_cadangan_id: formData.sekolah_cadangan_id ? parseInt(formData.sekolah_cadangan_id) : null,
       
-      klaim_koordinat_lat: parseFloat(formData.klaim_koordinat_lat || formData.klaim_lat) || sekolahTarget.lat,
-      klaim_koordinat_lng: parseFloat(formData.klaim_koordinat_lng || formData.klaim_lng) || sekolahTarget.lng,
-      klaim_jarak_meter: geoAnalysis.jarak_meter,
+      klaim_koordinat_lat: claimedLat,
+      klaim_koordinat_lng: claimedLng,
+      klaim_lat: claimedLat,
+      klaim_lng: claimedLng,
+      klaim_jarak_meter: geoAnalysis.claimedDistanceToSchool,
+      jarak_klaim_meter: geoAnalysis.claimedDistanceToSchool,
       klaim_nilai_rapor: parseFloat(formData.klaim_nilai_rapor) || 85.0,
       
-      resmi_jarak_meter: geoAnalysis.jarak_meter,
-      selisih_jarak_meter: geoAnalysis.selisih_meter,
-      geo_anomaly_status: geoAnalysis.status,
+      resmi_lat: verifiedLat,
+      resmi_lng: verifiedLng,
+      resmi_jarak_meter: geoAnalysis.verifiedDistanceToSchool,
+      jarak_resmi_meter: geoAnalysis.verifiedDistanceToSchool,
+      selisih_jarak_meter: geoAnalysis.discrepancyDeltaMeters,
+      geo_anomaly_status: geoAnalysis.anomalyStatus,
       
-      status_tahapan: 'diajukan',
+      status_tahapan: geoAnalysis.anomalyStatus === 'anomali_kritis_fraud' ? 'tinjauan_manual' : 'diajukan',
       catatan_verifikasi: 'Pendaftaran mandiri berhasil diajukan, menunggu tinjauan berkas.',
 
       // Dokumen & Berkas Digital

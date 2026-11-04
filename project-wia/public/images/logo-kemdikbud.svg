@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100">
+  <defs>
+    <linearGradient id="kemdikbudBlue" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#2563EB" />
+      <stop offset="100%" stop-color="#1E3A8A" />
+    </linearGradient>
+    <linearGradient id="kemdikbudGold" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FBBF24" />
+      <stop offset="100%" stop-color="#D97706" />
+    </linearGradient>
+  </defs>
+
+  <!-- Circle Base -->
+  <circle cx="50" cy="50" r="46" fill="url(#kemdikbudBlue)" stroke="url(#kemdikbudGold)" stroke-width="3" />
+  <circle cx="50" cy="50" r="41" fill="none" stroke="#60A5FA" stroke-width="1" stroke-dasharray="2,2" />
+
+  <!-- Flaming Torch (Api Abadi Pendidikan) -->
+  <path d="M50 18 Q55 27 50 35 Q45 27 50 18 Z" fill="#EF4444" />
+  <path d="M50 23 Q53 29 50 33 Q47 29 50 23 Z" fill="#FBBF24" />
+
+  <!-- Wings of Tut Wuri Handayani -->
+  <path d="M50 38 Q65 35 78 48 Q62 50 50 56 Q38 50 22 48 Q35 35 50 38 Z" fill="url(#kemdikbudGold)" />
+  <path d="M50 48 Q60 46 70 56 Q58 57 50 64 Q42 57 30 56 Q40 46 50 48 Z" fill="#FEF3C7" />
+
+  <!-- Open Book Motif (Buku Terbuka) -->
+  <path d="M50 66 Q64 61 74 65 L72 73 Q62 70 50 74 Q38 70 28 73 L26 65 Q36 61 50 66 Z" fill="#FFFFFF" stroke="#93C5FD" stroke-width="1" />
+  <line x1="50" y1="66" x2="50" y2="74" stroke="#1E3A8A" stroke-width="1.5" />
+
+  <!-- Base Stand -->
+  <rect x="42" y="78" width="16" height="4" rx="2" fill="url(#kemdikbudGold)" />
+</svg>

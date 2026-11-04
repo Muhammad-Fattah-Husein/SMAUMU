@@ -12,13 +12,19 @@ export default function App({ Component, pageProps }) {
   return (
     <AuthProvider>
       <Head>
-        <title>SMAUMU - SMAN UntukMu | Designing Digital Futures</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>SMAUMU - Portal Resmi PPDB SMA Negeri Provinsi DKI Jakarta</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
         <meta
           name="description"
-          content="Portal transparansi penerimaan siswa baru SMAN berbasis pengolahan data real-time, komparasi validitas, dan pelacakan publik untuk Web In Action (WIA) MIA 2026."
+          content="Portal Resmi Penerimaan Peserta Didik Baru (PPDB) SMA Negeri Provinsi DKI Jakarta. Transparansi sisa kuota seketika, uji jarak zonasi spasial geodetik, validasi keaslian data kependudukan, dan audit publik kriptografis."
         />
-        <link rel="icon" href="/favicon.ico" />
+        <meta name="keywords" content="PPDB SMAN Jakarta, PPDB DKI 2026, Dinas Pendidikan DKI Jakarta, Kuota SMA Negeri, Zonasi SMAN Jakarta, SMAUMU, Disdik DKI Jakarta" />
+        <meta name="author" content="Dinas Pendidikan Provinsi DKI Jakarta" />
+        <meta property="og:type" content="website" />
+        <meta property="og:title" content="SMAUMU - Portal Resmi PPDB SMA Negeri DKI Jakarta" />
+        <meta property="og:description" content="Sistem Informasi Terpadu PPDB SMAN DKI Jakarta: Transparansi Kuota Terbuka, Validasi Domisili, dan Pengawasan Warga." />
+        <meta property="og:locale" content="id_ID" />
+        <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
       </Head>
       <Component {...pageProps} />
     </AuthProvider>

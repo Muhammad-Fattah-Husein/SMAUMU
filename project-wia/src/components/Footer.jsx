@@ -148,11 +148,6 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
-                <Link href="/komparator" className="text-slate-400 hover:text-white transition">
-                  Validasi Domisili (Dual-Truth)
-                </Link>
-              </li>
-              <li>
                 <Link href="/whistleblower" className="text-slate-400 hover:text-white transition">
                   Saluran Pengaduan Whistleblower
                 </Link>

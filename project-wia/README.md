@@ -121,7 +121,6 @@
 - [x] **Landing Page Transparansi Publik (`/`)**: Desain modern civic hero, jaminan nilai transparansi, 3 pilar keterbukaan, FAQ interaktif, dan navigasi bersih ke seluruh fitur.
 - [x] **Simulator Peluang Berbasis Peta Google Maps (`/simulator`)**: Peta interaktif nyata (Google Jalan & Satelit Hybrid), pin rumah siswa otomatis (*draggable/clickable*), radius zonasi geodesik, dan komparasi instan ke seluruh 6 SMAN tanpa input manual.
 - [x] **Live Quota Burn-Rate & Heatmap (`/kuota`)**: Monitoring sisa kuota seketika, laju pendaftar per jam, dan Blank-Spot Advisor.
-- [x] **Dual-Truth Comparator (`/komparator`)**: Komparasi data pendaftar vs catatan resmi Dukcapil dan Geo-Discrepancy Spatial Engine.
 - [x] **Sistem Formulir Terpadu (`/daftar`)**: Pendaftaran 4 tahap otomatis terhubung dengan profil akun masyarakat.
 - [x] **Civic Whistleblower (`/whistleblower`)**: Pengaduan kecurangan anonim dengan Token Investigasi kriptografis.
 - [x] **Immutable Public Audit Log (`/audit-log`)**: Log publik rantai SHA-256 dengan tombol verifikasi integritas live.

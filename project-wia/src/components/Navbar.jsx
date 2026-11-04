@@ -129,17 +129,6 @@ export default function Navbar() {
               </Link>
 
               <Link
-                href="/komparator"
-                className={`px-3 py-2 rounded-xl transition-all ${
-                  isActive('/komparator')
-                    ? 'bg-[#1E3A8A] text-white shadow-sm'
-                    : 'hover:bg-slate-100 hover:text-[#1E3A8A]'
-                }`}
-              >
-                Validasi Data
-              </Link>
-
-              <Link
                 href="/whistleblower"
                 className={`px-3 py-2 rounded-xl transition-all ${
                   isActive('/whistleblower')
@@ -328,16 +317,6 @@ export default function Navbar() {
                 >
                   <Calculator className="w-4 h-4" />
                   <span>Uji Zonasi</span>
-                </Link>
-
-                <Link
-                  href="/komparator"
-                  className={`p-3 rounded-xl flex items-center gap-2.5 transition ${
-                    isActive('/komparator') ? 'bg-[#1E3A8A] text-white' : 'bg-slate-50 hover:bg-slate-100'
-                  }`}
-                >
-                  <Scale className="w-4 h-4" />
-                  <span>Validasi Data</span>
                 </Link>
 
                 <Link

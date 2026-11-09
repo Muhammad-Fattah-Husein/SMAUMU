@@ -310,18 +310,40 @@ export default function WhistleblowerPage({ initialReports }) {
                 </button>
               </form>
 
-              <div className="mt-3 pt-3 border-t border-slate-100 flex items-center gap-2 text-xs">
+              <div className="mt-3 pt-3 border-t border-slate-100 flex flex-wrap items-center gap-2 text-xs">
                 <span className="text-slate-400 font-medium">Contoh Token Pengaduan:</span>
                 <button
+                  type="button"
                   onClick={() => {
                     setTokenInput('TOKEN-WBL-7719-XPQ');
-                    fetch(`/api/whistleblower?token=TOKEN-WBL-7719-XPQ`)
-                      .then(r => r.json())
-                      .then(d => { if (d.success) setTrackedReport(d.data); });
+                    const matched = reports.find(r => r.token_investigasi === 'TOKEN-WBL-7719-XPQ');
+                    if (matched) setTrackedReport(matched);
                   }}
                   className="font-mono text-[11px] bg-slate-100 hover:bg-slate-200 px-2.5 py-1 rounded-lg text-slate-700 font-bold"
                 >
-                  TOKEN-WBL-7719-XPQ (Kasus SMAN 8 Bukit Duri)
+                  TOKEN-WBL-7719-XPQ (Investigasi)
+                </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setTokenInput('TOKEN-WBL-8820-KLP');
+                    const matched = reports.find(r => r.token_investigasi === 'TOKEN-WBL-8820-KLP');
+                    if (matched) setTrackedReport(matched);
+                  }}
+                  className="font-mono text-[11px] bg-emerald-50 hover:bg-emerald-100 text-emerald-800 border border-emerald-200 px-2.5 py-1 rounded-lg font-bold"
+                >
+                  TOKEN-WBL-8820-KLP (Valid & Sanksi)
+                </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setTokenInput('TOKEN-WBL-3311-SPM');
+                    const matched = reports.find(r => r.token_investigasi === 'TOKEN-WBL-3311-SPM');
+                    if (matched) setTrackedReport(matched);
+                  }}
+                  className="font-mono text-[11px] bg-rose-50 hover:bg-rose-100 text-rose-800 border border-rose-200 px-2.5 py-1 rounded-lg font-bold"
+                >
+                  TOKEN-WBL-3311-SPM (Termitigasi Spam)
                 </button>
               </div>
             </div>

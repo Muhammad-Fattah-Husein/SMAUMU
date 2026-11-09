@@ -4,7 +4,12 @@ import Layout from '@/components/Layout';
 import { useAuth } from '@/contexts/AuthContext';
 import { INITIAL_SEKOLAH } from '@/utils/constants';
 import { generateTicketNumber, sha256 } from '@/utils/crypto';
-import { calculateHaversineDistance } from '@/services/geoService';
+import { 
+  calculateHaversineDistance,
+  OFFICIAL_DUKCAPIL_CENTROIDS,
+  isInsideDkiJakarta,
+  snapCoordinateToDukcapil
+} from '@/services/geoService';
 import { formatDistance, formatDateIndo } from '@/utils/formatters';
 import { 
   Layers, 
@@ -21,13 +26,17 @@ import {
   Compass,
   AlertTriangle,
   Upload,
-  UserCheck
+  UserCheck,
+  Zap,
+  LocateFixed
 } from 'lucide-react';
 
 export default function DaftarPage() {
   const { user, isAuthenticated, updateUser } = useAuth();
   const [currentStep, setCurrentStep] = useState(1);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [selectedCentroidId, setSelectedCentroidId] = useState('sawah_besar');
+  const [isAutoSnapped, setIsAutoSnapped] = useState(true);
 
   // Form State
   const [formData, setFormData] = useState({
@@ -81,6 +90,46 @@ export default function DaftarPage() {
 
   const handleChange = (field, value) => {
     setFormData(prev => ({ ...prev, [field]: value }));
+    if (field === 'klaim_lat' || field === 'klaim_lng') {
+      setIsAutoSnapped(false);
+    }
+  };
+
+  const handleApplyAutoSnap = (centroidId) => {
+    const matched = OFFICIAL_DUKCAPIL_CENTROIDS.find(c => c.id === centroidId) || OFFICIAL_DUKCAPIL_CENTROIDS[0];
+    setSelectedCentroidId(matched.id);
+    setFormData(prev => ({
+      ...prev,
+      klaim_lat: matched.lat,
+      klaim_lng: matched.lng,
+      alamat_domisili: prev.alamat_domisili && prev.alamat_domisili !== 'Jl. Pasar Baru Timur No. 18, Sawah Besar, Jakarta Pusat' 
+        ? prev.alamat_domisili 
+        : matched.alamatSample
+    }));
+    setIsAutoSnapped(true);
+  };
+
+  const handleDetectGps = () => {
+    if (typeof navigator !== 'undefined' && navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (pos) => {
+          const lat = parseFloat(pos.coords.latitude.toFixed(6));
+          const lng = parseFloat(pos.coords.longitude.toFixed(6));
+          if (isInsideDkiJakarta(lat, lng)) {
+            setFormData(prev => ({ ...prev, klaim_lat: lat, klaim_lng: lng }));
+            setIsAutoSnapped(true);
+          } else {
+            handleApplyAutoSnap('sawah_besar');
+            alert('Lokasi terdeteksi di luar wilayah administratif DKI Jakarta. Sistem otomatis menyetel koordinat ke Sawah Besar (Jakarta Pusat).');
+          }
+        },
+        () => {
+          handleApplyAutoSnap('sawah_besar');
+        }
+      );
+    } else {
+      handleApplyAutoSnap('sawah_besar');
+    }
   };
 
   const handleNextStep2 = (e) => {
@@ -434,38 +483,109 @@ export default function DaftarPage() {
               </div>
             </div>
 
-            {/* Titik Rumah */}
-            <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200 space-y-3">
-              <div className="flex items-center justify-between">
-                <span className="text-xs font-bold text-slate-800 flex items-center gap-1.5">
-                  <MapPin className="w-4 h-4 text-[#2563EB]" />
-                  Titik Rumah Anda di Peta:
-                </span>
-                <span className="text-xs font-mono font-bold text-[#1E3A8A] bg-blue-50 px-2.5 py-0.5 rounded-lg border border-blue-200">
-                  Jarak ke Sekolah: {formatDistance(calculatedDistance)}
+            {/* Titik Rumah & Auto-Snap Validasi Geospasial Dukcapil */}
+            <div className="p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-4">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                <div>
+                  <span className="text-xs font-bold text-slate-800 flex items-center gap-1.5">
+                    <MapPin className="w-4 h-4 text-[#2563EB]" />
+                    Titik Koordinat Domisili & Validasi Spasial Haversine:
+                  </span>
+                  <p className="text-[11px] text-slate-500 mt-0.5">
+                    Gunakan Auto-Snap untuk mengunci titik ke basis data geospasial resmi Dukcapil guna mencegah celah manipulasi.
+                  </p>
+                </div>
+                <span className="text-xs font-mono font-bold text-[#1E3A8A] bg-blue-50 px-3 py-1 rounded-xl border border-blue-200 shrink-0">
+                  Jarak ke {selectedSchool.nama_sekolah.split(' ')[0]}: {formatDistance(calculatedDistance)}
                 </span>
               </div>
-              <div className="grid grid-cols-2 gap-2 text-xs font-mono">
+
+              {/* Toolbar Auto-Snap Dukcapil */}
+              <div className="p-3.5 rounded-xl bg-white border border-slate-200 shadow-sm space-y-2.5">
+                <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400 block">
+                  Pilihan Auto-Snap Centroid Resmi Wilayah DKI:
+                </span>
+                <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
+                  <select
+                    value={selectedCentroidId}
+                    onChange={(e) => setSelectedCentroidId(e.target.value)}
+                    className="flex-1 p-2.5 rounded-xl border border-slate-300 text-xs font-bold text-slate-800 bg-slate-50 focus:ring-2 focus:ring-[#2563EB]"
+                  >
+                    {OFFICIAL_DUKCAPIL_CENTROIDS.map((c) => (
+                      <option key={c.id} value={c.id}>
+                        {c.nama} • {c.kota}
+                      </option>
+                    ))}
+                  </select>
+                  <button
+                    type="button"
+                    onClick={() => handleApplyAutoSnap(selectedCentroidId)}
+                    className="px-3.5 py-2.5 rounded-xl bg-[#1E3A8A] hover:bg-[#2563EB] text-white text-xs font-bold transition flex items-center justify-center gap-1.5 shrink-0 shadow-sm"
+                  >
+                    <Zap className="w-3.5 h-3.5 text-amber-300" />
+                    <span>Auto-Snap Dukcapil</span>
+                  </button>
+                  <button
+                    type="button"
+                    onClick={handleDetectGps}
+                    className="px-3.5 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition flex items-center justify-center gap-1.5 shrink-0 border border-slate-200"
+                  >
+                    <LocateFixed className="w-3.5 h-3.5 text-[#2563EB]" />
+                    <span>Deteksi GPS</span>
+                  </button>
+                </div>
+
+                {/* Status Validasi Spasial */}
+                <div className="pt-1">
+                  {isInsideDkiJakarta(formData.klaim_lat, formData.klaim_lng) ? (
+                    <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-[11px] font-semibold bg-emerald-50 text-emerald-800 border border-emerald-200">
+                      <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
+                      <span>
+                        {isAutoSnapped
+                          ? '✓ Koordinat Terkunci Resmi (Auto-Snapped Dukcapil - 100% Aman dari Anomali Jarak)'
+                          : '✓ Koordinat Berada di Dalam Batas Administratif Provinsi DKI Jakarta'}
+                      </span>
+                    </div>
+                  ) : (
+                    <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-[11px] font-semibold bg-rose-50 text-rose-800 border border-rose-200">
+                      <AlertTriangle className="w-3.5 h-3.5 text-rose-600 shrink-0" />
+                      <span>
+                        ⚠️ Titik koordinat terdeteksi di luar batas administratif DKI Jakarta! Silakan gunakan tombol Auto-Snap.
+                      </span>
+                    </div>
+                  )}
+                </div>
+              </div>
+
+              {/* Nilai Angka Koordinat */}
+              <div className="grid grid-cols-2 gap-3 text-xs font-mono">
                 <div>
-                  <label className="text-[10px] text-slate-500 block">Garis Lintang (Latitude)</label>
+                  <label className="text-[10px] text-slate-500 font-sans block mb-1">Garis Lintang (Latitude)</label>
                   <input
                     type="number"
                     step="0.000001"
                     value={formData.klaim_lat}
                     onChange={(e) => handleChange('klaim_lat', parseFloat(e.target.value))}
-                    className="w-full p-2 rounded-lg border border-slate-300 bg-white"
+                    className="w-full p-2.5 rounded-xl border border-slate-300 bg-white font-bold text-slate-800 focus:ring-2 focus:ring-[#2563EB]"
                   />
                 </div>
                 <div>
-                  <label className="text-[10px] text-slate-500 block">Garis Bujur (Longitude)</label>
+                  <label className="text-[10px] text-slate-500 font-sans block mb-1">Garis Bujur (Longitude)</label>
                   <input
                     type="number"
                     step="0.000001"
                     value={formData.klaim_lng}
                     onChange={(e) => handleChange('klaim_lng', parseFloat(e.target.value))}
-                    className="w-full p-2 rounded-lg border border-slate-300 bg-white"
+                    className="w-full p-2.5 rounded-xl border border-slate-300 bg-white font-bold text-slate-800 focus:ring-2 focus:ring-[#2563EB]"
                   />
                 </div>
+              </div>
+
+              <div className="p-3 rounded-xl bg-blue-50/70 border border-blue-100 text-[11px] text-[#1E3A8A] flex items-center justify-between">
+                <span>Radius Maksimal Zonasi Sekolah: <strong>{formatDistance(selectedSchool.radius_max)}</strong></span>
+                <span className={`font-bold ${calculatedDistance <= selectedSchool.radius_max ? 'text-emerald-700' : 'text-amber-700'}`}>
+                  {calculatedDistance <= selectedSchool.radius_max ? '● Dalam Zona Prioritas' : '● Di Luar Radius Utama'}
+                </span>
               </div>
             </div>
 

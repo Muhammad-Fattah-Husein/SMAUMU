@@ -141,6 +141,9 @@ CREATE INDEX idx_pendaftaran_nomor_tiket ON pendaftaran(nomor_tiket);
 CREATE INDEX idx_pendaftaran_pengguna ON pendaftaran(pengguna_id);
 CREATE INDEX idx_pendaftaran_sekolah ON pendaftaran(sekolah_id);
 CREATE INDEX idx_pendaftaran_nik ON pendaftaran(nik);
+CREATE INDEX idx_pendaftaran_sekolah_jalur_status ON pendaftaran(sekolah_id, jalur, status_tahapan);
+CREATE INDEX idx_pendaftaran_created_at ON pendaftaran(created_at DESC);
+CREATE INDEX idx_kuota_sekolah_lookup ON kuota_sekolah(sekolah_id, jalur);
 
 -- ------------------------------------------------------------------------------
 -- 5. ENTITAS LAPORAN_WARGA / CIVIC WHISTLEBLOWER (Relasi 1:N dari PENGGUNA)

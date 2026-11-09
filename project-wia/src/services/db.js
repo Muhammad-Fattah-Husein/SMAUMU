@@ -233,6 +233,7 @@ class DatabaseService {
         nama_samaran: 'Warga Peduli Zonasi Adil',
         token_investigasi: 'TOKEN-WBL-7719-XPQ',
         status: 'dalam_investigasi',
+        skor_spam: 15,
         respon_petugas: 'Laporan diverifikasi awal. Petugas zonasi lapangan telah diterjunkan ke alamat Bukit Duri.',
         created_at: '2026-10-31T09:00:00.000Z'
       },
@@ -250,8 +251,46 @@ class DatabaseService {
         nama_samaran: 'Civic Watcher 2026',
         token_investigasi: 'TOKEN-WBL-8820-KLP',
         status: 'bukti_valid_terverifikasi',
+        skor_spam: 8,
         respon_petugas: 'Dinas Dukcapil dan Disdik telah membekukan 6 NIK tersebut dari kuota zonasi dan dialihkan ke jalur prestasi.',
         created_at: '2026-10-31T09:45:00.000Z'
+      },
+      {
+        id: 3,
+        kode_laporan: 'WBL-2026-88194',
+        pengguna_id: null,
+        pendaftaran_id: null,
+        tiket_terkait: 'TIKET-FIKTIF-999',
+        kategori: 'pungli_kursi',
+        judul: 'Ada pungli di posko depan sekolah tolong periksa calo',
+        deskripsi: 'Saya curiga ada calo tolong tindak calo calo berkeliaran di depan gerbang.',
+        lampiran_bukti_url: null,
+        is_anonim: true,
+        nama_samaran: 'Anonim99',
+        token_investigasi: 'TOKEN-WBL-3311-SPM',
+        status: 'termitigasi_spam',
+        skor_spam: 88,
+        alasan_spam: 'Nomor tiket fiktif tidak terdaftar di sistem, deskripsi minim tanpa bukti otentik, terdeteksi pola spam berulang.',
+        respon_petugas: 'Laporan ditutup otomatis oleh filter mitigasi spam dinas karena ketiadaan bukti dan nomor tiket tidak valid.',
+        created_at: '2026-11-01T11:20:00.000Z'
+      },
+      {
+        id: 4,
+        kode_laporan: 'WBL-2026-88195',
+        pengguna_id: null,
+        pendaftaran_id: 1,
+        tiket_terkait: 'TIKET-SMU-2026-098214',
+        kategori: 'sertifikat_palsu',
+        judul: 'Verifikasi Nomor Induk Piagam Juara Robotik Tingkat Nasional',
+        deskripsi: 'Mohon dicek kembali piagam robotik yang dilampirkan pendaftar, terdapat indikasi nomor registrasi sertifikat tidak tercatat pada pangkalan data Puspresnas Kemendikbud.',
+        lampiran_bukti_url: '/bukti/perbandingan_puspresnas.png',
+        is_anonim: true,
+        nama_samaran: 'Observer Prestasi Transparan',
+        token_investigasi: 'TOKEN-WBL-5592-ROB',
+        status: 'diterima',
+        skor_spam: 12,
+        respon_petugas: 'Laporan baru diterima sistem. Tim Verifikasi Prestasi sedang mencocokkan nomor seri piagam dengan database Puspresnas.',
+        created_at: '2026-11-02T14:15:00.000Z'
       }
     ];
 
@@ -431,6 +470,26 @@ class DatabaseService {
   }
 
   addLaporanWarga(data) {
+    // Heuristik Deteksi Spam & Validitas Aduan
+    let calculatedSpamScore = 5;
+    const deskripsi = data.deskripsi || '';
+    if (!data.lampiran_bukti_url || data.lampiran_bukti_url.trim() === '') {
+      calculatedSpamScore += 25;
+    }
+    if (deskripsi.trim().length < 40) {
+      calculatedSpamScore += 30;
+    }
+    const spamKeywords = ['test', 'halo', 'coba', 'spam', 'asdf', 'calo calo'];
+    if (spamKeywords.some(k => deskripsi.toLowerCase().includes(k) || (data.judul || '').toLowerCase().includes(k))) {
+      calculatedSpamScore += 35;
+    }
+
+    const isSpam = calculatedSpamScore >= 70;
+    const initialStatus = isSpam ? 'termitigasi_spam' : 'diterima';
+    const initialResponse = isSpam 
+      ? 'Aduan dimitigasi secara otomatis oleh sistem deteksi spam instansi karena minimnya data bukti atau terindikasi repetitif.' 
+      : 'Laporan warga telah masuk dalam antrean audit prioritas dinas.';
+
     const newLaporan = {
       id: this.laporan_warga.length + 1,
       kode_laporan: data.kode_laporan,
@@ -440,12 +499,14 @@ class DatabaseService {
       kategori: data.kategori,
       judul: data.judul,
       deskripsi: data.deskripsi,
-      lampiran_bukti_url: data.lampiran_bukti_url || '/bukti/laporan_dokumen.pdf',
+      lampiran_bukti_url: data.lampiran_bukti_url || (isSpam ? null : '/bukti/laporan_dokumen.pdf'),
       is_anonim: data.is_anonim !== false,
       nama_samaran: data.nama_samaran || 'Warga Anonim Transparan',
       token_investigasi: data.token_investigasi,
-      status: 'diterima',
-      respon_petugas: 'Laporan warga telah masuk dalam antrean audit transparansi dinas.',
+      status: initialStatus,
+      skor_spam: calculatedSpamScore,
+      alasan_spam: isSpam ? 'Deskripsi terlalu singkat tanpa bukti otentik yang dapat diverifikasi.' : null,
+      respon_petugas: initialResponse,
       created_at: new Date().toISOString()
     };
 
@@ -458,9 +519,9 @@ class DatabaseService {
       aksi: 'CIVIC_WHISTLEBLOWER_SUBMIT',
       entitas: 'laporan_warga',
       entitasId: newLaporan.id,
-      deskripsi: `Laporan warga baru diterima: ${newLaporan.kode_laporan} [Kategori: ${newLaporan.kategori}]`,
+      deskripsi: `Laporan warga baru diterima: ${newLaporan.kode_laporan} [Kategori: ${newLaporan.kategori}, Status: ${initialStatus}]`,
       dataLama: null,
-      dataBaru: { kode_laporan: newLaporan.kode_laporan, judul: newLaporan.judul }
+      dataBaru: { kode_laporan: newLaporan.kode_laporan, judul: newLaporan.judul, status: initialStatus, skor_spam: calculatedSpamScore }
     });
 
     return newLaporan;

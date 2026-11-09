@@ -8,8 +8,6 @@ export const NAV_LINKS_PUBLIC = [
   { href: '/', label: 'Beranda', desc: 'Halaman Utama' },
   { href: '/kuota', label: 'Sisa Kuota', desc: 'Pantau Kuota Real-Time' },
   { href: '/daftar', label: 'Pendaftaran', desc: 'Alur 4 Langkah' },
-  { href: '/lacak', label: 'Lacak Tiket', desc: 'Status Berkas' },
-  { href: '/komparator', label: 'Validasi Data', desc: 'Dual-Truth & Zonasi' },
   { href: '/simulator', label: 'Simulator', desc: 'Peluang Masuk SMAN' },
   { href: '/whistleblower', label: 'Whistleblower', desc: 'Pengaduan Anonim' },
   { href: '/audit-log', label: 'Audit Log', desc: 'Buku Besar SHA-256' },

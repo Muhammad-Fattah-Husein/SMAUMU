@@ -10,14 +10,8 @@ export default function Document() {
           href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap"
           rel="stylesheet"
         />
-        <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-        <meta name="theme-color" content="#1E3A8A" />
-        <meta name="application-name" content="SMAUMU PPDB SMAN DKI Jakarta" />
-        <meta name="apple-mobile-web-app-title" content="SMAUMU PPDB" />
-        <meta name="apple-mobile-web-app-capable" content="yes" />
-        <meta name="apple-mobile-web-app-status-bar-style" content="default" />
       </Head>
-      <body className="bg-slate-50 text-slate-900 antialiased selection:bg-blue-600 selection:text-white">
+      <body className="bg-slate-50 text-slate-900 antialiased selection:bg-brand-500 selection:text-white">
         <Main />
         <NextScript />
       </body>

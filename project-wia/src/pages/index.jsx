@@ -1,584 +1,395 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import Layout from '@/components/Layout';
+import QuotaBurnRateCard from '@/components/QuotaBurnRateCard';
+import DualTruthComparatorView from '@/components/DualTruthComparatorView';
+import GeoDiscrepancyMap from '@/components/GeoDiscrepancyMap';
+import PassingGradeCalculator from '@/components/PassingGradeCalculator';
+import InteractiveZonasiHeatmap from '@/components/InteractiveZonasiHeatmap';
+import { db } from '@/services/db';
 import { 
   ShieldCheck, 
-  Eye, 
+  Flame, 
+  MapPin, 
   Compass, 
-  Lock, 
-  Scale, 
-  ArrowRight, 
-  ChevronDown, 
+  Layers, 
   CheckCircle2, 
-  Sparkles, 
-  Award, 
-  Users, 
-  BarChart3, 
-  Globe,
-  FileCheck2,
-  HelpCircle,
+  AlertCircle, 
+  ArrowRight, 
+  FileCheck2, 
+  Search, 
+  Lock, 
   TrendingUp,
-  School,
-  Calendar,
-  Clock,
-  AlertCircle,
-  Search,
-  MapPin,
-  ExternalLink,
-  PhoneCall
+  FileEdit,
+  Scale
 } from 'lucide-react';
-import { INITIAL_SEKOLAH } from '@/utils/constants';
 
-export default function Home() {
-  const [openFaq, setOpenFaq] = useState(0);
-  const [searchSchool, setSearchSchool] = useState('');
+export default function Home({ initialKuota, initialPendaftaran }) {
+  const [kuotaList, setKuotaList] = useState(initialKuota);
+  const [searchTicket, setSearchTicket] = useState('');
 
-  const toggleFaq = (index) => {
-    setOpenFaq(openFaq === index ? null : index);
+  const handleSimulateAdd = async (sekolahId, jalur) => {
+    try {
+      const res = await fetch('/api/kuota', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ sekolah_id: sekolahId, jalur, deltaApplicants: 1, deltaFilled: 1 })
+      });
+      const data = await res.json();
+      if (data.success) {
+        const refreshRes = await fetch('/api/kuota');
+        const refreshData = await refreshRes.json();
+        if (refreshData.success) setKuotaList(refreshData.data);
+      }
+    } catch (err) {
+      console.error(err);
+    }
   };
-
-  const filteredSchools = INITIAL_SEKOLAH.filter(s => 
-    s.nama_sekolah.toLowerCase().includes(searchSchool.toLowerCase()) ||
-    s.kecamatan.toLowerCase().includes(searchSchool.toLowerCase()) ||
-    s.npsn.includes(searchSchool)
-  );
-
-  const JADWAL_PPDB = [
-    {
-      jalur: 'Jalur Prestasi (Akademik & Non-Akademik)',
-      tanggal: '10 – 15 Juni 2026',
-      kuota: '20% - 25%',
-      status: 'Selesai',
-      badgeClass: 'bg-slate-100 text-slate-700'
-    },
-    {
-      jalur: 'Jalur Afirmasi (KJP Plus, PIP, Disabilitas)',
-      tanggal: '17 – 21 Juni 2026',
-      kuota: '15% - 20%',
-      status: 'Selesai',
-      badgeClass: 'bg-slate-100 text-slate-700'
-    },
-    {
-      jalur: 'Jalur Zonasi Wilayah (Prioritas 1 & 2)',
-      tanggal: '24 – 28 Juni 2026',
-      kuota: '50% (Mayoritas)',
-      status: 'SEDANG DIBUKA',
-      badgeClass: 'bg-emerald-500 text-white animate-pulse'
-    },
-    {
-      jalur: 'Jalur Perpindahan Tugas Orang Tua / Guru',
-      tanggal: '01 – 03 Juli 2026',
-      kuota: '5% - 10%',
-      status: 'Mendatang',
-      badgeClass: 'bg-blue-100 text-blue-800'
-    }
-  ];
-
-  const FAQS = [
-    {
-      q: 'Apa itu SMAUMU dan apa legalitasnya dalam PPDB SMAN DKI Jakarta?',
-      a: 'SMAUMU (SMAN UntukMu) adalah portal resmi sistem transparansi dan pemantauan Penerimaan Peserta Didik Baru (PPDB) jenjang SMA Negeri yang dikembangkan sesuai Permendikbudristek No. 1 Tahun 2021 dan Pergub DKI Jakarta No. 15 Tahun 2024. Portal ini mengintegrasikan data Dapodik, Pusdatin, dan Dukcapil untuk menjamin asas keadilan, akuntabilitas, dan keterbukaan publik.'
-    },
-    {
-      q: 'Apakah pendaftaran dan pemantauan di portal SMAUMU dipungut biaya?',
-      a: 'Sama sekali TIDAK DIPUNGUT BIAYA (100% GRATIS). Seluruh fasilitas, mulai dari pendaftaran akun, pemantauan sisa kuota secara real-time, simulasi zonasi berbasis peta geodesik, hingga akses log audit terbuka, disediakan secara cuma-cuma untuk seluruh warga negara Indonesia.'
-    },
-    {
-      q: 'Bagaimana sistem mencegah manipulasi zonasi atau pemalsuan Kartu Keluarga (numpang KK)?',
-      a: 'Sistem menerapkan mekanisme Dual-Truth Geospasial dengan formula jarak Great-Circle (Haversine). Data koordinat rumah pendaftar dicocokkan langsung dengan basis data kependudukan Dukcapil. Jika deviasi koordinat melebihi batas toleransi 150 meter atau masa kepemilikan KK kurang dari 12 bulan berturut-turut, sistem otomatis mengunci berkas untuk Tinjauan Lapangan Faktual.'
-    },
-    {
-      q: 'Apakah catatan verifikasi dan pergerakan kuota bisa diubah diam-diam oleh oknum?',
-      a: 'Tidak bisa. Setiap aksi petugas pendaftaran maupun mutasi penambahan kuota direkam dalam rantai audit kriptografi SHA-256 yang bersifat permanen (immutable ledger). Upaya mengubah satu baris data akan merusak integritas rantai hash dan otomatis membunyikan alarm audit pada Ombudsman dan Inspektorat.'
-    },
-    {
-      q: 'Ke mana masyarakat dapat mengadu jika menemukan indikasi kecurangan atau pungli?',
-      a: 'Masyarakat dapat langsung melapor melalui Saluran Whistleblower resmi di portal ini. Laporan dapat dikirim 100% anonim tanpa pencatatan identitas maupun alamat IP, dan pelapor diberikan Token Rahasia unik untuk memantau status tindak lanjut oleh tim investigasi Inspektorat Disdik.'
-    }
-  ];
 
   return (
     <Layout>
       {/* ============================================================== */}
-      {/* 1. HERO SECTION: PORTAL RESMI PPDB PEMERINTAHAN               */}
+      {/* 1. HERO SECTION */}
       {/* ============================================================== */}
-      <section className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-[#0F172A] via-[#1E3A8A] to-[#0A192F] text-white p-6 sm:p-10 lg:p-14 mb-12 shadow-2xl border border-blue-900/50">
-        <div className="absolute -top-32 -right-32 w-[500px] h-[500px] bg-blue-500/15 rounded-full blur-3xl pointer-events-none"></div>
-        <div className="absolute -bottom-32 -left-32 w-[500px] h-[500px] bg-emerald-500/10 rounded-full blur-3xl pointer-events-none"></div>
+      <section className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-slate-950 via-[#1E3A8A] to-slate-950 text-white p-6 sm:p-12 lg:p-16 mb-12 shadow-2xl border border-blue-900/40">
+        <div className="absolute -top-24 -right-24 w-96 h-96 bg-blue-500/15 rounded-full blur-3xl pointer-events-none"></div>
+        <div className="absolute -bottom-24 -left-24 w-96 h-96 bg-blue-600/20 rounded-full blur-3xl pointer-events-none"></div>
 
-        <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
-          
-          {/* Sisi Kiri: Headline, Identitas Resmi, CTA */}
-          <div className="lg:col-span-7 flex flex-col justify-center">
-            
-            {/* Lencana Otoritas Resmi */}
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-xs font-bold text-white mb-5 w-fit">
-              <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
-              <span className="uppercase tracking-wider text-[11px]">Sistem Informasi Resmi PPDB SMAN DKI Jakarta</span>
-            </div>
-
-            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight leading-[1.15]">
-              Penerimaan Siswa Baru yang{' '}
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-200 via-sky-300 to-emerald-300">
-                Jujur, Transparan & Berkeadilan.
-              </span>
-            </h1>
-
-            <p className="mt-4 text-xs sm:text-sm text-slate-200 max-w-2xl leading-relaxed">
-              Portal terpadu Dinas Pendidikan Provinsi DKI Jakarta untuk pendaftaran dan pemantauan PPDB jenjang SMA Negeri. Menjamin hak kesetaraan pendidikan anak bangsa dengan transparansi sisa kuota seketika, uji jarak zonasi geospasial presisi, dan audit permanen SHA-256.
-            </p>
-
-            {/* Aksi Cepat / CTA */}
-            <div className="mt-8 flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
-              <Link
-                href="/kuota"
-                className="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-2xl font-black text-xs sm:text-sm bg-emerald-500 hover:bg-emerald-600 text-white shadow-xl shadow-emerald-600/30 hover:scale-[1.02] transition-all"
-              >
-                <BarChart3 className="w-4 h-4" />
-                <span>Pantau Sisa Kuota SMAN</span>
-                <span className="px-1.5 py-0.5 rounded bg-emerald-700 text-[10px] uppercase font-mono">Live</span>
-              </Link>
-
-              <Link
-                href="/daftar"
-                className="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-2xl font-bold text-xs sm:text-sm bg-white/15 hover:bg-white/25 text-white backdrop-blur border border-white/25 transition-all hover:scale-[1.02]"
-              >
-                <span>Pendaftaran Siswa Baru</span>
-                <ArrowRight className="w-4 h-4" />
-              </Link>
-
-              <Link
-                href="/simulator"
-                className="inline-flex items-center justify-center gap-2 px-4 py-3.5 rounded-2xl font-semibold text-xs text-blue-200 hover:text-white hover:bg-white/10 transition"
-              >
-                <Compass className="w-4 h-4" />
-                <span>Uji Jarak Zonasi</span>
-              </Link>
-            </div>
-
-            {/* Jaminan Layanan Pemerintah */}
-            <div className="mt-8 pt-6 border-t border-white/15 flex flex-wrap items-center gap-4 text-[11px] text-slate-300">
-              <span className="flex items-center gap-1.5 font-semibold">
-                <CheckCircle2 className="w-4 h-4 text-emerald-400" />
-                100% Bebas Biaya (Gratis)
-              </span>
-              <span className="flex items-center gap-1.5 font-semibold">
-                <CheckCircle2 className="w-4 h-4 text-emerald-400" />
-                Dukcapil & Kemdikbud Verified
-              </span>
-              <span className="flex items-center gap-1.5 font-semibold">
-                <CheckCircle2 className="w-4 h-4 text-emerald-400" />
-                BSSN Cyber Shield Certified
-              </span>
-            </div>
-
+        <div className="relative z-10 max-w-4xl">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-xs font-bold text-white mb-4">
+            <span className="w-2 h-2 rounded-full bg-blue-300 animate-pulse"></span>
+            <span>Transparansi PPDB SMAN • WIA MIA 2026</span>
           </div>
 
-          {/* Sisi Kanan: Panel Status Real-Time PPDB */}
-          <div className="lg:col-span-5 flex flex-col gap-3.5 w-full">
-            <div className="p-6 rounded-3xl bg-white/10 backdrop-blur-md border border-white/15 shadow-2xl space-y-4">
-              
-              <div className="flex items-center justify-between pb-3 border-b border-white/15">
-                <div className="flex items-center gap-2">
-                  <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-ping"></span>
-                  <span className="text-xs font-black uppercase tracking-wider text-white">
-                    Status Server PPDB 2026
-                  </span>
-                </div>
-                <span className="text-[10px] font-mono font-bold text-emerald-300 bg-emerald-500/20 px-2 py-0.5 rounded-full border border-emerald-400/30">
-                  ONLINE • LIVE
-                </span>
-              </div>
+          <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight leading-tight">
+            Penerimaan Siswa Baru yang <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-300 to-white">Jujur & Terbuka.</span>
+          </h1>
 
-              {/* Ringkasan Angka Daya Tampung */}
-              <div className="grid grid-cols-2 gap-3 pt-1">
-                <div className="p-3.5 rounded-2xl bg-white/5 border border-white/10">
-                  <span className="text-xs text-slate-300 font-semibold block">Total SMAN Binaan</span>
-                  <span className="text-2xl font-black text-white block mt-0.5">6 SMAN</span>
-                  <span className="text-[10px] text-blue-300 font-medium">Jakarta Pusat & Selatan</span>
-                </div>
-
-                <div className="p-3.5 rounded-2xl bg-white/5 border border-white/10">
-                  <span className="text-xs text-slate-300 font-semibold block">Daya Tampung Total</span>
-                  <span className="text-2xl font-black text-emerald-400 block mt-0.5">1.940 Kursi</span>
-                  <span className="text-[10px] text-emerald-300 font-medium">4 Jalur Seleksi Terpadu</span>
-                </div>
-
-                <div className="p-3.5 rounded-2xl bg-white/5 border border-white/10">
-                  <span className="text-xs text-slate-300 font-semibold block">Integritas Audit</span>
-                  <span className="text-2xl font-black text-amber-400 block mt-0.5">SHA-256</span>
-                  <span className="text-[10px] text-amber-300 font-medium">Buku Besar Tak Berubah</span>
-                </div>
-
-                <div className="p-3.5 rounded-2xl bg-white/5 border border-white/10">
-                  <span className="text-xs text-slate-300 font-semibold block">Pengaduan Warga</span>
-                  <span className="text-2xl font-black text-cyan-300 block mt-0.5">100% Anonim</span>
-                  <span className="text-[10px] text-cyan-300 font-medium">Inspektorat & Ombudsman</span>
-                </div>
-              </div>
-
-              <div className="pt-2 text-[11px] text-slate-300 leading-relaxed border-t border-white/10 flex items-center justify-between">
-                <span className="flex items-center gap-1.5">
-                  <ShieldCheck className="w-4 h-4 text-emerald-400 shrink-0" />
-                  <span>Pelayanan Berintegritas Tanpa Calo</span>
-                </span>
-                <Link href="/kontak" className="text-blue-200 hover:text-white underline font-semibold">
-                  Hubungi Posko
-                </Link>
-              </div>
-
-            </div>
-          </div>
-
-        </div>
-      </section>
-
-      {/* ============================================================== */}
-      {/* 2. JADWAL RESMI PELAKSANAAN PPDB 2026                          */}
-      {/* ============================================================== */}
-      <section className="mb-14">
-        <div className="bg-white rounded-3xl border border-slate-200/90 p-6 sm:p-8 shadow-sm">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-5 border-b border-slate-100">
-            <div>
-              <div className="flex items-center gap-2 mb-1">
-                <Calendar className="w-4 h-4 text-[#1E3A8A]" />
-                <span className="text-xs font-bold uppercase tracking-wider text-[#1E3A8A]">
-                  Jadwal Resmi Pelaksanaan
-                </span>
-              </div>
-              <h2 className="text-xl sm:text-2xl font-black text-slate-900 tracking-tight">
-                Tahapan Seleksi PPDB SMAN Tahun Ajaran 2026/2027
-              </h2>
-            </div>
-            <Link
-              href="/bantuan"
-              className="inline-flex items-center gap-1.5 text-xs font-bold text-[#1E3A8A] hover:underline"
-            >
-              <span>Lihat Petunjuk Teknis Lengkap</span>
-              <ArrowRight className="w-3.5 h-3.5" />
-            </Link>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mt-6">
-            {JADWAL_PPDB.map((item, idx) => (
-              <div 
-                key={idx} 
-                className={`p-4 rounded-2xl border transition-all ${
-                  item.status === 'SEDANG DIBUKA' 
-                    ? 'border-emerald-500 bg-emerald-50/50 shadow-md ring-2 ring-emerald-500/20' 
-                    : 'border-slate-200 bg-slate-50/70 hover:bg-slate-50'
-                }`}
-              >
-                <div className="flex items-center justify-between gap-2 mb-2">
-                  <span className={`text-[10px] font-black uppercase px-2 py-0.5 rounded-full ${item.badgeClass}`}>
-                    {item.status}
-                  </span>
-                  <span className="text-[11px] font-mono font-bold text-slate-500">
-                    Kuota {item.kuota}
-                  </span>
-                </div>
-                <h3 className="font-extrabold text-slate-900 text-xs sm:text-sm leading-snug">
-                  {item.jalur}
-                </h3>
-                <p className="text-xs font-semibold text-[#1E3A8A] mt-2 flex items-center gap-1.5">
-                  <Clock className="w-3.5 h-3.5 text-slate-400" />
-                  <span>{item.tanggal}</span>
-                </p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ============================================================== */}
-      {/* 3. PENCARIAN CEPAT SEKOLAH & RADIUS ZONASI                     */}
-      {/* ============================================================== */}
-      <section className="mb-14">
-        <div className="bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-200/80 rounded-3xl p-6 sm:p-8">
-          <div className="max-w-3xl mb-6">
-            <span className="text-xs font-bold uppercase tracking-wider text-[#1E3A8A] bg-white px-3 py-1 rounded-full border border-blue-200 inline-block mb-2">
-              Direktori Resmi Sekolah
-            </span>
-            <h2 className="text-xl sm:text-2xl font-black text-slate-900 tracking-tight">
-              Cek Daya Tampung & Radius Zonasi SMAN
-            </h2>
-            <p className="text-xs sm:text-sm text-slate-600 mt-1">
-              Ketik nama sekolah, NPSN, atau kecamatan untuk melihat jangkauan radius zonasi dan kapasitas resmi.
-            </p>
-          </div>
-
-          {/* Search Box Input */}
-          <div className="relative mb-6">
-            <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
-            <input
-              type="text"
-              value={searchSchool}
-              onChange={(e) => setSearchSchool(e.target.value)}
-              placeholder="Cari SMAN (contoh: Boedoet, Bukit Duri, Cilandak, NPSN: 20101567)..."
-              className="w-full pl-12 pr-4 py-3.5 rounded-2xl border border-slate-300 bg-white text-slate-900 text-sm font-semibold shadow-sm focus:ring-2 focus:ring-[#2563EB] focus:border-[#2563EB] outline-none transition"
-            />
-          </div>
-
-          {/* Hasil Pencarian Sekolah Cepat */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {filteredSchools.slice(0, 6).map((school) => (
-              <div 
-                key={school.id} 
-                className="bg-white rounded-2xl p-4 border border-slate-200/90 shadow-sm hover:shadow-md transition flex flex-col justify-between"
-              >
-                <div>
-                  <div className="flex items-center justify-between text-xs mb-2">
-                    <span className="font-mono font-bold text-slate-500 text-[10px] bg-slate-100 px-2 py-0.5 rounded border border-slate-200">
-                      NPSN: {school.npsn}
-                    </span>
-                    <span className="font-bold text-emerald-700 bg-emerald-50 text-[10px] px-2 py-0.5 rounded border border-emerald-200">
-                      {school.akreditasi}
-                    </span>
-                  </div>
-                  <h4 className="font-black text-slate-900 text-sm">{school.nama_sekolah}</h4>
-                  <p className="text-xs text-slate-500 mt-1 flex items-center gap-1">
-                    <MapPin className="w-3.5 h-3.5 text-slate-400 shrink-0" />
-                    <span>{school.kecamatan}, {school.kota}</span>
-                  </p>
-                </div>
-
-                <div className="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between text-xs">
-                  <div>
-                    <span className="text-[10px] text-slate-400 uppercase block font-semibold">Radius Zonasi</span>
-                    <span className="font-mono font-black text-[#1E3A8A]">{(school.radius_max / 1000).toFixed(1)} km</span>
-                  </div>
-                  <div>
-                    <span className="text-[10px] text-slate-400 uppercase block font-semibold">Total Kursi</span>
-                    <span className="font-mono font-black text-slate-900">{school.kuota_total} Kursi</span>
-                  </div>
-                  <Link
-                    href={`/simulator`}
-                    className="px-3 py-1.5 rounded-xl bg-blue-50 text-[#1E3A8A] font-bold hover:bg-blue-100 transition text-[11px]"
-                  >
-                    Uji Jarak
-                  </Link>
-                </div>
-              </div>
-            ))}
-          </div>
-
-          <div className="mt-4 text-center">
-            <Link
-              href="/sekolah"
-              className="inline-flex items-center gap-1.5 text-xs font-bold text-[#1E3A8A] hover:underline"
-            >
-              <span>Lihat Seluruh Daftar & Lokasi SMAN Binaan DKI Jakarta</span>
-              <ArrowRight className="w-3.5 h-3.5" />
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      {/* ============================================================== */}
-      {/* 4. EMPAT LAYANAN UTAMA PORTAL PPDB SMAUMU                      */}
-      {/* ============================================================== */}
-      <section className="mb-14">
-        <div className="text-center max-w-2xl mx-auto mb-8">
-          <span className="text-xs font-bold uppercase tracking-wider text-blue-700 bg-blue-50 px-3 py-1 rounded-full border border-blue-200">
-            Layanan Terpadu Warga
-          </span>
-          <h2 className="text-2xl sm:text-3xl font-black text-slate-900 mt-3">
-            Fasilitas Resmi Pelayanan PPDB
-          </h2>
-          <p className="text-xs sm:text-sm text-slate-600 mt-1.5">
-            Akses seluruh fasilitas pelayanan daring terstandar untuk mempermudah calon siswa dan orang tua:
+          <p className="mt-3 text-sm sm:text-base text-slate-200 max-w-2xl leading-relaxed">
+            Pantau sisa kuota sekolah real-time, verifikasi integritas koordinat domisili, dan lacak status berkas pendaftaran tanpa rekayasa.
           </p>
-        </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
-          
-          {/* Kartu 1: Pantau Kuota */}
-          <div className="bg-white rounded-3xl border border-slate-200/90 p-6 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between group">
-            <div>
-              <div className="w-12 h-12 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center font-bold mb-4 group-hover:bg-emerald-600 group-hover:text-white transition-colors">
-                <BarChart3 className="w-6 h-6" />
-              </div>
-              <h3 className="text-base font-black text-slate-900 mb-1.5">
-                1. Pantau Kuota Real-Time
-              </h3>
-              <p className="text-xs text-slate-600 leading-relaxed">
-                Menyajikan informasi sisa bangku per-sekolah, persentase kuota terisi, laju berkas pendaftar per jam, dan grafik keterisian terbuka.
-              </p>
-            </div>
-            <Link
-              href="/kuota"
-              className="mt-6 pt-4 border-t border-slate-100 flex items-center justify-between text-xs font-bold text-emerald-600 hover:text-emerald-700"
-            >
-              <span>Buka Data Kuota</span>
-              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-            </Link>
+          {/* 4 Pilar Jaminan Ringkas */}
+          <div className="mt-5 flex flex-wrap gap-2 text-xs font-semibold">
+            <span className="bg-white/10 border border-white/15 px-3 py-1 rounded-xl text-slate-100">
+              ✓ Kuota Real-Time
+            </span>
+            <span className="bg-white/10 border border-white/15 px-3 py-1 rounded-xl text-slate-100">
+              ✓ Lacak Tiket
+            </span>
+            <span className="bg-white/10 border border-white/15 px-3 py-1 rounded-xl text-slate-100">
+              ✓ Whistleblower Anonim
+            </span>
+            <span className="bg-white/10 border border-white/15 px-3 py-1 rounded-xl text-slate-100">
+              ✓ Simulator Peluang
+            </span>
           </div>
 
-          {/* Kartu 2: Pendaftaran 4 Langkah */}
-          <div className="bg-white rounded-3xl border border-slate-200/90 p-6 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between group">
-            <div>
-              <div className="w-12 h-12 rounded-2xl bg-blue-50 text-[#1E3A8A] flex items-center justify-center font-bold mb-4 group-hover:bg-[#1E3A8A] group-hover:text-white transition-colors">
-                <FileCheck2 className="w-6 h-6" />
-              </div>
-              <h3 className="text-base font-black text-slate-900 mb-1.5">
-                2. Formulir Pendaftaran
-              </h3>
-              <p className="text-xs text-slate-600 leading-relaxed">
-                Alur pendaftaran mandiri 4 tahap: verifikasi NIK/NISN, penentuan pilihan sekolah, unggah berkas, dan penerbitan bukti pendaftaran resmi.
-              </p>
-            </div>
+          {/* Tombol Aksi Utama - CTA Pink Aksen dengan Teks Putih Kontras Kuat */}
+          <div className="mt-6 flex flex-col sm:flex-row items-stretch sm:items-center gap-2.5">
             <Link
               href="/daftar"
-              className="mt-6 pt-4 border-t border-slate-100 flex items-center justify-between text-xs font-bold text-[#1E3A8A] hover:text-blue-800"
+              className="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-2xl font-black text-xs sm:text-sm bg-[#EC4899] hover:bg-[#DB2777] text-white shadow-xl shadow-pink-500/30 hover:scale-[1.01] transition-all"
             >
-              <span>Isi Formulir</span>
-              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+              <span>Daftar Siswa Baru</span>
+              <ArrowRight className="w-4 h-4" />
             </Link>
-          </div>
 
-          {/* Kartu 3: Simulator Zonasi */}
-          <div className="bg-white rounded-3xl border border-slate-200/90 p-6 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between group">
-            <div>
-              <div className="w-12 h-12 rounded-2xl bg-indigo-50 text-indigo-600 flex items-center justify-center font-bold mb-4 group-hover:bg-indigo-600 group-hover:text-white transition-colors">
-                <Compass className="w-6 h-6" />
-              </div>
-              <h3 className="text-base font-black text-slate-900 mb-1.5">
-                3. Uji Zonasi Peta Rumah
-              </h3>
-              <p className="text-xs text-slate-600 leading-relaxed">
-                Klik titik lokasi domisili rumah Anda pada peta interaktif untuk mengukur jarak geodesik dan ranking peluang lolos di seluruh SMAN serentak.
-              </p>
-            </div>
             <Link
-              href="/simulator"
-              className="mt-6 pt-4 border-t border-slate-100 flex items-center justify-between text-xs font-bold text-indigo-600 hover:text-indigo-700"
+              href="/kuota"
+              className="inline-flex items-center justify-center gap-2 px-4 py-3 rounded-2xl font-bold text-xs bg-white/10 hover:bg-white/20 text-white backdrop-blur border border-white/20 transition-all"
             >
-              <span>Coba Simulator</span>
-              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+              <Flame className="w-4 h-4 text-white" />
+              <span>Pantau Kuota</span>
             </Link>
-          </div>
 
-          {/* Kartu 4: Whistleblower System */}
-          <div className="bg-white rounded-3xl border border-slate-200/90 p-6 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between group">
-            <div>
-              <div className="w-12 h-12 rounded-2xl bg-amber-50 text-amber-600 flex items-center justify-center font-bold mb-4 group-hover:bg-amber-600 group-hover:text-white transition-colors">
-                <AlertCircle className="w-6 h-6" />
-              </div>
-              <h3 className="text-base font-black text-slate-900 mb-1.5">
-                4. Pengaduan & Pungli
-              </h3>
-              <p className="text-xs text-slate-600 leading-relaxed">
-                Saluran pelaporan warga terenkripsi 100% anonim. Laporkan titipan siswa, pemalsuan KK, dan pungutan liar langsung ke Inspektorat Disdik.
-              </p>
-            </div>
             <Link
-              href="/whistleblower"
-              className="mt-6 pt-4 border-t border-slate-100 flex items-center justify-between text-xs font-bold text-amber-600 hover:text-amber-700"
+              href="/komparator"
+              className="inline-flex items-center justify-center gap-2 px-4 py-3 rounded-2xl font-bold text-xs bg-white/10 hover:bg-white/20 text-white backdrop-blur border border-white/20 transition-all"
             >
-              <span>Kirim Laporan</span>
-              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+              <Scale className="w-4 h-4 text-white/80" />
+              <span>Validasi Domisili</span>
             </Link>
           </div>
+        </div>
 
+        {/* Kolom Pencarian Cepat Nomor Tiket */}
+        <div className="relative z-10 mt-8 p-3.5 sm:p-4 rounded-2xl bg-white/10 backdrop-blur-md border border-white/15 max-w-xl">
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              if (searchTicket) window.location.href = `/lacak?tiket=${encodeURIComponent(searchTicket)}`;
+            }}
+            className="flex flex-col sm:flex-row items-center gap-2"
+          >
+            <div className="relative flex-1 w-full">
+              <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
+              <input
+                type="text"
+                placeholder="Masukkan nomor tiket (contoh: TIKET-SMU-2026-098214)"
+                value={searchTicket}
+                onChange={(e) => setSearchTicket(e.target.value)}
+                className="w-full pl-10 pr-3 py-2 rounded-xl bg-slate-900/90 border border-slate-700 text-white placeholder-slate-400 text-xs focus:outline-none focus:ring-2 focus:ring-blue-400"
+              />
+            </div>
+            <button
+              type="submit"
+              className="w-full sm:w-auto px-4 py-2 rounded-xl font-bold text-xs bg-[#1E3A8A] hover:bg-[#2563EB] text-white transition flex items-center justify-center gap-1.5 shrink-0 shadow"
+            >
+              <FileCheck2 className="w-4 h-4 text-white/80" />
+              <span>Lacak Tiket</span>
+            </button>
+          </form>
         </div>
       </section>
 
       {/* ============================================================== */}
-      {/* 5. FAQ (PERTANYAAN UMUM WARGA & ORANG TUA)                     */}
+      {/* 2. STATISTIK RINGKAS */}
       {/* ============================================================== */}
-      <section className="mb-14 max-w-4xl mx-auto">
-        <div className="text-center mb-8">
-          <span className="text-xs font-bold uppercase tracking-wider text-blue-700 bg-blue-50 px-3 py-1 rounded-full border border-blue-200">
-            Pusat Informasi & FAQ
+      <section className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mb-10">
+        <div className="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm flex items-center gap-3">
+          <div className="p-2.5 rounded-xl bg-blue-50 text-blue-600 shrink-0">
+            <Layers className="w-5 h-5" />
+          </div>
+          <div>
+            <p className="text-[11px] text-slate-500 font-semibold">Sekolah Terdaftar</p>
+            <h4 className="text-lg sm:text-xl font-black text-slate-900">6 SMAN</h4>
+            <span className="text-[10px] text-emerald-600 font-bold">DKI Jakarta</span>
+          </div>
+        </div>
+
+        <div className="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm flex items-center gap-3">
+          <div className="p-2.5 rounded-xl bg-amber-50 text-amber-600 shrink-0">
+            <Flame className="w-5 h-5" />
+          </div>
+          <div>
+            <p className="text-[11px] text-slate-500 font-semibold">Total Kursi</p>
+            <h4 className="text-lg sm:text-xl font-black text-slate-900">1.920</h4>
+            <span className="text-[10px] text-slate-500 font-medium">Semua Jalur</span>
+          </div>
+        </div>
+
+        <div className="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm flex items-center gap-3">
+          <div className="p-2.5 rounded-xl bg-rose-50 text-rose-600 shrink-0">
+            <TrendingUp className="w-5 h-5" />
+          </div>
+          <div>
+            <p className="text-[11px] text-slate-500 font-semibold">Laju Pendaftaran</p>
+            <h4 className="text-lg sm:text-xl font-black text-slate-900">8,9 / jam</h4>
+            <span className="text-[10px] text-amber-600 font-bold">Rata-rata</span>
+          </div>
+        </div>
+
+        <div className="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm flex items-center gap-3">
+          <div className="p-2.5 rounded-xl bg-emerald-50 text-emerald-600 shrink-0">
+            <Lock className="w-5 h-5" />
+          </div>
+          <div>
+            <p className="text-[11px] text-slate-500 font-semibold">Audit SHA-256</p>
+            <h4 className="text-lg sm:text-xl font-black text-emerald-600">100%</h4>
+            <span className="text-[10px] text-emerald-700 font-bold">Terverifikasi</span>
+          </div>
+        </div>
+      </section>
+
+      {/* ============================================================== */}
+      {/* 3. BAGIAN 1: CEK SISA KURSI REAL-TIME */}
+      {/* ============================================================== */}
+      <section className="mb-12">
+        <div className="flex flex-col sm:flex-row items-start sm:items-end justify-between gap-2 mb-5">
+          <div>
+            <div className="flex items-center gap-2">
+              <span className="p-1 rounded-md bg-amber-500 text-white">
+                <Flame className="w-3.5 h-3.5" />
+              </span>
+              <span className="text-xs font-bold uppercase tracking-wider text-amber-700">
+                Open Government Data
+              </span>
+            </div>
+            <h2 className="text-xl sm:text-2xl font-black text-slate-900 mt-1">
+              Pantau Sisa Kursi Sekolah
+            </h2>
+            <p className="text-xs sm:text-sm text-slate-500 mt-0.5">
+              Sisa kuota dan kecepatan pengisian kursi diperbarui secara seketika.
+            </p>
+          </div>
+          <Link
+            href="/kuota"
+            className="text-xs font-bold text-cyan-700 hover:text-cyan-800 flex items-center gap-1 group"
+          >
+            Lihat Semua SMA Negeri <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
+          </Link>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+          {kuotaList.slice(0, 4).map((item) => (
+            <QuotaBurnRateCard
+              key={`${item.sekolah_id}-${item.jalur}`}
+              kuotaItem={item}
+              onSimulateAdd={handleSimulateAdd}
+            />
+          ))}
+        </div>
+      </section>
+
+      {/* ============================================================== */}
+      {/* 4. BAGIAN 2: ALUR PENDAFTARAN 4 LANGKAH */}
+      {/* ============================================================== */}
+      <section className="mb-12 bg-gradient-to-r from-slate-950 via-[#1E3A8A] to-slate-950 rounded-3xl p-6 sm:p-8 text-white shadow-xl border border-blue-900/40">
+        <div className="text-center max-w-xl mx-auto mb-6">
+          <span className="text-xs font-bold uppercase tracking-widest text-blue-200">
+            Public Service Tracking
           </span>
-          <h2 className="text-2xl sm:text-3xl font-black text-slate-900 mt-3">
-            Pertanyaan yang Sering Diajukan
+          <h2 className="text-xl sm:text-2xl font-black mt-1">
+            Alur Pendaftaran 4 Langkah
           </h2>
-          <p className="text-xs sm:text-sm text-slate-500 mt-1.5">
-            Pelajari ketentuan hukum, verifikasi zonasi, dan jaminan keamanan data calon peserta didik.
+          <p className="text-xs text-slate-300 mt-1">
+            Dari penentuan jalur seleksi hingga bukti tanda terima QR resmi.
           </p>
         </div>
 
-        <div className="space-y-3.5">
-          {FAQS.map((faq, idx) => {
-            const isOpen = openFaq === idx;
-            return (
-              <div
-                key={idx}
-                className="bg-white rounded-2xl border border-slate-200/90 overflow-hidden shadow-sm transition-all"
-              >
-                <button
-                  type="button"
-                  onClick={() => toggleFaq(idx)}
-                  className="w-full p-5 text-left font-extrabold text-slate-900 text-xs sm:text-sm flex items-center justify-between gap-4 hover:bg-slate-50 transition"
-                >
-                  <span className="flex items-center gap-2.5">
-                    <HelpCircle className="w-4 h-4 text-[#1E3A8A] shrink-0" />
-                    <span>{faq.q}</span>
-                  </span>
-                  <ChevronDown
-                    className={`w-4 h-4 text-slate-400 transition-transform duration-200 shrink-0 ${
-                      isOpen ? 'rotate-180 text-[#1E3A8A]' : ''
-                    }`}
-                  />
-                </button>
-                {isOpen && (
-                  <div className="px-5 pb-5 pt-1 text-xs text-slate-600 leading-relaxed border-t border-slate-100 bg-slate-50/50">
-                    {faq.a}
-                  </div>
-                )}
-              </div>
-            );
-          })}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div className="bg-white/10 backdrop-blur rounded-2xl p-4 border border-white/15">
+            <span className="w-7 h-7 rounded-full bg-blue-600 text-white font-black flex items-center justify-center text-xs mb-2.5 shadow">
+              01
+            </span>
+            <h4 className="font-bold text-xs text-white">Pilih Jalur & SMAN</h4>
+            <p className="text-[11px] text-slate-300 mt-1 leading-relaxed">
+              Tentukan jalur seleksi dan sekolah pilihan utama serta cadangan.
+            </p>
+          </div>
+
+          <div className="bg-white/10 backdrop-blur rounded-2xl p-4 border border-white/15">
+            <span className="w-7 h-7 rounded-full bg-blue-600 text-white font-black flex items-center justify-center text-xs mb-2.5 shadow">
+              02
+            </span>
+            <h4 className="font-bold text-xs text-white">Isi Formulir & Titik Rumah</h4>
+            <p className="text-[11px] text-slate-300 mt-1 leading-relaxed">
+              Lengkapi biodata NIK, nilai rapor, dan tandai koordinat domisili di peta.
+            </p>
+          </div>
+
+          <div className="bg-white/10 backdrop-blur rounded-2xl p-4 border border-white/15">
+            <span className="w-7 h-7 rounded-full bg-blue-600 text-white font-black flex items-center justify-center text-xs mb-2.5 shadow">
+              03
+            </span>
+            <h4 className="font-bold text-xs text-white">Pantau Status Berkas</h4>
+            <p className="text-[11px] text-slate-300 mt-1 leading-relaxed">
+              Dapatkan tiket berenkripsi dan pantau hasil verifikasi berkas seketika.
+            </p>
+          </div>
+
+          <div className="bg-white/10 backdrop-blur rounded-2xl p-4 border border-white/15">
+            <span className="w-7 h-7 rounded-full bg-[#10B981] text-white font-black flex items-center justify-center text-xs mb-2.5 shadow">
+              04
+            </span>
+            <h4 className="font-bold text-xs text-white">Terima Tanda Terima QR</h4>
+            <p className="text-[11px] text-slate-300 mt-1 leading-relaxed">
+              Unduh bukti pendaftaran digital resmi bertanda QR hash yang sah.
+            </p>
+          </div>
         </div>
 
         <div className="mt-6 text-center">
           <Link
-            href="/bantuan"
-            className="inline-flex items-center gap-1.5 text-xs font-bold text-[#1E3A8A] hover:underline"
+            href="/daftar"
+            className="inline-flex items-center gap-2 px-6 py-3 rounded-2xl bg-[#EC4899] hover:bg-[#DB2777] text-white font-black text-xs hover:scale-[1.01] transition shadow-lg shadow-pink-500/25"
           >
-            <span>Buka Seluruh Pertanyaan & Panduan Lengkap</span>
-            <ArrowRight className="w-3.5 h-3.5" />
+            <span>Mulai Pendaftaran</span>
+            <ArrowRight className="w-4 h-4" />
           </Link>
         </div>
       </section>
 
       {/* ============================================================== */}
-      {/* 6. BANNER CALL CENTER & POSKO BANTUAN DISDIK                   */}
+      {/* 5. BAGIAN 3: CEK KEJUJURAN DATA & DETEKTOR TITIK CURANG */}
       {/* ============================================================== */}
-      <section className="bg-gradient-to-r from-[#0F172A] via-[#1E3A8A] to-[#0F172A] rounded-3xl p-8 sm:p-10 text-white border border-blue-900/50 shadow-xl">
-        <div className="max-w-4xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
-          <div className="space-y-2 text-center md:text-left">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-400/30 text-xs font-bold">
-              <PhoneCall className="w-3.5 h-3.5 text-emerald-400" />
-              Layanan Posko PPDB DKI Jakarta
-            </div>
-            <h3 className="text-xl sm:text-2xl font-black tracking-tight">
-              Butuh Pendampingan atau Terkendala Verifikasi NIK?
-            </h3>
-            <p className="text-xs text-slate-300 max-w-xl">
-              Petugas Dinas Pendidikan Provinsi DKI Jakarta siap melayani Anda melalui layanan tatap muka posko maupun saluran telepon resmi.
-            </p>
+      <section className="mb-12">
+        <div className="mb-5">
+          <div className="flex items-center gap-2">
+            <span className="p-1 rounded-md bg-[#1E3A8A] text-white">
+              <Scale className="w-3.5 h-3.5" />
+            </span>
+            <span className="text-xs font-bold uppercase tracking-wider text-blue-900">
+              Dual-Truth & Geo-Discrepancy
+            </span>
           </div>
+          <h2 className="text-xl sm:text-2xl font-black text-slate-900 mt-1">
+            Validasi Data & Deteksi Anomali Zonasi
+          </h2>
+          <p className="text-xs sm:text-sm text-slate-500 mt-0.5 max-w-2xl">
+            Penyandingan data formulir dengan catatan kependudukan Dukcapil dan rapor Dapodik.
+          </p>
+        </div>
 
-          <div className="flex flex-col sm:flex-row items-center gap-3 shrink-0">
-            <Link
-              href="/kontak"
-              className="px-6 py-3.5 rounded-2xl bg-white text-[#1E3A8A] font-black text-xs hover:bg-slate-100 transition shadow-lg hover:scale-105"
-            >
-              Lihat Posko Wilayah
-            </Link>
-            <a
-              href="tel:1500164"
-              className="px-6 py-3.5 rounded-2xl bg-emerald-500 hover:bg-emerald-600 text-white font-bold text-xs transition shadow-lg hover:scale-105 flex items-center gap-2"
-            >
-              <PhoneCall className="w-4 h-4" />
-              <span>Hubungi 1500-164</span>
-            </a>
-          </div>
+        {/* Tampilan Perbandingan Berdampingan */}
+        <DualTruthComparatorView pendaftaranList={initialPendaftaran} />
+
+        {/* Alat Peta Cek Selisih Titik Rumah */}
+        <div className="mt-6">
+          <GeoDiscrepancyMap />
         </div>
       </section>
 
+      {/* ============================================================== */}
+      {/* 6. BAGIAN 4: KALKULATOR PELUANG LOLOS SMAN */}
+      {/* ============================================================== */}
+      <section className="mb-12">
+        <PassingGradeCalculator />
+      </section>
+
+      {/* ============================================================== */}
+      {/* 7. BAGIAN 5: PETA SEBARAN & WILAYAH KURANG SMA */}
+      {/* ============================================================== */}
+      <section className="mb-12">
+        <InteractiveZonasiHeatmap />
+      </section>
+
+      {/* ============================================================== */}
+      {/* 8. BAGIAN 6: LAPOR KECURANGAN RAHASIA (WHISTLEBLOWER) */}
+      {/* ============================================================== */}
+      <section className="bg-gradient-to-r from-slate-950 via-[#1E3A8A] to-slate-950 rounded-3xl p-6 sm:p-8 text-white border border-blue-900/40 relative overflow-hidden shadow-xl">
+        <div className="max-w-2xl relative z-10">
+          <div className="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full bg-pink-500/20 text-pink-300 border border-pink-500/30 text-xs font-bold mb-3">
+            <AlertCircle className="w-3.5 h-3.5 text-pink-400" />
+            Pengaduan Warga Anonim
+          </div>
+          <h3 className="text-xl sm:text-2xl font-black tracking-tight">
+            Lapor Anomali atau Kejanggalan Zonasi
+          </h3>
+          <p className="mt-2 text-xs sm:text-sm text-slate-300 leading-relaxed">
+            Laporkan kecurangan numpang KK atau anomali data secara 100% anonim tanpa pencatatan IP. Pantau progres investigasi melalui token rahasia.
+          </p>
+          <div className="mt-5 flex flex-wrap gap-2.5">
+            <Link
+              href="/whistleblower"
+              className="px-5 py-2.5 rounded-2xl bg-[#EC4899] hover:bg-[#DB2777] text-white font-bold text-xs shadow-lg shadow-pink-500/25 transition flex items-center gap-2"
+            >
+              <span>Kirim Laporan Anonim</span>
+              <ArrowRight className="w-4 h-4" />
+            </Link>
+            <Link
+              href="/audit-log"
+              className="px-4 py-2.5 rounded-2xl bg-white/10 hover:bg-white/20 text-slate-200 font-semibold text-xs border border-white/20 transition flex items-center gap-2"
+            >
+              <Lock className="w-3.5 h-3.5 text-slate-400" />
+              <span>Log Audit Publik</span>
+            </Link>
+          </div>
+        </div>
+      </section>
     </Layout>
   );
+}
+
+export async function getStaticProps() {
+  const initialKuota = db.getAllKuotaWithMetrics();
+  const initialPendaftaran = db.getAllPendaftaran();
+
+  return {
+    props: {
+      initialKuota: JSON.parse(JSON.stringify(initialKuota)),
+      initialPendaftaran: JSON.parse(JSON.stringify(initialPendaftaran))
+    }
+  };
 }

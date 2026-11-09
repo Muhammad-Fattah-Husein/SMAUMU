@@ -9,237 +9,113 @@ import {
   HeartHandshake, 
   Mail, 
   Phone,
-  Clock,
-  ExternalLink,
-  Scale,
-  Award
+  ExternalLink 
 } from 'lucide-react';
 import { FOOTER_LINKS_GENERAL } from '@/utils/constants';
 
 export default function Footer() {
   return (
-    <footer className="bg-[#0B1329] text-slate-300 border-t border-slate-800 text-sm">
-      {/* 1. Bar Empat Pilar Integritas PPDB Pemerintahan */}
-      <div className="border-b border-slate-800 bg-[#0F1E36] py-6 px-4 sm:px-6 lg:px-8">
+    <footer className="bg-[#1E3A8A] text-slate-300 border-t border-white/10 text-sm">
+      {/* 4 Pilar Jaminan Transparansi */}
+      <div className="border-b border-white/10 bg-[#172554]/70 py-6 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            <div className="flex items-center gap-3 p-3.5 rounded-2xl bg-white/5 border border-white/10 hover:border-blue-500/40 transition">
-              <div className="p-2.5 rounded-xl bg-blue-500/10 text-blue-400 shrink-0">
-                <Database className="w-5 h-5" />
+            <div className="flex items-center gap-3 p-3 rounded-2xl bg-white/5 border border-white/10 hover:border-white/30 transition">
+              <div className="p-2 rounded-xl bg-blue-500/10 text-royal shrink-0">
+                <Database className="w-4 h-4 text-blue-400" />
               </div>
               <div>
-                <h4 className="font-bold text-white text-xs">Open Data Kuota Real-Time</h4>
-                <p className="text-slate-400 text-[11px] mt-0.5">Pemantauan sisa bangku & laju pendaftaran terbuka.</p>
+                <h4 className="font-bold text-white text-xs">Open Data Kuota</h4>
+                <p className="text-slate-400 text-[11px] mt-0.5">Pantau sisa kuota dan laju pendaftar per jam.</p>
               </div>
             </div>
 
-            <div className="flex items-center gap-3 p-3.5 rounded-2xl bg-white/5 border border-white/10 hover:border-emerald-500/40 transition">
-              <div className="p-2.5 rounded-xl bg-emerald-500/10 text-emerald-400 shrink-0">
-                <FileCheck2 className="w-5 h-5" />
+            <div className="flex items-center gap-3 p-3 rounded-2xl bg-white/5 border border-white/10 hover:border-white/30 transition">
+              <div className="p-2 rounded-xl bg-emerald-500/10 text-emerald-400 shrink-0">
+                <FileCheck2 className="w-4 h-4 text-emerald-400" />
               </div>
               <div>
-                <h4 className="font-bold text-white text-xs">Pendaftaran Terpadu 4 Tahap</h4>
-                <p className="text-slate-400 text-[11px] mt-0.5">Integrasi NIK Dukcapil & NISN Kemendikbudristek.</p>
+                <h4 className="font-bold text-white text-xs">Pelacakan Berkas</h4>
+                <p className="text-slate-400 text-[11px] mt-0.5">Alur 4 tahap dengan nomor tiket digital.</p>
               </div>
             </div>
 
-            <div className="flex items-center gap-3 p-3.5 rounded-2xl bg-white/5 border border-white/10 hover:border-amber-500/40 transition">
-              <div className="p-2.5 rounded-xl bg-amber-500/10 text-amber-400 shrink-0">
-                <Lock className="w-5 h-5" />
+            <div className="flex items-center gap-3 p-3 rounded-2xl bg-white/5 border border-white/10 hover:border-white/30 transition">
+              <div className="p-2 rounded-xl bg-blue-500/10 text-blue-300 shrink-0">
+                <HeartHandshake className="w-4 h-4 text-blue-300" />
               </div>
               <div>
-                <h4 className="font-bold text-white text-xs">Audit Kriptografis SHA-256</h4>
-                <p className="text-slate-400 text-[11px] mt-0.5">Seluruh tindakan petugas tercatat permanen tanpa rekayasa.</p>
+                <h4 className="font-bold text-white text-xs">Akuntabilitas Publik</h4>
+                <p className="text-slate-400 text-[11px] mt-0.5">Aduan anonim & log audit SHA-256 bebas rekayasa.</p>
               </div>
             </div>
 
-            <div className="flex items-center gap-3 p-3.5 rounded-2xl bg-white/5 border border-white/10 hover:border-purple-500/40 transition">
-              <div className="p-2.5 rounded-xl bg-purple-500/10 text-purple-400 shrink-0">
-                <Scale className="w-5 h-5" />
+            <div className="flex items-center gap-3 p-3 rounded-2xl bg-white/5 border border-white/10 hover:border-white/30 transition">
+              <div className="p-2 rounded-xl bg-amber-500/10 text-amber-400 shrink-0">
+                <BarChart3 className="w-4 h-4 text-amber-400" />
               </div>
               <div>
-                <h4 className="font-bold text-white text-xs">Keadilan Spasial Geospasial</h4>
-                <p className="text-slate-400 text-[11px] mt-0.5">Eliminasi praktik manipulasi titik koordinat domisili.</p>
+                <h4 className="font-bold text-white text-xs">Bantuan Keputusan</h4>
+                <p className="text-slate-400 text-[11px] mt-0.5">Simulator peluang lolos & uji koordinat zonasi.</p>
               </div>
             </div>
           </div>
         </div>
       </div>
 
-      {/* 2. Informasi Instansi & Kontak Resmi */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-12">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-8 lg:gap-10">
-          
-          {/* Kolom 1: Profil Instansi & Identitas */}
-          <div className="lg:col-span-4 space-y-4">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-white/10 p-1.5 flex items-center justify-center shrink-0 border border-white/15">
-                <img 
-                  src="/images/logo-pemprov-dki.svg" 
-                  alt="Pemprov DKI Jakarta" 
-                  className="w-full h-full object-contain"
-                />
+      {/* Bagian Bawah Footer */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+          <div className="md:col-span-2 space-y-3">
+            <div className="flex items-center gap-2.5">
+              <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-[#1E3A8A] to-[#2563EB] flex items-center justify-center text-white font-bold shadow-md shadow-blue-900/30">
+                <ShieldCheck className="w-4 h-4" />
               </div>
-              <div>
-                <span className="font-black text-lg text-white tracking-tight block">
-                  SMA<span className="text-blue-400">UMU</span>
-                </span>
-                <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider block">
-                  Dinas Pendidikan Provinsi DKI Jakarta
-                </span>
-              </div>
+              <span className="font-black text-lg text-white tracking-tight">
+                SMA<span className="text-white">UMU</span>
+                <span className="text-xs font-normal text-slate-400 ml-2">SMAN UntukMu</span>
+              </span>
             </div>
-
-            <p className="text-slate-400 text-xs leading-relaxed">
-              Portal resmi sistem informasi Penerimaan Peserta Didik Baru (PPDB) jenjang Sekolah Menengah Atas Negeri (SMAN). Menjamin akuntabilitas, transparansi kuota, validasi jarak zonasi, dan pengawasan publik warga.
+            <p className="text-slate-400 text-xs leading-relaxed max-w-sm">
+              Portal transparansi penerimaan siswa baru SMAN berbasis data terbuka, verifikasi integritas koordinat, dan pencatatan audit publik.
             </p>
-
-            <div className="space-y-2 text-xs text-slate-300 pt-2 border-t border-slate-800">
-              <div className="flex items-start gap-2.5">
-                <MapPin className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
-                <span className="text-[11px] leading-relaxed">
-                  Gedung Dinas Pendidikan Provinsi DKI Jakarta, Jl. Gatot Subroto Kav. 40-41, Kuningan Barat, Mampang Prapatan, Jakarta Selatan 12710
-                </span>
-              </div>
-
-              <div className="flex items-center gap-2.5">
-                <Phone className="w-4 h-4 text-blue-400 shrink-0" />
-                <span className="text-[11px]">
-                  Call Center PPDB: <strong className="text-white font-mono">1500-164</strong> / (021) 3865001
-                </span>
-              </div>
-
-              <div className="flex items-center gap-2.5">
-                <Mail className="w-4 h-4 text-amber-400 shrink-0" />
-                <span className="text-[11px]">
-                  Email: <span className="text-white font-mono">ppdb.disdik@jakarta.go.id</span>
-                </span>
-              </div>
-
-              <div className="flex items-center gap-2.5">
-                <Clock className="w-4 h-4 text-purple-400 shrink-0" />
-                <span className="text-[11px]">
-                  Layanan Posko: Senin – Jumat, 08.00 – 16.00 WIB
-                </span>
-              </div>
-            </div>
           </div>
 
-          {/* Kolom 2: Layanan Publik Utama */}
-          <div className="lg:col-span-3 space-y-3">
-            <h4 className="text-white text-xs font-black uppercase tracking-wider">
-              Layanan Utama PPDB
-            </h4>
+          <div>
+            <h4 className="text-white text-xs font-bold uppercase tracking-wider mb-3">Layanan Cepat</h4>
             <ul className="space-y-2 text-xs">
-              <li>
-                <Link href="/kuota" className="text-slate-400 hover:text-white transition flex items-center justify-between">
-                  <span>Pantau Kuota Per-Sekolah</span>
-                  <span className="text-[9px] bg-emerald-950 text-emerald-400 px-1.5 py-0.5 rounded font-mono">LIVE</span>
-                </Link>
-              </li>
-              <li>
-                <Link href="/daftar" className="text-slate-400 hover:text-white transition">
-                  Pendaftaran Siswa Baru (4 Tahap)
-                </Link>
-              </li>
-              <li>
-                <Link href="/simulator" className="text-slate-400 hover:text-white transition">
-                  Simulator Zonasi & Jarak Rumah
-                </Link>
-              </li>
-              <li>
-                <Link href="/whistleblower" className="text-slate-400 hover:text-white transition">
-                  Saluran Pengaduan Whistleblower
-                </Link>
-              </li>
-              <li>
-                <Link href="/audit-log" className="text-slate-400 hover:text-white transition">
-                  Buku Catatan Tindakan (Audit SHA-256)
-                </Link>
-              </li>
-              <li>
-                <Link href="/sekolah" className="text-slate-400 hover:text-white transition">
-                  Daftar SMAN DKI Jakarta & Radius
-                </Link>
-              </li>
+              <li><Link href="/kuota" className="text-slate-400 hover:text-white transition">Sisa Kuota SMAN</Link></li>
+              <li><Link href="/daftar" className="text-slate-400 hover:text-white transition">Pendaftaran (4 Langkah)</Link></li>
+              <li><Link href="/lacak" className="text-slate-400 hover:text-white transition">Lacak Status Tiket</Link></li>
+              <li><Link href="/komparator" className="text-slate-400 hover:text-white transition">Validasi Domisili</Link></li>
+              <li><Link href="/simulator" className="text-slate-400 hover:text-white transition">Simulator Peluang</Link></li>
+              <li><Link href="/whistleblower" className="text-slate-400 hover:text-white transition">Lapor Anonim</Link></li>
+              <li><Link href="/audit-log" className="text-slate-400 hover:text-white transition">Log Audit Publik</Link></li>
             </ul>
           </div>
 
-          {/* Kolom 3: Regulasi & Dasar Hukum Resmi */}
-          <div className="lg:col-span-3 space-y-3">
-            <h4 className="text-white text-xs font-black uppercase tracking-wider">
-              Regulasi & Informasi
-            </h4>
-            <ul className="space-y-2 text-xs text-slate-400">
-              <li>
-                <span className="text-slate-300 font-bold block text-[11px]">Permendikbud No. 1/2021</span>
-                <span className="text-[10px] text-slate-400">Penerimaan Peserta Didik Baru TK, SD, SMP, SMA/SMK</span>
-              </li>
-              <li>
-                <span className="text-slate-300 font-bold block text-[11px]">Pergub DKI No. 15/2024</span>
-                <span className="text-[10px] text-slate-400">Petunjuk Teknis Pelaksanaan PPDB Bersama DKI Jakarta</span>
-              </li>
-              <li>
-                <span className="text-slate-300 font-bold block text-[11px]">UU No. 14/2008</span>
-                <span className="text-[10px] text-slate-400">Keterbukaan Informasi Publik (KIP)</span>
-              </li>
-              <li>
-                <span className="text-slate-300 font-bold block text-[11px]">UU No. 27/2022</span>
-                <span className="text-[10px] text-slate-400">Perlindungan Data Pribadi (UU PDP)</span>
-              </li>
+          <div>
+            <h4 className="text-white text-xs font-bold uppercase tracking-wider mb-3">Informasi & Bantuan</h4>
+            <ul className="space-y-2 text-xs">
+              {FOOTER_LINKS_GENERAL.map((item) => (
+                <li key={item.href}>
+                  <Link href={item.href} className="text-slate-400 hover:text-white transition">
+                    {item.label}
+                  </Link>
+                </li>
+              ))}
               <li className="pt-2 border-t border-slate-800">
-                <Link href="/kebijakan-privasi" className="hover:text-white transition text-xs">
-                  Kebijakan Privasi
-                </Link>
-                <span className="mx-2">•</span>
-                <Link href="/syarat-ketentuan" className="hover:text-white transition text-xs">
-                  Syarat & Ketentuan
+                <Link href="/admin/login" className="text-blue-300 hover:text-white font-bold transition flex items-center gap-1">
+                  Portal Petugas Dinas <ExternalLink className="w-3 h-3" />
                 </Link>
               </li>
             </ul>
           </div>
-
-          {/* Kolom 4: Sertifikasi & Mitra Pengawas */}
-          <div className="lg:col-span-2 space-y-3">
-            <h4 className="text-white text-xs font-black uppercase tracking-wider">
-              Mitra & Pengawasan
-            </h4>
-            <div className="space-y-2 text-xs">
-              <div className="p-2.5 rounded-xl bg-white/5 border border-white/10">
-                <span className="font-bold text-white text-[11px] block">BSSN CSIRT</span>
-                <span className="text-[10px] text-slate-400">Keamanan Siber Terjamin</span>
-              </div>
-              <div className="p-2.5 rounded-xl bg-white/5 border border-white/10">
-                <span className="font-bold text-white text-[11px] block">Ombudsman RI</span>
-                <span className="text-[10px] text-slate-400">Pengawasan Pelayanan Publik</span>
-              </div>
-              <div className="p-2.5 rounded-xl bg-white/5 border border-white/10">
-                <span className="font-bold text-white text-[11px] block">Dukcapil DKI</span>
-                <span className="text-[10px] text-slate-400">Verifikasi NIK Kependudukan</span>
-              </div>
-            </div>
-          </div>
-
         </div>
-      </div>
 
-      {/* 3. Bar Copyright Hak Cipta Resmi */}
-      <div className="border-t border-slate-800 bg-[#070D1E] py-4 px-4 sm:px-6 lg:px-8 text-xs text-slate-400">
-        <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3 text-center sm:text-left">
-          <div className="flex items-center gap-2">
-            <ShieldCheck className="w-4 h-4 text-emerald-400" />
-            <span>
-              Hak Cipta © 2026 <strong>Pemerintah Provinsi DKI Jakarta</strong> • Dinas Pendidikan. Seluruh Hak Dilindungi Undang-Undang.
-            </span>
-          </div>
-
-          <div className="flex items-center gap-4 text-[11px] text-slate-400">
-            <span>Versi Sistem 2.4.0 (Production Release)</span>
-            <span>•</span>
-            <Link href="/admin/login" className="text-slate-400 hover:text-white transition underline font-semibold">
-              Portal Petugas
-            </Link>
-          </div>
+        <div className="pt-8 mt-8 border-t border-slate-800/80 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500">
+          <p>© 2026 Tim SMAUMU • Web In Action (WIA) MIA 2026. Hak Cipta Terlindungi.</p>
+          <p>Mendukung Keterbukaan Informasi Publik (UU No. 14 Tahun 2008)</p>
         </div>
       </div>
     </footer>

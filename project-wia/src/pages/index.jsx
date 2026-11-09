@@ -2,8 +2,6 @@ import { useState } from 'react';
 import Link from 'next/link';
 import Layout from '@/components/Layout';
 import QuotaBurnRateCard from '@/components/QuotaBurnRateCard';
-import DualTruthComparatorView from '@/components/DualTruthComparatorView';
-import GeoDiscrepancyMap from '@/components/GeoDiscrepancyMap';
 import PassingGradeCalculator from '@/components/PassingGradeCalculator';
 import InteractiveZonasiHeatmap from '@/components/InteractiveZonasiHeatmap';
 import { db } from '@/services/db';
@@ -20,8 +18,7 @@ import {
   Search, 
   Lock, 
   TrendingUp,
-  FileEdit,
-  Scale
+  FileEdit
 } from 'lucide-react';
 
 export default function Home({ initialKuota, initialPendaftaran }) {
@@ -104,11 +101,11 @@ export default function Home({ initialKuota, initialPendaftaran }) {
             </Link>
 
             <Link
-              href="/komparator"
+              href="/simulator"
               className="inline-flex items-center justify-center gap-2 px-4 py-3 rounded-2xl font-bold text-xs bg-white/10 hover:bg-white/20 text-white backdrop-blur border border-white/20 transition-all"
             >
-              <Scale className="w-4 h-4 text-white/80" />
-              <span>Validasi Domisili</span>
+              <Compass className="w-4 h-4 text-white/80" />
+              <span>Simulator Peluang</span>
             </Link>
           </div>
         </div>
@@ -302,44 +299,14 @@ export default function Home({ initialKuota, initialPendaftaran }) {
       </section>
 
       {/* ============================================================== */}
-      {/* 5. BAGIAN 3: CEK KEJUJURAN DATA & DETEKTOR TITIK CURANG */}
-      {/* ============================================================== */}
-      <section className="mb-12">
-        <div className="mb-5">
-          <div className="flex items-center gap-2">
-            <span className="p-1 rounded-md bg-[#1E3A8A] text-white">
-              <Scale className="w-3.5 h-3.5" />
-            </span>
-            <span className="text-xs font-bold uppercase tracking-wider text-blue-900">
-              Dual-Truth & Geo-Discrepancy
-            </span>
-          </div>
-          <h2 className="text-xl sm:text-2xl font-black text-slate-900 mt-1">
-            Validasi Data & Deteksi Anomali Zonasi
-          </h2>
-          <p className="text-xs sm:text-sm text-slate-500 mt-0.5 max-w-2xl">
-            Penyandingan data formulir dengan catatan kependudukan Dukcapil dan rapor Dapodik.
-          </p>
-        </div>
-
-        {/* Tampilan Perbandingan Berdampingan */}
-        <DualTruthComparatorView pendaftaranList={initialPendaftaran} />
-
-        {/* Alat Peta Cek Selisih Titik Rumah */}
-        <div className="mt-6">
-          <GeoDiscrepancyMap />
-        </div>
-      </section>
-
-      {/* ============================================================== */}
-      {/* 6. BAGIAN 4: KALKULATOR PELUANG LOLOS SMAN */}
+      {/* 5. BAGIAN 3: KALKULATOR PELUANG LOLOS SMAN (SIMULATOR) */}
       {/* ============================================================== */}
       <section className="mb-12">
         <PassingGradeCalculator />
       </section>
 
       {/* ============================================================== */}
-      {/* 7. BAGIAN 5: PETA SEBARAN & WILAYAH KURANG SMA */}
+      {/* 6. BAGIAN 4: PETA SEBARAN & WILAYAH KURANG SMA */}
       {/* ============================================================== */}
       <section className="mb-12">
         <InteractiveZonasiHeatmap />

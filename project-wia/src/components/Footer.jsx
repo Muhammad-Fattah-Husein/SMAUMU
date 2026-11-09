@@ -87,7 +87,6 @@ export default function Footer() {
               <li><Link href="/kuota" className="text-slate-400 hover:text-white transition">Sisa Kuota SMAN</Link></li>
               <li><Link href="/daftar" className="text-slate-400 hover:text-white transition">Pendaftaran (4 Langkah)</Link></li>
               <li><Link href="/lacak" className="text-slate-400 hover:text-white transition">Lacak Status Tiket</Link></li>
-              <li><Link href="/komparator" className="text-slate-400 hover:text-white transition">Validasi Domisili</Link></li>
               <li><Link href="/simulator" className="text-slate-400 hover:text-white transition">Simulator Peluang</Link></li>
               <li><Link href="/whistleblower" className="text-slate-400 hover:text-white transition">Lapor Anonim</Link></li>
               <li><Link href="/audit-log" className="text-slate-400 hover:text-white transition">Log Audit Publik</Link></li>

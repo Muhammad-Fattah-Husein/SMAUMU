@@ -60,7 +60,7 @@ export default function TentangPage() {
             </div>
             <div className="p-3 rounded-xl bg-slate-800/80 border border-slate-700">
               <h4 className="font-bold text-blue-200 text-xs mb-0.5">4. Decision Support</h4>
-              <p className="text-slate-400">Komparator data, radar deviasi, dan simulator lolos.</p>
+              <p className="text-slate-400">Heatmap spasial zonasi, passing grade, dan simulator lolos.</p>
             </div>
           </div>
         </div>

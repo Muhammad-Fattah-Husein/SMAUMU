@@ -8,7 +8,6 @@ import {
   Flame, 
   FileEdit, 
   Search, 
-  Scale, 
   Calculator, 
   AlertTriangle, 
   Lock, 
@@ -40,7 +39,6 @@ export default function Navbar() {
       case '/kuota': return <Flame className={iconClass} />;
       case '/daftar': return <FileEdit className={iconClass} />;
       case '/lacak': return <Search className={iconClass} />;
-      case '/komparator': return <Scale className={iconClass} />;
       case '/simulator': return <Calculator className={iconClass} />;
       case '/whistleblower': return <AlertTriangle className={iconClass} />;
       case '/audit-log': return <Lock className={iconClass} />;

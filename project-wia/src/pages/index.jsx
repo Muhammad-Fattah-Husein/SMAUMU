@@ -18,15 +18,21 @@ import {
   FileCheck2, 
   Search, 
   Lock, 
-  TrendingUp,
-  FileEdit,
-  School,
-  Award
+  TrendingUp, 
+  FileEdit, 
+  School, 
+  Award,
+  Zap,
+  Check,
+  X,
+  Sparkles,
+  ChevronRight
 } from 'lucide-react';
 
 export default function Home({ initialKuota, initialPendaftaran }) {
   const [kuotaList, setKuotaList] = useState(initialKuota);
   const [selectedSchoolFilter, setSelectedSchoolFilter] = useState('all');
+  const [heroSchoolId, setHeroSchoolId] = useState(5); // Default SMAN 70 (Bulungan) dengan sisa 30 kursi prestasi
   const [searchTicket, setSearchTicket] = useState('');
 
   // 1. Kelompokkan Data Kuota Per-Sekolah Secara Menyeluruh
@@ -70,6 +76,11 @@ export default function Home({ initialKuota, initialPendaftaran }) {
     if (selectedSchoolFilter === 'all') return schoolsData;
     return schoolsData.filter((s) => s.school.id === parseInt(selectedSchoolFilter));
   }, [schoolsData, selectedSchoolFilter]);
+
+  // Data sekolah yang aktif di radar interaktif hero
+  const heroSchoolData = useMemo(() => {
+    return schoolsData.find((s) => s.school.id === heroSchoolId) || schoolsData[0];
+  }, [schoolsData, heroSchoolId]);
 
   const handleSimulateAdd = async (sekolahId, jalur) => {
     try {
@@ -121,97 +132,223 @@ export default function Home({ initialKuota, initialPendaftaran }) {
   return (
     <Layout>
       {/* ============================================================== */}
-      {/* 1. HERO SECTION */}
+      {/* 1. HERO SECTION DENGAN HOOK KUAT & RADAR INTERAKTIF */}
       {/* ============================================================== */}
-      <section className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-slate-950 via-[#1E3A8A] to-slate-950 text-white p-6 sm:p-12 lg:p-16 mb-12 shadow-2xl border border-blue-900/40">
-        <div className="absolute -top-24 -right-24 w-96 h-96 bg-blue-500/15 rounded-full blur-3xl pointer-events-none"></div>
-        <div className="absolute -bottom-24 -left-24 w-96 h-96 bg-blue-600/20 rounded-full blur-3xl pointer-events-none"></div>
+      <section className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-slate-950 via-[#0F172A] to-[#1E3A8A] text-white p-6 sm:p-10 lg:p-12 mb-10 shadow-2xl border border-blue-800/40">
+        {/* Glow ambient background effects */}
+        <div className="absolute -top-32 -right-32 w-96 h-96 bg-blue-500/20 rounded-full blur-3xl pointer-events-none"></div>
+        <div className="absolute -bottom-32 -left-32 w-96 h-96 bg-pink-500/15 rounded-full blur-3xl pointer-events-none"></div>
 
-        <div className="relative z-10 max-w-4xl">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-xs font-bold text-white mb-4">
-            <span className="w-2 h-2 rounded-full bg-blue-300 animate-pulse"></span>
-            <span>Transparansi PPDB SMAN • WIA MIA 2026</span>
+        {/* Live System Broadcast Ticker Bar */}
+        <div className="relative z-10 mb-6 flex flex-wrap items-center justify-between gap-3 p-2.5 sm:px-4 rounded-2xl bg-white/10 backdrop-blur-md border border-white/15 text-xs">
+          <div className="flex items-center gap-2">
+            <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
+            <span className="font-extrabold uppercase tracking-wider text-emerald-300 text-[11px]">Sistem PPDB Live & Stabil</span>
+            <span className="text-white/40 hidden sm:inline">•</span>
+            <span className="text-slate-200 hidden sm:inline">1.920 Kursi Terbuka di 6 SMAN DKI Jakarta</span>
           </div>
-
-          <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight leading-tight">
-            Penerimaan Siswa Baru yang <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-300 to-white">Jujur & Terbuka.</span>
-          </h1>
-
-          <p className="mt-3 text-sm sm:text-base text-slate-200 max-w-2xl leading-relaxed">
-            Pantau sisa kuota sekolah real-time, verifikasi integritas koordinat domisili, dan lacak status berkas pendaftaran tanpa rekayasa.
-          </p>
-
-          {/* 4 Pilar Jaminan Ringkas */}
-          <div className="mt-5 flex flex-wrap gap-2 text-xs font-semibold">
-            <span className="bg-white/10 border border-white/15 px-3 py-1 rounded-xl text-slate-100">
-              ✓ Kuota Real-Time
+          <div className="flex items-center gap-2 text-[11px] font-bold text-slate-300">
+            <span className="px-2 py-0.5 rounded-md bg-blue-500/30 text-blue-200 border border-blue-400/40 flex items-center gap-1">
+              <Zap className="w-3 h-3 text-cyan-300" /> Bebas Server Down
             </span>
-            <span className="bg-white/10 border border-white/15 px-3 py-1 rounded-xl text-slate-100">
-              ✓ Lacak Tiket
+            <span className="px-2 py-0.5 rounded-md bg-emerald-500/30 text-emerald-200 border border-emerald-400/40 flex items-center gap-1">
+              <Lock className="w-3 h-3 text-emerald-300" /> Audit SHA-256
             </span>
-            <span className="bg-white/10 border border-white/15 px-3 py-1 rounded-xl text-slate-100">
-              ✓ Whistleblower Anonim
-            </span>
-            <span className="bg-white/10 border border-white/15 px-3 py-1 rounded-xl text-slate-100">
-              ✓ Simulator Peluang
-            </span>
-          </div>
-
-          {/* Tombol Aksi Utama - CTA Pink Aksen dengan Teks Putih Kontras Kuat */}
-          <div className="mt-6 flex flex-col sm:flex-row items-stretch sm:items-center gap-2.5">
-            <Link
-              href="/daftar"
-              className="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-2xl font-black text-xs sm:text-sm bg-[#EC4899] hover:bg-[#DB2777] text-white shadow-xl shadow-pink-500/30 hover:scale-[1.01] transition-all"
-            >
-              <span>Daftar Siswa Baru</span>
-              <ArrowRight className="w-4 h-4" />
-            </Link>
-
-            <Link
-              href="/kuota"
-              className="inline-flex items-center justify-center gap-2 px-4 py-3 rounded-2xl font-bold text-xs bg-white/10 hover:bg-white/20 text-white backdrop-blur border border-white/20 transition-all"
-            >
-              <Flame className="w-4 h-4 text-white" />
-              <span>Pantau Kuota</span>
-            </Link>
-
-            <Link
-              href="/simulator"
-              className="inline-flex items-center justify-center gap-2 px-4 py-3 rounded-2xl font-bold text-xs bg-white/10 hover:bg-white/20 text-white backdrop-blur border border-white/20 transition-all"
-            >
-              <Compass className="w-4 h-4 text-white/80" />
-              <span>Simulator Peluang</span>
-            </Link>
           </div>
         </div>
 
-        {/* Kolom Pencarian Cepat Nomor Tiket */}
-        <div className="relative z-10 mt-8 p-3.5 sm:p-4 rounded-2xl bg-white/10 backdrop-blur-md border border-white/15 max-w-xl">
-          <form
-            onSubmit={(e) => {
-              e.preventDefault();
-              if (searchTicket) window.location.href = `/lacak?tiket=${encodeURIComponent(searchTicket)}`;
-            }}
-            className="flex flex-col sm:flex-row items-center gap-2"
-          >
-            <div className="relative flex-1 w-full">
-              <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
-              <input
-                type="text"
-                placeholder="Masukkan nomor tiket (contoh: TIKET-SMU-2026-098214)"
-                value={searchTicket}
-                onChange={(e) => setSearchTicket(e.target.value)}
-                className="w-full pl-10 pr-3 py-2 rounded-xl bg-slate-900/90 border border-slate-700 text-white placeholder-slate-400 text-xs focus:outline-none focus:ring-2 focus:ring-blue-400"
-              />
+        {/* Main Grid: 7 cols left (Strong Hook Copy), 5 cols right (Interactive Radar Card) */}
+        <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+          {/* Sisi Kiri: Hook Emosional, Janji Kuat, & CTA */}
+          <div className="lg:col-span-7 space-y-4">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/20 border border-blue-400/30 text-xs font-black text-cyan-300">
+              <ShieldCheck className="w-3.5 h-3.5 text-cyan-400" />
+              <span>Gerakan Transparansi PPDB SMAN • WIA 2026</span>
             </div>
-            <button
-              type="submit"
-              className="w-full sm:w-auto px-4 py-2 rounded-xl font-bold text-xs bg-[#1E3A8A] hover:bg-[#2563EB] text-white transition flex items-center justify-center gap-1.5 shrink-0 shadow"
+
+            <h1 className="text-3xl sm:text-5xl font-black tracking-tight leading-[1.15]">
+              Kawal Hak Kursi SMAN Anak Anda.{' '}
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-300 via-blue-200 to-pink-300">
+                Tanpa Calo, Tanpa Numpang KK, Tanpa Server Down.
+              </span>
+            </h1>
+
+            <p className="text-xs sm:text-sm text-slate-200 max-w-xl leading-relaxed">
+              Portal PPDB pertama yang membuka sisa kuota kursi real-time per detik, mengunci titik koordinat domisili via Auto-Snap Dukcapil resmi, dan mencatat setiap pendaftaran ke Buku Besar Audit Publik SHA-256 yang mustahil dimanipulasi orang dalam.
+            </p>
+
+            {/* 3 Garansi Utama */}
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 pt-1 text-xs font-semibold">
+              <div className="flex items-center gap-2 p-2.5 rounded-xl bg-white/5 border border-white/10">
+                <Check className="w-4 h-4 text-emerald-400 shrink-0 stroke-[3]" />
+                <span className="text-slate-100">Anti Numpang KK (Akurasi Centroid)</span>
+              </div>
+              <div className="flex items-center gap-2 p-2.5 rounded-xl bg-white/5 border border-white/10">
+                <Flame className="w-4 h-4 text-amber-400 shrink-0" />
+                <span className="text-slate-100">Live Quota Burn-Rate Per Jam</span>
+              </div>
+              <div className="flex items-center gap-2 p-2.5 rounded-xl bg-white/5 border border-white/10">
+                <Lock className="w-4 h-4 text-cyan-400 shrink-0" />
+                <span className="text-slate-100">Buku Audit Berantai SHA-256</span>
+              </div>
+            </div>
+
+            {/* Tombol Aksi Utama */}
+            <div className="pt-2 flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
+              <Link
+                href="/daftar"
+                className="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-2xl font-black text-xs sm:text-sm bg-[#EC4899] hover:bg-[#DB2777] text-white shadow-xl shadow-pink-500/30 hover:scale-[1.02] transition-all"
+              >
+                <span>Daftar Siswa Baru (4 Langkah)</span>
+                <ArrowRight className="w-4 h-4" />
+              </Link>
+
+              <Link
+                href="/simulator"
+                className="inline-flex items-center justify-center gap-2 px-4 py-3.5 rounded-2xl font-bold text-xs bg-white/10 hover:bg-white/20 text-white backdrop-blur border border-white/20 transition-all"
+              >
+                <Compass className="w-4 h-4 text-cyan-300" />
+                <span>Simulator Peluang Lolos</span>
+              </Link>
+            </div>
+
+            {/* Pencarian Tiket Berkas Cepat */}
+            <form
+              onSubmit={(e) => {
+                e.preventDefault();
+                if (searchTicket) window.location.href = `/lacak?tiket=${encodeURIComponent(searchTicket)}`;
+              }}
+              className="pt-2 flex flex-col sm:flex-row items-center gap-2 max-w-lg"
             >
-              <FileCheck2 className="w-4 h-4 text-white/80" />
-              <span>Lacak Tiket</span>
-            </button>
-          </form>
+              <div className="relative flex-1 w-full">
+                <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
+                <input
+                  type="text"
+                  placeholder="Lacak tiket berkas (contoh: TIKET-SMU-2026-098214)..."
+                  value={searchTicket}
+                  onChange={(e) => setSearchTicket(e.target.value)}
+                  className="w-full pl-10 pr-3 py-2 rounded-xl bg-slate-900/90 border border-slate-700 text-white placeholder-slate-400 text-xs focus:outline-none focus:ring-2 focus:ring-blue-400"
+                />
+              </div>
+              <button
+                type="submit"
+                className="w-full sm:w-auto px-4 py-2 rounded-xl font-bold text-xs bg-[#1E3A8A] hover:bg-[#2563EB] text-white transition flex items-center justify-center gap-1.5 shrink-0 shadow"
+              >
+                <FileCheck2 className="w-4 h-4 text-cyan-300" />
+                <span>Lacak</span>
+              </button>
+            </form>
+          </div>
+
+          {/* Sisi Kanan: Radar Peluang Cepat Interaktif (Interactive Hero Hook Card) */}
+          <div className="lg:col-span-5">
+            <div className="bg-slate-900/85 backdrop-blur-xl border border-white/20 rounded-3xl p-5 shadow-2xl relative overflow-hidden">
+              <div className="flex items-center justify-between pb-3 mb-3 border-b border-white/10">
+                <div className="flex items-center gap-2">
+                  <span className="w-2 h-2 rounded-full bg-cyan-400 animate-ping"></span>
+                  <span className="text-xs font-black uppercase tracking-wider text-cyan-300">
+                    Radar Keterisian Cepat
+                  </span>
+                </div>
+                <span className="text-[10px] font-mono text-slate-400">Live Kuota</span>
+              </div>
+
+              {/* Selector Sekolah di Hero */}
+              <div className="mb-3">
+                <label className="text-[11px] font-bold text-slate-300 block mb-1">
+                  Pilih SMAN Target Pantau:
+                </label>
+                <select
+                  value={heroSchoolId}
+                  onChange={(e) => setHeroSchoolId(parseInt(e.target.value))}
+                  className="w-full px-3 py-2 rounded-xl bg-slate-800 border border-slate-700 text-white text-xs font-bold focus:ring-2 focus:ring-blue-400 outline-none"
+                >
+                  {INITIAL_SEKOLAH.map((s) => (
+                    <option key={s.id} value={s.id}>
+                      {s.nama_sekolah} ({s.kota})
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              {/* Status Sekolah Terpilih */}
+              {heroSchoolData && (
+                <div className="space-y-3">
+                  <div className="p-3 rounded-2xl bg-white/5 border border-white/10 space-y-2">
+                    <div className="flex justify-between items-center text-xs">
+                      <span className="font-bold text-white truncate max-w-[200px]">
+                        {heroSchoolData.school.nama_sekolah}
+                      </span>
+                      <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
+                        Akreditasi {heroSchoolData.school.akreditasi.split(' ')[0]}
+                      </span>
+                    </div>
+
+                    {/* Progress Bar Kuota */}
+                    <div className="space-y-1">
+                      <div className="flex justify-between text-[11px] text-slate-300">
+                        <span>Terisi: {heroSchoolData.totalTerisi} / {heroSchoolData.totalKuota}</span>
+                        <strong className="text-cyan-300 font-mono">{heroSchoolData.remainingSeats} Sisa Kursi</strong>
+                      </div>
+                      <div className="w-full h-2.5 bg-slate-800 rounded-full overflow-hidden p-0.5 border border-slate-700">
+                        <div
+                          className="h-full rounded-full bg-gradient-to-r from-blue-500 via-indigo-500 to-pink-500 transition-all duration-700"
+                          style={{ width: `${Math.min(100, heroSchoolData.saturationPct)}%` }}
+                        ></div>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Highlights 2 Jalur Utama (Prestasi & Zonasi) */}
+                  <div className="grid grid-cols-2 gap-2 text-xs">
+                    {/* Prestasi */}
+                    {(() => {
+                      const p = heroSchoolData.jalurList.find((j) => j.jalur === 'prestasi_akademik');
+                      const rem = p ? Math.max(0, p.total_kuota - p.kuota_terisi) : 0;
+                      return (
+                        <div className="p-2.5 rounded-xl bg-purple-950/60 border border-purple-700/50">
+                          <span className="text-[10px] font-bold text-purple-300 block">Jalur Prestasi:</span>
+                          <span className="text-base font-black text-white font-mono">{rem} Kursi</span>
+                          <span className="text-[10px] text-purple-200 block mt-0.5">Nilai Rapor & Piagam</span>
+                        </div>
+                      );
+                    })()}
+
+                    {/* Zonasi */}
+                    {(() => {
+                      const z = heroSchoolData.jalurList.find((j) => j.jalur === 'zonasi');
+                      const rem = z ? Math.max(0, z.total_kuota - z.kuota_terisi) : 0;
+                      return (
+                        <div className="p-2.5 rounded-xl bg-blue-950/60 border border-blue-700/50">
+                          <span className="text-[10px] font-bold text-blue-300 block">Jalur Zonasi:</span>
+                          <span className="text-base font-black text-white font-mono">{rem} Kursi</span>
+                          <span className="text-[10px] text-blue-200 block mt-0.5">Maks. {heroSchoolData.school.radius_max / 1000} km</span>
+                        </div>
+                      );
+                    })()}
+                  </div>
+
+                  {/* Direct Action Links */}
+                  <div className="grid grid-cols-2 gap-2 pt-1">
+                    <Link
+                      href="/simulator"
+                      className="py-2.5 px-3 rounded-xl bg-white/10 hover:bg-white/20 text-white font-bold text-xs text-center border border-white/20 transition flex items-center justify-center gap-1"
+                    >
+                      <span>Uji Peluang</span>
+                      <ChevronRight className="w-3.5 h-3.5 text-cyan-300" />
+                    </Link>
+                    <Link
+                      href="/daftar"
+                      className="py-2.5 px-3 rounded-xl bg-[#EC4899] hover:bg-[#DB2777] text-white font-black text-xs text-center transition flex items-center justify-center gap-1 shadow-md shadow-pink-500/20"
+                    >
+                      <span>Daftar SMAN</span>
+                      <ArrowRight className="w-3.5 h-3.5" />
+                    </Link>
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
         </div>
       </section>
 
@@ -260,6 +397,130 @@ export default function Home({ initialKuota, initialPendaftaran }) {
             <p className="text-[11px] text-slate-500 font-semibold">Audit SHA-256</p>
             <h4 className="text-lg sm:text-xl font-black text-emerald-600">100%</h4>
             <span className="text-[10px] text-emerald-700 font-bold">Terverifikasi</span>
+          </div>
+        </div>
+      </section>
+
+      {/* ============================================================== */}
+      {/* 2B. KRISIS PPDB KONVENSIONAL VS STANDAR BARU SMAUMU (CONTRAST HOOK) */}
+      {/* ============================================================== */}
+      <section className="mb-12">
+        <div className="text-center max-w-2xl mx-auto mb-6">
+          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-blue-50 border border-blue-200 text-blue-900 text-xs font-black mb-2">
+            <Sparkles className="w-3.5 h-3.5 text-blue-600" />
+            <span>Mengapa SMAUMU Berbeda?</span>
+          </div>
+          <h2 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">
+            Menjawab 4 Masalah Klasik PPDB yang Kerap Merugikan Siswa
+          </h2>
+          <p className="text-xs sm:text-sm text-slate-500 mt-1">
+            SMAUMU dirancang untuk mengembalikan rasa keadilan, kepastian data, dan ketenangan bagi keluarga calon siswa.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+          {/* Card 1 */}
+          <div className="bg-white rounded-3xl p-5 border border-slate-200 shadow-sm flex flex-col justify-between hover:border-blue-400 transition">
+            <div>
+              <div className="flex items-center justify-between mb-3">
+                <span className="p-2 rounded-xl bg-rose-50 text-rose-600">
+                  <X className="w-4 h-4 stroke-[3]" />
+                </span>
+                <span className="text-[10px] font-black uppercase tracking-wider text-rose-600 bg-rose-50 px-2 py-0.5 rounded-full">
+                  Masalah Lama
+                </span>
+              </div>
+              <h4 className="font-extrabold text-sm text-slate-900 mb-1">Kuota Gelap & Tak Real-Time</h4>
+              <p className="text-xs text-slate-500 leading-relaxed mb-4">
+                Sisa bangku baru diketahui setelah seleksi tutup. Orang tua tidak tahu berapa kuota yang tersisa sebenarnya.
+              </p>
+            </div>
+            <div className="p-3 rounded-2xl bg-blue-50/80 border border-blue-100 text-xs text-blue-900">
+              <span className="font-bold flex items-center gap-1 text-blue-700 text-[11px] mb-0.5">
+                <Check className="w-3.5 h-3.5 text-emerald-600 stroke-[3]" /> Solusi SMAUMU:
+              </span>
+              <p className="text-[11px] text-slate-700">
+                <strong>Live Burn-Rate Engine</strong> yang menampilkan sisa kursi per detik per jalur seleksi.
+              </p>
+            </div>
+          </div>
+
+          {/* Card 2 */}
+          <div className="bg-white rounded-3xl p-5 border border-slate-200 shadow-sm flex flex-col justify-between hover:border-blue-400 transition">
+            <div>
+              <div className="flex items-center justify-between mb-3">
+                <span className="p-2 rounded-xl bg-rose-50 text-rose-600">
+                  <X className="w-4 h-4 stroke-[3]" />
+                </span>
+                <span className="text-[10px] font-black uppercase tracking-wider text-rose-600 bg-rose-50 px-2 py-0.5 rounded-full">
+                  Masalah Lama
+                </span>
+              </div>
+              <h4 className="font-extrabold text-sm text-slate-900 mb-1">Numpang KK & Titik Rumah Palsu</h4>
+              <p className="text-xs text-slate-500 leading-relaxed mb-4">
+                Pendaftar menggeser pin GPS ke dekat gerbang SMAN atau meminjam KK kerabat kurang dari 1 tahun.
+              </p>
+            </div>
+            <div className="p-3 rounded-2xl bg-blue-50/80 border border-blue-100 text-xs text-blue-900">
+              <span className="font-bold flex items-center gap-1 text-blue-700 text-[11px] mb-0.5">
+                <Check className="w-3.5 h-3.5 text-emerald-600 stroke-[3]" /> Solusi SMAUMU:
+              </span>
+              <p className="text-[11px] text-slate-700">
+                <strong>Auto-Snap Centroid Dukcapil</strong> dengan rumus Haversine & verifikasi masa tinggal KK resmi.
+              </p>
+            </div>
+          </div>
+
+          {/* Card 3 */}
+          <div className="bg-white rounded-3xl p-5 border border-slate-200 shadow-sm flex flex-col justify-between hover:border-blue-400 transition">
+            <div>
+              <div className="flex items-center justify-between mb-3">
+                <span className="p-2 rounded-xl bg-rose-50 text-rose-600">
+                  <X className="w-4 h-4 stroke-[3]" />
+                </span>
+                <span className="text-[10px] font-black uppercase tracking-wider text-rose-600 bg-rose-50 px-2 py-0.5 rounded-full">
+                  Masalah Lama
+                </span>
+              </div>
+              <h4 className="font-extrabold text-sm text-slate-900 mb-1">Website Down Saat Jam Sibuk</h4>
+              <p className="text-xs text-slate-500 leading-relaxed mb-4">
+                Server overload saat ribuan orang tua submit serentak, menimbulkan kepanikan dan kegagalan input.
+              </p>
+            </div>
+            <div className="p-3 rounded-2xl bg-blue-50/80 border border-blue-100 text-xs text-blue-900">
+              <span className="font-bold flex items-center gap-1 text-blue-700 text-[11px] mb-0.5">
+                <Check className="w-3.5 h-3.5 text-emerald-600 stroke-[3]" /> Solusi SMAUMU:
+              </span>
+              <p className="text-[11px] text-slate-700">
+                <strong>High-Concurrency Locks</strong> dengan indeks B-Tree yang lolos simulasi ribuan user tanpa jeda.
+              </p>
+            </div>
+          </div>
+
+          {/* Card 4 */}
+          <div className="bg-white rounded-3xl p-5 border border-slate-200 shadow-sm flex flex-col justify-between hover:border-blue-400 transition">
+            <div>
+              <div className="flex items-center justify-between mb-3">
+                <span className="p-2 rounded-xl bg-rose-50 text-rose-600">
+                  <X className="w-4 h-4 stroke-[3]" />
+                </span>
+                <span className="text-[10px] font-black uppercase tracking-wider text-rose-600 bg-rose-50 px-2 py-0.5 rounded-full">
+                  Masalah Lama
+                </span>
+              </div>
+              <h4 className="font-extrabold text-sm text-slate-900 mb-1">Pengaduan Warga Menguap</h4>
+              <p className="text-xs text-slate-500 leading-relaxed mb-4">
+                Laporan kecurangan sering diabaikan atau pelapor merasa takut identitasnya bocor ke oknum sekolah.
+              </p>
+            </div>
+            <div className="p-3 rounded-2xl bg-blue-50/80 border border-blue-100 text-xs text-blue-900">
+              <span className="font-bold flex items-center gap-1 text-blue-700 text-[11px] mb-0.5">
+                <Check className="w-3.5 h-3.5 text-emerald-600 stroke-[3]" /> Solusi SMAUMU:
+              </span>
+              <p className="text-[11px] text-slate-700">
+                <strong>Whistleblower Zero-Trace</strong> dengan token rahasia & Log Audit berantai SHA-256.
+              </p>
+            </div>
           </div>
         </div>
       </section>

@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import Layout from '@/components/Layout';
 import { useAuth } from '@/contexts/AuthContext';
 import { INITIAL_SEKOLAH } from '@/utils/constants';
@@ -32,11 +33,19 @@ import {
 } from 'lucide-react';
 
 export default function DaftarPage() {
-  const { user, isAuthenticated, updateUser } = useAuth();
+  const router = useRouter();
+  const { user, isAuthenticated, loading, updateUser } = useAuth();
   const [currentStep, setCurrentStep] = useState(1);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [selectedCentroidId, setSelectedCentroidId] = useState('sawah_besar');
   const [isAutoSnapped, setIsAutoSnapped] = useState(true);
+
+  // Wajib Login / Register Guard: Redirect ke halaman login jika belum login
+  useEffect(() => {
+    if (!loading && !isAuthenticated) {
+      router.replace('/login?pesan=wajib_login&redirect=/daftar');
+    }
+  }, [loading, isAuthenticated, router]);
 
   // Form State
   const [formData, setFormData] = useState({
@@ -188,6 +197,34 @@ export default function DaftarPage() {
       setIsSubmitting(false);
     }
   };
+
+  // Guard: Jika belum login atau sesi sedang dicek, jangan render formulir & tampilkan redirect banner
+  if (loading || !isAuthenticated) {
+    return (
+      <Layout>
+        <div className="max-w-md mx-auto my-16 bg-white rounded-3xl border border-slate-200 p-8 text-center shadow-sm space-y-4">
+          <div className="w-14 h-14 rounded-3xl bg-blue-50 border border-blue-200 text-[#1E3A8A] flex items-center justify-center mx-auto shadow-sm animate-pulse">
+            <ShieldCheck className="w-7 h-7 text-blue-600" />
+          </div>
+          <h2 className="text-lg font-black text-slate-900">
+            Memeriksa Autentikasi Pengguna...
+          </h2>
+          <p className="text-xs text-slate-500 leading-relaxed">
+            Halaman pendaftaran sekolah mewajibkan Anda untuk masuk atau mendaftarkan akun terlebih dahulu. Mengalihkan ke halaman login...
+          </p>
+          <div className="pt-2">
+            <Link
+              href="/login?pesan=wajib_login&redirect=/daftar"
+              className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-[#1E3A8A] text-white text-xs font-bold hover:bg-[#2563EB] transition"
+            >
+              <span>Masuk Sekarang</span>
+              <ArrowRight className="w-3.5 h-3.5" />
+            </Link>
+          </div>
+        </div>
+      </Layout>
+    );
+  }
 
   return (
     <Layout>

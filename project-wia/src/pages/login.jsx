@@ -32,7 +32,8 @@ export default function LoginPage() {
     try {
       const res = await login(email, password);
       if (res.success) {
-        router.push('/daftar');
+        const dest = router.query.redirect || '/daftar';
+        router.push(dest);
       }
     } catch (err) {
       console.error(err);
@@ -71,6 +72,15 @@ export default function LoginPage() {
               <span>{isSupabaseReady ? 'Supabase Auth Online' : 'Supabase Client Siap'}</span>
             </div>
           </div>
+
+          {router.query.pesan === 'wajib_login' && !errorMsg && (
+            <div className="p-3.5 rounded-2xl bg-amber-50 border border-amber-200 text-amber-800 text-xs flex items-center gap-2.5 animate-fade-in shadow-xs">
+              <AlertCircle className="w-4 h-4 shrink-0 text-amber-600" />
+              <span>
+                <strong>Akses Terbatas:</strong> Anda wajib masuk atau mendaftarkan akun terlebih dahulu sebelum dapat mengakses formulir pendaftaran SMAN.
+              </span>
+            </div>
+          )}
 
           {errorMsg && (
             <div className="p-3.5 rounded-2xl bg-pink-50 border border-pink-200 text-[#DB2777] text-xs flex items-center gap-2 animate-fade-in">

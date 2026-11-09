@@ -1,10 +1,11 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import Link from 'next/link';
 import Layout from '@/components/Layout';
-import QuotaBurnRateCard from '@/components/QuotaBurnRateCard';
+import SchoolQuotaCard from '@/components/SchoolQuotaCard';
 import PassingGradeCalculator from '@/components/PassingGradeCalculator';
 import InteractiveZonasiHeatmap from '@/components/InteractiveZonasiHeatmap';
 import { db } from '@/services/db';
+import { INITIAL_SEKOLAH } from '@/utils/constants';
 import { 
   ShieldCheck, 
   Flame, 
@@ -18,12 +19,57 @@ import {
   Search, 
   Lock, 
   TrendingUp,
-  FileEdit
+  FileEdit,
+  School,
+  Award
 } from 'lucide-react';
 
 export default function Home({ initialKuota, initialPendaftaran }) {
   const [kuotaList, setKuotaList] = useState(initialKuota);
+  const [selectedSchoolFilter, setSelectedSchoolFilter] = useState('all');
   const [searchTicket, setSearchTicket] = useState('');
+
+  // 1. Kelompokkan Data Kuota Per-Sekolah Secara Menyeluruh
+  const schoolsData = useMemo(() => {
+    return INITIAL_SEKOLAH.map((school) => {
+      const schoolJalurList = (kuotaList || []).filter((k) => k.sekolah_id === school.id);
+      const totalKuota = schoolJalurList.reduce((acc, curr) => acc + curr.total_kuota, 0) || school.kuota_total;
+      const totalTerisi = schoolJalurList.reduce((acc, curr) => acc + curr.kuota_terisi, 0);
+      const totalPendaftar = schoolJalurList.reduce((acc, curr) => acc + curr.pendaftar_total, 0);
+      const avgBurnRate = parseFloat(
+        (schoolJalurList.reduce((acc, curr) => acc + curr.burn_rate_per_jam, 0)).toFixed(1)
+      );
+      const remainingSeats = Math.max(0, totalKuota - totalTerisi);
+      const saturationPct = totalKuota > 0 ? (totalTerisi / totalKuota) * 100 : 0;
+
+      let statusCode = 'tersedia';
+      if (saturationPct >= 100 || remainingSeats === 0) {
+        statusCode = 'penuh';
+      } else if (saturationPct >= 85) {
+        statusCode = 'hampir_penuh';
+      } else if (saturationPct >= 65) {
+        statusCode = 'cepat_terisi';
+      }
+
+      return {
+        school,
+        jalurList: schoolJalurList,
+        totalKuota,
+        totalTerisi,
+        totalPendaftar,
+        avgBurnRate,
+        remainingSeats,
+        saturationPct,
+        statusCode
+      };
+    });
+  }, [kuotaList]);
+
+  // SMAN yang ditampilkan berdasarkan tab pilihan
+  const displayedSchools = useMemo(() => {
+    if (selectedSchoolFilter === 'all') return schoolsData;
+    return schoolsData.filter((s) => s.school.id === parseInt(selectedSchoolFilter));
+  }, [schoolsData, selectedSchoolFilter]);
 
   const handleSimulateAdd = async (sekolahId, jalur) => {
     try {
@@ -36,11 +82,40 @@ export default function Home({ initialKuota, initialPendaftaran }) {
       if (data.success) {
         const refreshRes = await fetch('/api/kuota');
         const refreshData = await refreshRes.json();
-        if (refreshData.success) setKuotaList(refreshData.data);
+        if (refreshData.success) {
+          setKuotaList(refreshData.data);
+          return;
+        }
       }
     } catch (err) {
-      console.error(err);
+      console.warn('Fallback simulasi lokal:', err);
     }
+
+    // Local client-side simulation fallback
+    setKuotaList((prev) =>
+      prev.map((item) => {
+        if (item.sekolah_id === sekolahId && item.jalur === jalur) {
+          const newFilled = Math.min(item.total_kuota, item.kuota_terisi + 1);
+          const newApplicants = item.pendaftar_total + 1;
+          const newBurn = parseFloat((item.burn_rate_per_jam + 0.3).toFixed(1));
+          const rem = Math.max(0, item.total_kuota - newFilled);
+          const hrs = newBurn > 0 ? parseFloat((rem / newBurn).toFixed(1)) : 99;
+          return {
+            ...item,
+            kuota_terisi: newFilled,
+            pendaftar_total: newApplicants,
+            burn_rate_per_jam: newBurn,
+            metrics: {
+              remainingSeats: rem,
+              saturationPercentage: (newFilled / item.total_kuota) * 100,
+              hoursUntilFull: hrs,
+              isCritical: rem <= 5 || hrs <= 2
+            }
+          };
+        }
+        return item;
+      })
+    );
   };
 
   return (
@@ -190,7 +265,7 @@ export default function Home({ initialKuota, initialPendaftaran }) {
       </section>
 
       {/* ============================================================== */}
-      {/* 3. BAGIAN 1: CEK SISA KURSI REAL-TIME */}
+      {/* 3. BAGIAN 1: CEK SISA KURSI REAL-TIME PER SEKOLAH */}
       {/* ============================================================== */}
       <section className="mb-12">
         <div className="flex flex-col sm:flex-row items-start sm:items-end justify-between gap-2 mb-5">
@@ -200,14 +275,14 @@ export default function Home({ initialKuota, initialPendaftaran }) {
                 <Flame className="w-3.5 h-3.5" />
               </span>
               <span className="text-xs font-bold uppercase tracking-wider text-amber-700">
-                Open Government Data
+                Open Government Data • Real-Time Per Sekolah
               </span>
             </div>
             <h2 className="text-xl sm:text-2xl font-black text-slate-900 mt-1">
               Pantau Sisa Kursi Sekolah
             </h2>
             <p className="text-xs sm:text-sm text-slate-500 mt-0.5">
-              Sisa kuota dan kecepatan pengisian kursi diperbarui secara seketika.
+              Rincian sisa kuota kursi per SMA Negeri dengan rincian jalur Zonasi, Prestasi Akademik, Afirmasi, dan Mutasi.
             </p>
           </div>
           <Link
@@ -218,11 +293,89 @@ export default function Home({ initialKuota, initialPendaftaran }) {
           </Link>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-          {kuotaList.slice(0, 4).map((item) => (
-            <QuotaBurnRateCard
-              key={`${item.sekolah_id}-${item.jalur}`}
-              kuotaItem={item}
+        {/* Tab Pilihan SMAN & Bar Sisa Kuota Prestasi */}
+        <div className="space-y-4 mb-6">
+          {/* SMAN Filter Pills */}
+          <div className="flex items-center gap-2 overflow-x-auto pb-2 no-scrollbar">
+            <button
+              onClick={() => setSelectedSchoolFilter('all')}
+              className={`px-3.5 py-2 rounded-2xl text-xs font-black transition-all shrink-0 ${
+                selectedSchoolFilter === 'all'
+                  ? 'bg-[#1E3A8A] text-white shadow-md'
+                  : 'bg-white hover:bg-slate-100 text-slate-700 border border-slate-200'
+              }`}
+            >
+              Semua SMAN ({schoolsData.length})
+            </button>
+            {INITIAL_SEKOLAH.map((sch) => {
+              const isSelected = selectedSchoolFilter === String(sch.id);
+              return (
+                <button
+                  key={sch.id}
+                  onClick={() => setSelectedSchoolFilter(String(sch.id))}
+                  className={`px-3.5 py-2 rounded-2xl text-xs font-bold transition-all shrink-0 flex items-center gap-1.5 ${
+                    isSelected
+                      ? 'bg-[#1E3A8A] text-white shadow-md'
+                      : 'bg-white hover:bg-slate-100 text-slate-700 border border-slate-200'
+                  }`}
+                >
+                  <School className="w-3.5 h-3.5 text-blue-500" />
+                  <span>{sch.nama_sekolah.split(' ')[0]} {sch.nama_sekolah.split(' ')[1]}</span>
+                </button>
+              );
+            })}
+          </div>
+
+          {/* Banner Rangkuman Kuota Prestasi Cepat */}
+          <div className="bg-gradient-to-r from-purple-950 via-indigo-900 to-slate-900 rounded-2xl p-4 text-white shadow-md flex flex-col md:flex-row items-start md:items-center justify-between gap-3">
+            <div className="flex items-center gap-2.5">
+              <span className="p-2 rounded-xl bg-purple-500/30 border border-purple-400/40 text-purple-200">
+                <Award className="w-5 h-5" />
+              </span>
+              <div>
+                <h4 className="font-extrabold text-xs sm:text-sm text-white">
+                  Rangkuman Sisa Kursi Jalur Prestasi Akademik
+                </h4>
+                <p className="text-[11px] text-purple-200">
+                  Pantau ketersediaan kursi tanpa zonasi jarak berdasarkan nilai rapor & sertifikat prestasi.
+                </p>
+              </div>
+            </div>
+
+            <div className="flex items-center gap-2 flex-wrap text-xs">
+              {schoolsData.map((s) => {
+                const prestasiItem = s.jalurList.find((j) => j.jalur === 'prestasi_akademik');
+                if (!prestasiItem) return null;
+                const rem = Math.max(0, prestasiItem.total_kuota - prestasiItem.kuota_terisi);
+                const isSelected = selectedSchoolFilter === String(s.school.id);
+                return (
+                  <button
+                    key={s.school.id}
+                    onClick={() => setSelectedSchoolFilter(String(s.school.id))}
+                    className={`px-2.5 py-1 rounded-xl text-[11px] font-bold transition flex items-center gap-1.5 border ${
+                      rem >= 20
+                        ? 'bg-emerald-500/20 text-emerald-300 border-emerald-400/50'
+                        : rem <= 5
+                        ? 'bg-rose-500/20 text-rose-300 border-rose-400/50'
+                        : 'bg-white/10 text-slate-200 border-white/20 hover:bg-white/20'
+                    } ${isSelected ? 'ring-2 ring-white' : ''}`}
+                    title={`Klik untuk melihat detail ${s.school.nama_sekolah}`}
+                  >
+                    <span>{s.school.nama_sekolah.split(' ')[0]} {s.school.nama_sekolah.split(' ')[1]}:</span>
+                    <strong className="font-mono text-white">Sisa {rem} Kursi</strong>
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+        </div>
+
+        {/* Grid Kartu Per Sekolah */}
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+          {displayedSchools.map((item) => (
+            <SchoolQuotaCard
+              key={item.school.id}
+              schoolData={item}
               onSimulateAdd={handleSimulateAdd}
             />
           ))}

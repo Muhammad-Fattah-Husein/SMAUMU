@@ -77,7 +77,7 @@ class DatabaseService {
       { id: 16, sekolah_id: 4, pengguna_id: 1, jalur: 'perpindahan_tugas', persentase: 10, total_kuota: 28, kuota_terisi: 11, pendaftar_total: 15, burn_rate_per_jam: 0.9 },
 
       { id: 17, sekolah_id: 5, pengguna_id: 1, jalur: 'zonasi', persentase: 50, total_kuota: 180, kuota_terisi: 162, pendaftar_total: 340, burn_rate_per_jam: 12.4 },
-      { id: 18, sekolah_id: 5, pengguna_id: 1, jalur: 'prestasi_akademik', persentase: 25, total_kuota: 90, kuota_terisi: 84, pendaftar_total: 290, burn_rate_per_jam: 10.5 },
+      { id: 18, sekolah_id: 5, pengguna_id: 1, jalur: 'prestasi_akademik', persentase: 25, total_kuota: 90, kuota_terisi: 60, pendaftar_total: 210, burn_rate_per_jam: 8.5 },
       { id: 19, sekolah_id: 5, pengguna_id: 1, jalur: 'afirmasi', persentase: 15, total_kuota: 54, kuota_terisi: 42, pendaftar_total: 60, burn_rate_per_jam: 2.8 },
       { id: 20, sekolah_id: 5, pengguna_id: 1, jalur: 'perpindahan_tugas', persentase: 10, total_kuota: 36, kuota_terisi: 20, pendaftar_total: 25, burn_rate_per_jam: 1.2 },
 

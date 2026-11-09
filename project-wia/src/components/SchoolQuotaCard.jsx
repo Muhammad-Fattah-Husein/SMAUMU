@@ -275,12 +275,21 @@ export default function SchoolQuotaCard({ schoolData, onSimulateAdd }) {
                   </div>
 
                   {/* Keterangan Angka Sisa & Persentase */}
-                  <div className="flex items-center justify-between text-[10px] text-slate-500 mt-1 font-medium">
-                    <span>
-                      Sisa: <strong className="text-slate-800 font-mono">{jalurRemaining}</strong> kursi
+                  <div className="flex items-center justify-between text-[11px] text-slate-600 mt-1.5 font-medium">
+                    <span className="inline-flex items-center gap-1">
+                      <span>Sisa:</span>
+                      <strong className={`font-mono font-black px-1.5 py-0.5 rounded ${
+                        jalurRemaining <= 5 
+                          ? 'bg-rose-100 text-rose-700' 
+                          : jalurRemaining >= 25 
+                          ? 'bg-emerald-100 text-emerald-800' 
+                          : 'bg-blue-100 text-blue-800'
+                      }`}>
+                        {jalurRemaining} Kursi
+                      </strong>
                     </span>
-                    <span className="font-mono font-bold text-slate-700">
-                      {formatPercentage(jalurSaturation)}
+                    <span className="text-[10px] text-slate-400">
+                      Pendaftar: <strong className="text-slate-700 font-mono">{item.pendaftar_total}</strong> siswa
                     </span>
                   </div>
                 </div>

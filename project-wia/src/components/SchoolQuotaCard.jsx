@@ -1,30 +1,18 @@
-import { useState } from 'react';
 import Link from 'next/link';
 import { 
-  School, 
   MapPin, 
   Flame, 
-  Clock, 
   Users, 
   CheckCircle, 
   AlertTriangle, 
   XCircle, 
   TrendingUp, 
   ArrowRight, 
-  Compass, 
-  Award, 
-  ChevronDown, 
-  ChevronUp,
-  PlusCircle,
-  ExternalLink
+  Award 
 } from 'lucide-react';
 import { getJalurLabel, formatPercentage, formatDistance } from '@/utils/formatters';
 
-export default function SchoolQuotaCard({ schoolData, onSimulateAdd }) {
-  const [isExpanded, setIsExpanded] = useState(true);
-  const [isUpdating, setIsUpdating] = useState(false);
-  const [selectedSimJalur, setSelectedSimJalur] = useState('zonasi');
-
+export default function SchoolQuotaCard({ schoolData }) {
   const {
     school,
     jalurList,
@@ -102,13 +90,6 @@ export default function SchoolQuotaCard({ schoolData, onSimulateAdd }) {
           dot: 'bg-slate-500'
         };
     }
-  };
-
-  const handleSimulate = async () => {
-    if (!onSimulateAdd) return;
-    setIsUpdating(true);
-    await onSimulateAdd(school.id, selectedSimJalur);
-    setIsUpdating(false);
   };
 
   return (
@@ -300,54 +281,16 @@ export default function SchoolQuotaCard({ schoolData, onSimulateAdd }) {
       </div>
 
       {/* ============================================================== */}
-      {/* 4. FOOTER AKSI KARTU: SIMULASI & DAFTAR */}
+      {/* 4. FOOTER AKSI KARTU: DAFTAR */}
       {/* ============================================================== */}
-      <div className="p-4 sm:p-5 bg-slate-50 border-t border-slate-200/80 space-y-2.5">
-        {/* Tombol Simulasi Cepat Tambah Berkas */}
-        {onSimulateAdd && (
-          <div className="flex items-center gap-2">
-            <select
-              value={selectedSimJalur}
-              onChange={(e) => setSelectedSimJalur(e.target.value)}
-              className="px-2.5 py-1.5 rounded-xl border border-slate-300 bg-white text-[11px] font-bold text-slate-700 outline-none focus:ring-1 focus:ring-blue-500 flex-1"
-            >
-              {jalurList.map((j) => (
-                <option key={j.jalur} value={j.jalur}>
-                  Simulasi: {getJalurLabel(j.jalur)}
-                </option>
-              ))}
-            </select>
-
-            <button
-              onClick={handleSimulate}
-              disabled={isUpdating}
-              className="px-3 py-1.5 rounded-xl bg-blue-100 hover:bg-blue-200 text-[#1E3A8A] text-[11px] font-bold transition flex items-center gap-1 shrink-0 disabled:opacity-50"
-              title="Tambahkan 1 pendaftar simulasi untuk uji coba bar kuota"
-            >
-              <PlusCircle className="w-3.5 h-3.5 text-[#2563EB]" />
-              <span>+1 Berkas</span>
-            </button>
-          </div>
-        )}
-
-        {/* Action Link: Simulasi Peluang & Daftar Siswa */}
-        <div className="grid grid-cols-2 gap-2 pt-1">
-          <Link
-            href="/simulator"
-            className="py-2 px-3 rounded-xl border border-slate-300 hover:border-slate-400 bg-white text-slate-700 font-bold text-xs transition flex items-center justify-center gap-1.5 text-center"
-          >
-            <Compass className="w-3.5 h-3.5 text-[#2563EB]" />
-            <span>Cek Zonasi</span>
-          </Link>
-
-          <Link
-            href="/daftar"
-            className="py-2 px-3 rounded-xl bg-[#EC4899] hover:bg-[#DB2777] text-white font-black text-xs transition shadow-sm flex items-center justify-center gap-1.5 text-center"
-          >
-            <span>Daftar SMAN</span>
-            <ArrowRight className="w-3.5 h-3.5" />
-          </Link>
-        </div>
+      <div className="p-4 sm:p-5 bg-slate-50 border-t border-slate-200/80">
+        <Link
+          href="/daftar"
+          className="w-full py-2.5 px-4 rounded-2xl bg-[#EC4899] hover:bg-[#DB2777] text-white font-black text-xs transition shadow-md shadow-pink-500/20 flex items-center justify-center gap-1.5 text-center hover:scale-[1.01]"
+        >
+          <span>Daftar SMAN</span>
+          <ArrowRight className="w-4 h-4" />
+        </Link>
       </div>
     </div>
   );

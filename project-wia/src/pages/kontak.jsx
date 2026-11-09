@@ -8,6 +8,14 @@ export default function KontakPage() {
   return (
     <Layout>
       <div className="max-w-4xl mx-auto mb-6">
+        <div className="flex items-center gap-2 mb-1">
+          <span className="p-1 rounded bg-[#1E3A8A] text-white">
+            <Mail className="w-3.5 h-3.5" />
+          </span>
+          <span className="text-xs font-bold uppercase tracking-wider text-[#1E3A8A]">
+            Layanan Komunikasi & Posko
+          </span>
+        </div>
         <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
           Kontak & Posko Bantuan
         </h1>

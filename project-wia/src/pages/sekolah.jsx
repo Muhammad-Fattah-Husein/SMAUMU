@@ -7,6 +7,14 @@ export default function SekolahPage() {
   return (
     <Layout>
       <div className="max-w-7xl mx-auto mb-6">
+        <div className="flex items-center gap-2 mb-1">
+          <span className="p-1 rounded bg-[#1E3A8A] text-white">
+            <School className="w-3.5 h-3.5" />
+          </span>
+          <span className="text-xs font-bold uppercase tracking-wider text-[#1E3A8A]">
+            Direktori Resmi SMAN
+          </span>
+        </div>
         <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
           Daftar SMA Negeri & Zonasi
         </h1>

@@ -32,3 +32,17 @@ yarn-error.log*
 *.mp4
 *.mov
 *.psd
+
+# Private Credentials & Local Accounts Notes (Never Push)
+DAFTAR_AKUN_SMAUMU_RAHASIA.txt
+*RAHASIA*.txt
+akun*.txt
+
+# Presentation & FSD Documents (Excluded from Public Repository)
+SMAUMU_Presentasi_WIA2026.html
+SMAUMU_Presentasi_WIA2026.pptx
+WIA_FSDMIA2026_NamaTim.html
+WIA_FSDMIA2026_NamaTim.pdf
+create_presentation.py
+project-wia/WIA_FSDMIA2026_NamaTim.html
+project-wia/WIA_FSDMIA2026_NamaTim.pdf

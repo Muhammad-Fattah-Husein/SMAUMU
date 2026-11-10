@@ -11,16 +11,15 @@ import {
   ArrowRight, 
   AlertCircle, 
   UserCheck, 
-  Cloud,
-  ChevronRight
+  Cloud
 } from 'lucide-react';
 
 export default function LoginPage() {
   const router = useRouter();
   const { login, isSupabaseReady } = useAuth();
 
-  const [email, setEmail] = useState('siti.nurhaliza@gmail.com');
-  const [password, setPassword] = useState('password123');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');
 
@@ -43,13 +42,6 @@ export default function LoginPage() {
     }
   };
 
-  // Quick helper for evaluators & judges
-  const handleDemoFill = (demoEmail, demoPass) => {
-    setEmail(demoEmail);
-    setPassword(demoPass);
-    setErrorMsg('');
-  };
-
   return (
     <Layout>
       <div className="max-w-md mx-auto py-8">
@@ -69,7 +61,7 @@ export default function LoginPage() {
             {/* Supabase backend status */}
             <div className="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full text-[10px] font-semibold bg-orange-500/10 text-[#F97316] border border-orange-500/30">
               <Cloud className="w-3 h-3 text-[#F97316]" />
-              <span>{isSupabaseReady ? 'Supabase Auth Online' : 'Supabase Client Siap'}</span>
+              <span>{isSupabaseReady ? 'Supabase Auth Online' : 'Portal Autentikasi Terenkripsi'}</span>
             </div>
           </div>
 
@@ -134,38 +126,6 @@ export default function LoginPage() {
               <ArrowRight className="w-4 h-4 text-white" />
             </button>
           </form>
-
-          {/* Quick Demo Fill Buttons for Judges */}
-          <div className="p-3.5 rounded-2xl bg-[#222227] border border-white/10 text-xs space-y-2">
-            <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400 block">
-              Uji Coba Cepat (Akun Contoh):
-            </span>
-            <div className="flex flex-col gap-1.5">
-              <button
-                type="button"
-                onClick={() => handleDemoFill('siti.nurhaliza@gmail.com', 'password123')}
-                className="w-full text-left p-2 rounded-xl bg-[#1A1A1E] border border-white/10 hover:border-orange-500/40 transition flex items-center justify-between"
-              >
-                <div>
-                  <p className="font-bold text-[#E2E8F0] text-[11px]">Siti Nurhaliza (Zonasi Boedoet SMAN 1)</p>
-                  <p className="text-[10px] text-slate-400 font-mono">siti.nurhaliza@gmail.com</p>
-                </div>
-                <ChevronRight className="w-3.5 h-3.5 text-slate-400" />
-              </button>
-
-              <button
-                type="button"
-                onClick={() => handleDemoFill('rayhan.pratama@gmail.com', 'password123')}
-                className="w-full text-left p-2 rounded-xl bg-[#1A1A1E] border border-white/10 hover:border-orange-500/40 transition flex items-center justify-between"
-              >
-                <div>
-                  <p className="font-bold text-[#E2E8F0] text-[11px]">Rayhan Pratama (Prestasi SMAN 1)</p>
-                  <p className="text-[10px] text-slate-400 font-mono">rayhan.pratama@gmail.com</p>
-                </div>
-                <ChevronRight className="w-3.5 h-3.5 text-slate-400" />
-              </button>
-            </div>
-          </div>
 
           {/* Links to Register & Admin Portal */}
           <div className="pt-2 border-t border-white/10 space-y-3 text-center text-xs">

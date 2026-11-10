@@ -3,13 +3,13 @@ import { useRouter } from 'next/router';
 import Link from 'next/link';
 import { useAuth } from '@/contexts/AuthContext';
 import ThemeToggle from '@/components/ThemeToggle';
-import { ShieldCheck, Lock, User, KeyRound, ArrowRight, ShieldAlert, AlertCircle } from 'lucide-react';
+import { ShieldCheck, Lock, User, KeyRound, ArrowRight, AlertCircle } from 'lucide-react';
 
 export default function AdminLoginPage() {
   const router = useRouter();
   const { loginAdmin } = useAuth();
-  const [email, setEmail] = useState('admin.disdik@smaumu.go.id');
-  const [password, setPassword] = useState('admin12345');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');
 
@@ -59,15 +59,6 @@ export default function AdminLoginPage() {
           </p>
         </div>
 
-        {/* Demo Credentials Box */}
-        <div className="p-3.5 rounded-xl bg-orange-500/10 border border-orange-500/30 text-xs text-[#F97316] space-y-1">
-          <p className="font-bold flex items-center gap-1">
-            <ShieldAlert className="w-3.5 h-3.5 text-[#F97316]" /> Kredensial Uji Coba Penjurian:
-          </p>
-          <p className="font-mono text-[11px] text-slate-300">Email: admin.disdik@smaumu.go.id</p>
-          <p className="font-mono text-[11px] text-slate-300">Sandi: admin12345</p>
-        </div>
-
         {errorMsg && (
           <div className="p-3 rounded-xl bg-rose-500/10 border border-rose-500/30 text-[#F43F5E] text-xs flex items-center gap-2">
             <AlertCircle className="w-4 h-4 shrink-0" />
@@ -86,6 +77,7 @@ export default function AdminLoginPage() {
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
+                placeholder="nama.petugas@smaumu.go.id"
                 className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-white/10 text-xs font-semibold text-[#E2E8F0] focus:ring-2 focus:ring-[#F97316] outline-none"
               />
             </div>
@@ -100,6 +92,7 @@ export default function AdminLoginPage() {
                 required
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
+                placeholder="••••••••"
                 className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-white/10 text-xs font-mono text-[#E2E8F0] focus:ring-2 focus:ring-[#F97316] outline-none"
               />
             </div>

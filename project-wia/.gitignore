@@ -32,3 +32,9 @@ yarn-error.log*
 # TypeScript
 *.tsbuildinfo
 next-env.d.ts
+
+# Private Credentials & Excluded Presentation/FSD Docs
+*RAHASIA*.txt
+akun*.txt
+WIA_FSDMIA2026_NamaTim.html
+WIA_FSDMIA2026_NamaTim.pdf

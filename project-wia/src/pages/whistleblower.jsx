@@ -28,7 +28,7 @@ export default function WhistleblowerPage({ initialReports }) {
     tiket_terkait: '',
     judul: '',
     deskripsi: '',
-    nama_samaran: 'Warga Peduli Kejujuran 2026',
+    nama_samaran: '',
     is_anonim: true,
   });
 
@@ -226,7 +226,7 @@ export default function WhistleblowerPage({ initialReports }) {
                     </label>
                     <input
                       type="text"
-                      placeholder="Contoh: SMAN 8 Jakarta atau TIKET-SMU-2026-098215"
+                      placeholder="Contoh: SMAN 8 Jakarta atau TIKET-SMU-2026-XXXXXX"
                       value={formData.tiket_terkait}
                       onChange={(e) => setFormData({ ...formData, tiket_terkait: e.target.value })}
                       className="w-full px-3 py-2.5 rounded-xl border border-white/10 text-xs text-[#E2E8F0] focus:ring-2 focus:ring-[#F43F5E]"
@@ -296,7 +296,7 @@ export default function WhistleblowerPage({ initialReports }) {
                   <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
                   <input
                     type="text"
-                    placeholder="Masukkan Token Rahasia Anda (contoh: TOKEN-WBL-7719-XPQ)"
+                    placeholder="Masukkan Token Rahasia Anda (format: TOKEN-WBL-XXXX-XXX)"
                     value={tokenInput}
                     onChange={(e) => setTokenInput(e.target.value)}
                     className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-white/10 font-mono text-xs text-[#E2E8F0] focus:ring-2 focus:ring-[#F97316]"
@@ -309,43 +309,6 @@ export default function WhistleblowerPage({ initialReports }) {
                   Cek Tindak Lanjut
                 </button>
               </form>
-
-              <div className="mt-3 pt-3 border-t border-white/10 flex flex-wrap items-center gap-2 text-xs">
-                <span className="text-slate-400 font-medium">Contoh Token Pengaduan:</span>
-                <button
-                  type="button"
-                  onClick={() => {
-                    setTokenInput('TOKEN-WBL-7719-XPQ');
-                    const matched = reports.find(r => r.token_investigasi === 'TOKEN-WBL-7719-XPQ');
-                    if (matched) setTrackedReport(matched);
-                  }}
-                  className="font-mono text-[11px] bg-[#222227] hover:bg-white/15 px-2.5 py-1 rounded-lg text-slate-300 font-bold"
-                >
-                  TOKEN-WBL-7719-XPQ (Investigasi)
-                </button>
-                <button
-                  type="button"
-                  onClick={() => {
-                    setTokenInput('TOKEN-WBL-8820-KLP');
-                    const matched = reports.find(r => r.token_investigasi === 'TOKEN-WBL-8820-KLP');
-                    if (matched) setTrackedReport(matched);
-                  }}
-                  className="font-mono text-[11px] bg-emerald-500/10 hover:bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 px-2.5 py-1 rounded-lg font-bold"
-                >
-                  TOKEN-WBL-8820-KLP (Valid & Sanksi)
-                </button>
-                <button
-                  type="button"
-                  onClick={() => {
-                    setTokenInput('TOKEN-WBL-3311-SPM');
-                    const matched = reports.find(r => r.token_investigasi === 'TOKEN-WBL-3311-SPM');
-                    if (matched) setTrackedReport(matched);
-                  }}
-                  className="font-mono text-[11px] bg-rose-500/10 hover:bg-rose-500/15 text-[#FB7185] border border-rose-500/30 px-2.5 py-1 rounded-lg font-bold"
-                >
-                  TOKEN-WBL-3311-SPM (Termitigasi Spam)
-                </button>
-              </div>
             </div>
 
             {trackError && (

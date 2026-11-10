@@ -269,11 +269,14 @@ export async function loginMasyarakatUser(email, password) {
   };
 
   if (demoAccounts[cleanEmail]) {
-    return {
-      success: true,
-      user: demoAccounts[cleanEmail],
-      mode: 'demo_preset'
-    };
+    if (password === 'password123') {
+      return {
+        success: true,
+        user: demoAccounts[cleanEmail],
+        mode: 'demo_preset'
+      };
+    }
+    throw new Error('Kata sandi yang Anda masukkan salah.');
   }
 
   // 2. Try Supabase Auth if configured (for live registered users)

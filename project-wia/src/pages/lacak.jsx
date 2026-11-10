@@ -112,7 +112,7 @@ export default function LacakPage({ initialPendaftaranList = [] }) {
               <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
               <input
                 type="text"
-                placeholder="Ketik Nomor Tiket Anda (contoh: TIKET-SMU-2026-098214)"
+                placeholder="Ketik Nomor Tiket Anda (format: TIKET-SMU-2026-XXXXXX)"
                 value={ticketInput}
                 onChange={(e) => setTicketInput(e.target.value)}
                 className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-white/10 font-mono text-xs text-[#E2E8F0] focus:outline-none focus:ring-2 focus:ring-[#F97316]"
@@ -127,29 +127,6 @@ export default function LacakPage({ initialPendaftaranList = [] }) {
               <span>{isLoading ? 'Mencari...' : 'Cari Status Berkas'}</span>
             </button>
           </form>
-
-          {/* Contoh Klik Cepat */}
-          <div className="flex flex-wrap items-center gap-2 pt-2 border-t border-white/10 text-xs">
-            <span className="text-slate-400 font-medium">Contoh Berkas untuk Dicoba:</span>
-            {initialPendaftaranList.map((p) => (
-              <button
-                key={p.id}
-                type="button"
-                onClick={() => {
-                  setTicketInput(p.nomor_tiket);
-                  setCurrentRecord(p);
-                  setErrorMsg('');
-                }}
-                className={`px-3 py-1 rounded-lg font-mono text-[11px] font-bold transition ${
-                  currentRecord?.id === p.id
-                    ? 'bg-[#F97316] text-white shadow-sm'
-                    : 'bg-[#222227] hover:bg-white/15 text-slate-300'
-                }`}
-              >
-                {p.nomor_tiket} ({p.nama_siswa.split(' ')[0]})
-              </button>
-            ))}
-          </div>
         </div>
 
         {errorMsg && (

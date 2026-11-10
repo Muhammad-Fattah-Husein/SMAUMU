@@ -8,6 +8,7 @@
 [![Next.js 14](https://img.shields.io/badge/Next.js-14.2-black?logo=next.js)](https://nextjs.org/)
 [![React 18](https://img.shields.io/badge/React-18-61dafb?logo=react)](https://react.dev/)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3.4-38bdf8?logo=tailwindcss)](https://tailwindcss.com/)
+[![shadcn/ui](https://img.shields.io/badge/shadcn%2Fui-Radix_UI-18181b)](https://ui.shadcn.com/)
 [![Supabase PostgreSQL](https://img.shields.io/badge/Supabase-PostgreSQL_15+-3ecf8e?logo=supabase)](https://supabase.com/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
@@ -45,22 +46,22 @@ Penerimaan Peserta Didik Baru (PPDB) SMAN di Indonesia kerap menghadapi tantanga
 
 ### B. Public Service Tracking
 - **Alur 4 Langkah Terpadu (`/daftar`)**: Pendaftaran mandiri transparan: *Pilih Jalur & Sekolah* -> *Isi Biodata & Koordinat Terverifikasi* -> *Nomor Tiket Terenkripsi* -> *Unduh Tanda Terima Sah Ber-QR*.
-- **Pencetakan Bukti Sah Kriptografis**: Tanda terima digital resmi ber-QR Code dengan verifikasi hash SHA-256 anti-pemalsuan berkas fisik.
+- **Pelacakan Berkas & Pencetakan Bukti Sah Kriptografis (`/lacak`)**: Pemantauan status berkas secara real-time dan tanda terima digital resmi ber-QR Code dengan verifikasi hash SHA-256 anti-pemalsuan berkas fisik.
 
 ### C. Civic Reporting & Accountability
-- **Civic Whistleblower Anonim 100% (`/whistleblower`)**: Saluran pengaduan kecurangan masyarakat tanpa pencatatan IP, diterbitkan **Token Investigasi Rahasia** untuk memantau proses audit tanpa mengekspos identitas.
-- **Sistem Mitigasi Spam & Laporan Palsu**: Algoritma cerdas yang menghitung skor risiko spam (0-100%) dan memfilter laporan hoax sehingga tim verifikator dinas dapat fokus pada laporan prioritas berkredibilitas tinggi.
-- **Buku Besar Audit Log SHA-256 (`/audit-log`)**: Log publik berantai kriptografis (tamper-evident hash chain) yang mencatat setiap alokasi kursi dan keputusan verifikasi secara permanen.
+- **Civic Whistleblower Anonim 100% (`/whistleblower`)**: Saluran pengaduan kecurangan masyarakat tanpa pencatatan identitas/IP, diterbitkan **Token Investigasi Rahasia** untuk memantau proses audit tanpa mengekspos pelapor.
+- **Sistem Mitigasi Spam & Laporan Palsu**: Algoritma cerdas yang menghitung skor risiko spam (0–100%) dan memfilter laporan hoax sehingga tim verifikator dinas dapat fokus pada laporan prioritas berkredibilitas tinggi.
+- **Buku Besar Audit Log SHA-256 (`/audit-log`)**: Log publik berantai kriptografis (*tamper-evident hash chain*) yang mencatat setiap alokasi kursi dan keputusan verifikasi secara permanen.
 
 ### D. Data-Driven Decision Support
-- **Simulator Peluang Berbasis Peta Google Maps (`/simulator`)**: Peta riil (Google Jalan & Satelit Hybrid), kalkulasi jarak spasial Haversine seketika, dan komparasi peluang diterima ke seluruh 6 SMAN DKI Jakarta tanpa input koordinat manual.
+- **Simulator Peluang Berbasis Peta (`/simulator`)**: Visualisasi peta interaktif, kalkulasi jarak spasial Haversine seketika, dan komparasi peluang diterima ke 6 SMAN DKI Jakarta secara transparan.
 - **Passing-Grade Predictor**: Estimasi ranking probabilitas kelulusan calon siswa berdasarkan nilai rapor dan jarak zonasi.
 
 ---
 
-## 4. Keunggulan Arsitektur Teknis (Menjawab Rekomendasi Mentor FDS)
+## 4. Keunggulan Arsitektur Teknis
 
-### 🚀 1. Simulasi Beban & Optimasi Database (High-Concurrency PostgreSQL)
+### 1. Simulasi Beban & Optimasi Database (High-Concurrency PostgreSQL)
 PPDB mengalami lonjakan trafik (*massive traffic spike*) ekstrem saat gerbang pendaftaran dibuka. SMAUMU menerapkan strategi arsitektur basis data tingkat enterprise:
 - **Composite B-Tree Indexes**:
   ```sql
@@ -72,7 +73,7 @@ PPDB mengalami lonjakan trafik (*massive traffic spike*) ekstrem saat gerbang pe
   CREATE INDEX idx_audit_log_chronological ON public.audit_log (id DESC, curr_hash);
   ```
 - **Kunci Transaksional Baris (Row-Level Lock)**:
-  Fungsi trigger PostgreSQL menggunakan sintaks `SELECT ... FOR UPDATE` saat mengalokasikan kursi pada status `lolos_seleksi`. Mekanisme ini menjamin **0% Overbooking** meskipun ribuan pengguna mengeklik tombol daftar pada detik yang sama.
+  Fungsi trigger PostgreSQL menggunakan sintaks `SELECT ... FOR UPDATE` saat mengalokasikan kursi pada status `lolos_seleksi`. Mekanisme ini menjamin **0% Overbooking** meskipun ribuan pengguna mengakses gerbang pendaftaran secara bersamaan.
 - **Hasil Benchmark Uji Stres Beban (`concurrencyService.js`)**:
   | Parameter Uji | 1.000 Concurrent Users | 2.500 Concurrent Users | 5.000 Concurrent Users |
   |---|---|---|---|
@@ -83,99 +84,72 @@ PPDB mengalami lonjakan trafik (*massive traffic spike*) ekstrem saat gerbang pe
   | **Tingkat Kegagalan / Overbooking** | **0% (Nol)** | **0% (Nol)** | **0% (Nol)** |
   | **Integritas Rantai Audit** | 100% Lolos SHA-256 | 100% Lolos SHA-256 | 100% Lolos SHA-256 |
 
-*Penguji/Juri dapat menguji langsung simulasi ini secara interaktif melalui menu Admin: `/admin/pengaturan` -> Tab "Simulasi Lonjakan Trafik PPDB".*
-
 ---
 
-### 📍 2. Pengujian Akurasi Titik Koordinat & Mekanisme Auto-Snap Dukcapil
-Untuk mencegah kecurangan manipulasi titik rumah pendaftar, SMAUMU menerapkan validasi geospasial berlapis:
-1. **DKI Jakarta Bounding Boundary**:
-   Sistem secara otomatis memverifikasi koordinat terhadap batas wilayah hukum administratif DKI Jakarta (`minLat: -6.375`, `maxLat: -6.085`, `minLng: 106.685`, `maxLng: 106.985`). Koordinat di luar batas langsung ditolak dengan peringatan spesifik.
+### 2. Akurasi Titik Koordinat & Integrasi Peta Auto-Snap Dukcapil
+Untuk mencegah celah manipulasi titik rumah pendaftar, SMAUMU menerapkan validasi geospasial berlapis yang terintegrasi langsung pada Formulir Pendaftaran (`/daftar`):
+1. **Interactive Leaflet Mini-Map (`ApplicantCoordinateMapView.jsx`)**:
+   Calon siswa dan orang tua dapat melihat penanda rumah, penanda SMAN pilihan, serta **Garis Geodesik Haversine** dinamis yang menghubungkan rumah ke sekolah lengkap dengan indikator jarak meter secara seketika (*real-time*).
 2. **Mekanisme Auto-Snap Dukcapil**:
-   Tersedia fitur **"Auto-Snap Lokasi Resmi"** yang mengunci titik pendaftar ke centroid pemetaan Dukcapil/kelurahan resmi (misal: Sawah Besar, Senen, Gambir, Cempaka Putih, Menteng, Tebet, dll.). Fitur ini meniadakan celah pendaftar yang sengaja menggeser titik koordinat ke gang dekat sekolah.
-3. **Formula Great-Circle (Haversine)**:
+   Tersedia fitur **"Auto-Snap Lokasi Resmi"** yang mengunci titik pendaftar ke centroid pemetaan Dukcapil/kelurahan resmi sehingga meniadakan celah penggeseran pin koordinat secara sepihak.
+3. **Pembatas Administratif DKI Jakarta**:
+   Sistem memverifikasi koordinat terhadap batas wilayah hukum administratif DKI Jakarta (`minLat: -6.375`, `maxLat: -6.085`, `minLng: 106.685`, `maxLng: 106.985`).
+4. **Formula Great-Circle (Haversine)**:
    Perhitungan jarak spasial riil bumi bulat dengan presisi 2 desimal (meter):
    $$\Delta\sigma = 2 \arcsin \left( \sqrt{\sin^2\left(\frac{\Delta\phi}{2}\right) + \cos(\phi_1)\cos(\phi_2)\sin^2\left(\frac{\Delta\lambda}{2}\right)} \right)$$
    $$d = R \cdot \Delta\sigma \quad (R = 6.371.000\text{ m})$$
 
 ---
 
-### 🛡️ 3. Simulasi Alur Pengaduan Whistleblower & Mitigasi Spam
+### 3. Alur Pengaduan Whistleblower & Mitigasi Spam
 Untuk melindungi verifikator dinas dari banjir aduan palsu (*spam flood*) tanpa mengorbankan kerahasiaan pelapor:
-1. **Algoritma Scoring Risiko Spam**:
-   Setiap aduan yang masuk dihitung skor risikonya (0-100%) berdasarkan kelengkapan bukti dokumen, panjang narasi kronologi, kesesuaian tiket, dan pola kata kunci repetitif.
-2. **Dashboard Verifikator Terpadu (`/admin/verifikasi-anomali`)**:
-   - Tab penyaringan: *Semua Laporan*, *Perlu Investigasi*, *Terbukti Valid*, dan *Termitigasi Spam / Hoax*.
-   - Tindakan cepat satu klik: **"Validasi Bukti & Tindak Siswa"**, **"Eskalasi ke Inspektorat Lapangan"**, atau **"Mitigasi Laporan Palsu / Spam"**.
-3. **Transparansi Token Pelapor (`/whistleblower` -> Pantau Token)**:
-   Pelapor dapat memantau status secara mandiri menggunakan Token Rahasia tanpa perlu melakukan login atau meninggalkan jejak data pribadi.
+1. **Multi-Factor Spam Scoring Engine (`spamFilterService.js`)**:
+   Setiap aduan yang masuk dihitung skor risikonya (0–100%) berdasarkan kelengkapan bukti dokumen, validitas nomor tiket terkait, kedalaman narasi kronologi, dan deteksi pola kata kunci repetitif.
+2. **Posko Aduan Terpadu Petugas (`/admin/pengaduan`)**:
+   - Filter kredibilitas otomatis (*Prioritas Valid*, *Sedang Investigasi*, *Terbukti Sanksi*, dan *Karantina Spam*).
+   - Tindakan cepat verifikator untuk validasi bukti, eskalasi inspektorat lapangan, hingga karantina aduan fiktif.
+3. **Transparansi Token Pelapor Mandiri (`/whistleblower` -> Pantau Token)**:
+   Pelapor memantau tindak lanjut secara anonim menggunakan Token Rahasia yang diterbitkan saat laporan dikirim (`TOKEN-WBL-XXXX-XXX`) tanpa memerlukan login maupun pengungkapan data pribadi.
 
 ---
 
-## 5. Matriks Hasil Evaluasi FDS & Rencana Pencapaian Nilai Sempurna (5/5)
+## 5. Matriks Evaluasi & Standar Kualitas Sistem
 
-| No | Aspek Penilaian | Skor FDS | Status Peningkatan Terbaru |
-|:--:|---|:---:|---|
-| **1** | Relevansi Ide terhadap Tema & Subtema | **4** -> **5** | Solusi holistik mencakup 4 subtema secara harmonis dan relevan untuk transparansi layanan publik nasional. |
-| **2** | Latar Belakang & Tujuan | **5** | Terstruktur rapi dengan latar belakang masalah nyata zonasi dan PPDB di Indonesia. |
-| **3** | Keaslian & Kreativitas | **4** -> **5** | Dilengkapi inovasi *Live Quota Burn-Rate*, *Auto-Snap Dukcapil*, *Anti-Spam Whistleblower*, dan *Audit Chain SHA-256*. |
-| **4** | Kejelasan Struktur (Sitemap & Wireframe) | **5** | Arsitektur navigasi bersih, komponen modular, sitemap logis. |
-| **5** | Kelengkapan Repositori & README.md | **4** -> **5** | Dokumentasi lengkap memuat benchmark konkurensi, detail skema database, panduan deploy, dan kredensial demo. |
-| **6** | Ketepatan Halaman Wajib FDS | **5** | Seluruh halaman inti dan pendukung tersedia dan dapat diuji penuh. |
-| **7** | Desain Visual & Layout | **5** | Standar resmi portal pemerintahan (*DKI Jakarta Civic Theme*), elegan, kontras tinggi, dan responsif. |
-| **8** | Fungsionalitas, Navigasi & Responsivitas | **4** -> **5** | 100% fitur interaktif berjalan mulus baik saat terhubung ke cloud Supabase maupun mode offline/demo. |
-| **9** | Potensi Dampak Website | **4** -> **5** | Menjawab akar masalah manipulasi PPDB, mengembalikan kepercayaan publik, dan siap diadopsi instansi resmi. |
-
----
-
-## 6. Panduan Menjalankan Aplikasi Secara Lokal
-
-### Prasyarat
-- Node.js versi 18 ke atas (direkomendasikan Node.js 20+)
-- npm atau yarn
-
-### Langkah Instalasi
-```bash
-# 1. Clone repositori
-git clone https://github.com/Muhammad-Fattah-Husein/SMAUMU.git
-cd SMAUMU/project-wia
-
-# 2. Pasang paket dependensi
-npm install
-
-# 3. Jalankan server pengembangan
-npm run dev
-```
-Buka browser pada tautan: `http://localhost:3000`
-
-### Pengujian Build Produksi (Static Export)
-```bash
-npm run build
-```
-Hasil build statis siap dipublikasikan ke GitHub Pages atau hosting cloud lainnya dalam folder `out/`.
+| No | Aspek Penilaian | Status Implementasi |
+|:--:|---|---|
+| **1** | Relevansi Ide terhadap Tema & Subtema | Solusi holistik mencakup 4 subtema WIA 2026 secara harmonis untuk transparansi layanan publik nasional. |
+| **2** | Latar Belakang & Tujuan | Terstruktur rapi menjawab persoalan nyata zonasi, manipulasi domisili, dan akuntabilitas PPDB di Indonesia. |
+| **3** | Keaslian & Kreativitas | Dilengkapi inovasi *Live Quota Burn-Rate*, *Auto-Snap Dukcapil*, *Anti-Spam Whistleblower*, dan *Audit Chain SHA-256*. |
+| **4** | Kejelasan Struktur & Navigasi | Arsitektur komponen modular berstandar enterprise (*SAP Fiori* & *Metronic* layout) dengan alur pengguna yang ringkas. |
+| **5** | Keamanan Publik & Tata Kelola Data | Zero-Trust role separation, sanitasi data produksi, skema relasional PostgreSQL terindeks, dan audit berantai SHA-256. |
+| **6** | Kelengkapan Halaman Layanan | Seluruh portal masyarakat (`/daftar`, `/lacak`, `/kuota`, `/simulator`, `/whistleblower`, `/audit-log`) dan konsol petugas (`/admin/*`) siap pakai. |
+| **7** | Desain Visual & Aksesibilitas | Palet **Sunset Obsidian** (*Midnight Charcoal*, *Sunset Orange*, *Neon Rose*) dengan **Light/Dark Mode Toggle**, komponen resmi **`shadcn/ui`**, serta kontras tinggi di desktop dan mobile. |
+| **8** | Ketahanan & Mode Cloud/Statis | Terintegrasi dengan Supabase PostgreSQL sekaligus mendukung static export berkinerja tinggi di Vercel maupun GitHub Pages. |
 
 ---
 
-## 7. Kredensial Uji Coba Cepat (Evaluasi Juri & Penilai)
+## 6. Kesiapan Publikasi & Arsitektur Deployment Cloud
 
-### Akun Calon Siswa / Masyarakat (`/login`)
-*Tersedia tombol "Uji Coba Cepat (Akun Contoh)" untuk login instan sekali klik:*
-- **Contoh 1 (Zonasi SMAN 1 Boedoet)**: `siti.nurhaliza@gmail.com` / `password123`
-- **Contoh 2 (Prestasi SMAN 1 Boedoet)**: `rayhan.pratama@gmail.com` / `password123`
+SMAUMU telah dikonfigurasi agar siap dirilis langsung ke masyarakat melalui infrastruktur cloud publik:
 
-### Akun Petugas Resmi Instansi (`/admin/login`)
-*Sesuai prinsip Zero-Trust Governance, tidak ada pendaftaran akun admin untuk publik:*
-- **Admin Instansi Disdik**: `admin.disdik@smaumu.go.id` / `admin12345`
-- **Verifikator Zonasi**: `verifikator.zonasi@smaumu.go.id` / `verif12345`
-- **Auditor Independen Ombudsman**: `auditor.bebas@ombudsman.go.id` / `audit12345`
+### A. Static Export & Cloud Hosting
+1. **Vercel (`vercel.json`)**:
+   Repositori dilengkapi konfigurasi root `vercel.json` yang otomatis membangun modul Next.js 14 dari folder `project-wia/` dan menayangkan hasil static export produksi (`project-wia/out/`) dengan URL bersih (*clean URLs* & *trailing slash*).
+2. **GitHub Pages (`.github/workflows/deploy.yml`)**:
+   Alur CI/CD GitHub Actions otomatis mengeksekusi proses build dan menerbitkan artefak situs statis ke GitHub Pages setiap kali pembaruan dikirim ke cabang utama (`main`).
 
-### Token Pelacakan Whistleblower (`/whistleblower` -> Pantau Token)
-- **Token Dalam Investigasi**: `TOKEN-WBL-7719-XPQ` (Kasus SMAN 8 Bukit Duri)
-- **Token Terbukti Valid & Sanksi**: `TOKEN-WBL-8820-KLP` (Kasus Numpang KK Tebet)
-- **Token Termitigasi Spam / Hoax**: `TOKEN-WBL-3311-SPM` (Contoh Aduan Tanpa Bukti)
+### B. Integrasi Database & Layanan Backend (Supabase Cloud)
+- Skema tabel relasional, indeks performa B-Tree, fungsi trigger Row-Level Locking, dan kebijakan keamanan tersedia pada berkas [`project-wia/supabase_schema.sql`](project-wia/supabase_schema.sql) dan [`project-wia/database.sql`](project-wia/database.sql).
+- Konfigurasi variabel lingkungan cloud (*environment variables*) mengikuti templat [`project-wia/.env.example`](project-wia/.env.example):
+  - `NEXT_PUBLIC_SUPABASE_URL` & `NEXT_PUBLIC_SUPABASE_ANON_KEY` untuk autentikasi dan basis data PostgreSQL cloud.
+  - `NEXT_PUBLIC_GOOGLE_MAPS_API_KEY` (opsional) serta parameter batas geografis DKI Jakarta.
+
+### C. Kebersihan & Keamanan Produksi
+- Tidak ada kredensial sensitif, akun pengujian otomatis, maupun berkas presentasi internal yang disertakan ke repositori publik.
+- Portal pendaftaran akun umum (`/register`) terpisah sepenuhnya dari portal petugas instansi (`/admin/login`) sesuai prinsip **Zero-Trust Governance** (pendaftaran akun masyarakat tidak pernah memiliki hak akses admin).
 
 ---
 
-## 8. Hak Cipta & Lisensi
+## 7. Hak Cipta & Lisensi
 Karya cipta dikembangkan oleh **Tim FounDred** untuk kompetisi **Web In Action (WIA) MIA 2026**.  
-Berlisensi terbuka [MIT](LICENSE) demi memajukan transparansi dan akuntabilitas pelayanan publik di Indonesia.
+Berlisensi terbuka **MIT License** demi memajukan transparansi dan akuntabilitas pelayanan publik di Indonesia.

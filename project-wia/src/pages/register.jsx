@@ -32,32 +32,32 @@ export default function RegisterPage() {
   // Comprehensive Form State: Contains ALL data needed across all features
   const [formData, setFormData] = useState({
     // 1. Akun & Kontak
-    nama_siswa: 'Muhammad Rayhan Pratama',
-    email: 'rayhan.pratama@gmail.com',
+    nama_siswa: '',
+    email: '',
     password: '',
     password_confirm: '',
-    nomor_telepon: '081234567890',
-    nama_wali: 'Bambang Pratama',
+    nomor_telepon: '',
+    nama_wali: '',
 
     // 2. Kependudukan & SMP
-    nik: '3171021508090002',
-    nisn: '0089123456',
-    asal_sekolah_smp: 'SMPN 1 Jakarta',
+    nik: '',
+    nisn: '',
+    asal_sekolah_smp: '',
 
     // 3. Domisili & Geospasial (Zonasi & Validasi Domisili)
-    alamat_domisili: 'Jl. Pasar Baru Timur No. 18, Sawah Besar, Jakarta Pusat',
-    lama_tinggal_bulan: 28,
-    klaim_lat: -6.167200,
-    klaim_lng: 106.837800,
+    alamat_domisili: '',
+    lama_tinggal_bulan: 12,
+    klaim_lat: -6.208800,
+    klaim_lng: 106.845600,
 
     // 4. Akademik & Prestasi (Passing-Grade Simulator & Seleksi Rapor)
-    klaim_nilai_rapor: 89.20,
-    sertifikat_prestasi: '10', // +10 Kota/Kabupaten
+    klaim_nilai_rapor: '',
+    sertifikat_prestasi: '0',
 
     // 5. Preferensi Pilihan SMAN & Jalur Masuk (Live Quota Burn-Rate)
     jalur: 'zonasi',
-    sekolah_id: 1, // SMAN 1
-    sekolah_cadangan_id: 2 // SMAN 8
+    sekolah_id: 1,
+    sekolah_cadangan_id: 2
   });
 
   const [isLoading, setIsLoading] = useState(false);

@@ -1,0 +1,9 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "framework": null,
+  "installCommand": "npm --prefix project-wia install",
+  "buildCommand": "npm --prefix project-wia run build",
+  "outputDirectory": "project-wia/out",
+  "cleanUrls": true,
+  "trailingSlash": true
+}

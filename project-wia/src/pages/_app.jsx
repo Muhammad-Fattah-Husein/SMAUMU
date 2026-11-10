@@ -20,7 +20,7 @@ export default function App({ Component, pageProps }) {
             name="description"
             content="Portal transparansi penerimaan siswa baru SMAN berbasis pengolahan data real-time, komparasi validitas, dan pelacakan publik untuk Web In Action (WIA) MIA 2026."
           />
-          <link rel="icon" href="/favicon.ico" />
+          <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
         </Head>
         <Component {...pageProps} />
       </AuthProvider>

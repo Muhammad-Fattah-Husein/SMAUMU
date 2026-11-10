@@ -66,17 +66,17 @@ export default function DaftarPage() {
     jalur: 'zonasi',
     sekolah_id: 1,
     sekolah_cadangan_id: 2,
-    nama_siswa: 'Muhammad Rayhan Pratama',
-    nik: '3171021508090002',
-    nisn: '0089123456',
-    asal_sekolah_smp: 'SMPN 1 Jakarta',
-    alamat_domisili: 'Jl. Pasar Baru Timur No. 18, Sawah Besar, Jakarta Pusat',
-    lama_tinggal_bulan: 28,
-    klaim_lat: -6.167200,
-    klaim_lng: 106.837800,
-    klaim_nilai_rapor: 89.20,
-    dokumen_kk: 'kk_terverifikasi.pdf',
-    dokumen_rapor: 'rapor_semester_1_5.pdf'
+    nama_siswa: '',
+    nik: '',
+    nisn: '',
+    asal_sekolah_smp: '',
+    alamat_domisili: '',
+    lama_tinggal_bulan: 12,
+    klaim_lat: -6.175392,
+    klaim_lng: 106.827153,
+    klaim_nilai_rapor: '',
+    dokumen_kk: '',
+    dokumen_rapor: ''
   });
 
   // Pre-fill from authenticated user profile if available
@@ -125,9 +125,7 @@ export default function DaftarPage() {
       ...prev,
       klaim_lat: matched.lat,
       klaim_lng: matched.lng,
-      alamat_domisili: prev.alamat_domisili && prev.alamat_domisili !== 'Jl. Pasar Baru Timur No. 18, Sawah Besar, Jakarta Pusat' 
-        ? prev.alamat_domisili 
-        : matched.alamatSample
+      alamat_domisili: prev.alamat_domisili || matched.alamatSample
     }));
     setIsAutoSnapped(true);
   };
@@ -187,7 +185,8 @@ export default function DaftarPage() {
         nomor_tiket: newTicketNumber,
         resmi_lat: formData.klaim_lat,
         resmi_lng: formData.klaim_lng,
-        dapodik_nilai_rapor: formData.klaim_nilai_rapor
+        klaim_nilai_rapor: parseFloat(formData.klaim_nilai_rapor) || 0,
+        dapodik_nilai_rapor: parseFloat(formData.klaim_nilai_rapor) || 0
       };
 
       const res = await fetch('/api/pendaftaran', {
@@ -461,6 +460,7 @@ export default function DaftarPage() {
                 <input
                   type="text"
                   required
+                  placeholder="Sesuai Akta Kelahiran / Kartu Keluarga"
                   value={formData.nama_siswa}
                   onChange={(e) => handleChange('nama_siswa', e.target.value)}
                   className="w-full px-3.5 py-2.5 rounded-xl border border-white/10 text-xs text-[#E2E8F0] font-bold focus:ring-2 focus:ring-[#F97316]"
@@ -473,6 +473,7 @@ export default function DaftarPage() {
                   type="text"
                   required
                   maxLength="16"
+                  placeholder="16 digit NIK sesuai Kartu Keluarga"
                   value={formData.nik}
                   onChange={(e) => handleChange('nik', e.target.value)}
                   className="w-full px-3.5 py-2.5 rounded-xl border border-white/10 font-mono text-xs text-[#E2E8F0] font-bold focus:ring-2 focus:ring-[#F97316]"
@@ -485,6 +486,7 @@ export default function DaftarPage() {
                   type="text"
                   required
                   maxLength="10"
+                  placeholder="10 digit NISN"
                   value={formData.nisn}
                   onChange={(e) => handleChange('nisn', e.target.value)}
                   className="w-full px-3.5 py-2.5 rounded-xl border border-white/10 font-mono text-xs text-[#E2E8F0] font-bold focus:ring-2 focus:ring-[#F97316]"
@@ -496,6 +498,7 @@ export default function DaftarPage() {
                 <input
                   type="text"
                   required
+                  placeholder="Contoh: SMP Negeri / MTs asal"
                   value={formData.asal_sekolah_smp}
                   onChange={(e) => handleChange('asal_sekolah_smp', e.target.value)}
                   className="w-full px-3.5 py-2.5 rounded-xl border border-white/10 text-xs text-[#E2E8F0] font-semibold focus:ring-2 focus:ring-[#F97316]"
@@ -510,6 +513,7 @@ export default function DaftarPage() {
                 <textarea
                   rows="2"
                   required
+                  placeholder="Nama jalan, RT/RW, kelurahan, kecamatan sesuai KK"
                   value={formData.alamat_domisili}
                   onChange={(e) => handleChange('alamat_domisili', e.target.value)}
                   className="w-full px-3.5 py-2 rounded-xl border border-white/10 text-xs text-[#E2E8F0] font-medium focus:ring-2 focus:ring-[#F97316]"
@@ -541,6 +545,8 @@ export default function DaftarPage() {
                     step="0.1"
                     min="60"
                     max="100"
+                    required
+                    placeholder="Contoh: 88.5"
                     value={formData.klaim_nilai_rapor}
                     onChange={(e) => handleChange('klaim_nilai_rapor', parseFloat(e.target.value))}
                     className="w-full px-3.5 py-2.5 rounded-xl border border-white/10 text-xs font-bold focus:ring-2 focus:ring-[#F97316]"

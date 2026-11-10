@@ -13,7 +13,7 @@ export default function QuotaBurnRateCard({ kuotaItem, onSimulateAdd }) {
   // Status kartu dalam bahasa ringkas
   let statusBadge = {
     label: 'Tersedia',
-    bg: 'bg-emerald-50 text-emerald-700 border-emerald-200',
+    bg: 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30',
     barColor: 'from-emerald-500 to-[#10B981]',
     icon: <CheckCircle className="w-3.5 h-3.5 text-[#10B981]" />
   };
@@ -21,23 +21,23 @@ export default function QuotaBurnRateCard({ kuotaItem, onSimulateAdd }) {
   if (saturation >= 100 || remaining === 0) {
     statusBadge = {
       label: 'Penuh',
-      bg: 'bg-slate-100 text-slate-700 border-slate-300',
+      bg: 'bg-[#222227] text-slate-300 border-white/10',
       barColor: 'from-slate-500 to-slate-600',
-      icon: <XCircle className="w-3.5 h-3.5 text-slate-500" />
+      icon: <XCircle className="w-3.5 h-3.5 text-slate-400" />
     };
   } else if (saturation >= 85 || (hoursLeft !== null && hoursLeft <= 2)) {
     statusBadge = {
       label: 'Hampir Penuh',
-      bg: 'bg-pink-50 text-[#DB2777] border-pink-200',
-      barColor: 'from-[#EC4899] to-[#DB2777]',
-      icon: <AlertTriangle className="w-3.5 h-3.5 text-[#EC4899] animate-pulse" />
+      bg: 'bg-rose-500/10 text-[#F43F5E] border-rose-500/30',
+      barColor: 'from-[#F97316] to-[#F43F5E]',
+      icon: <AlertTriangle className="w-3.5 h-3.5 text-[#F43F5E] animate-pulse" />
     };
   } else if (saturation >= 65 || (hoursLeft !== null && hoursLeft <= 6)) {
     statusBadge = {
       label: 'Cepat Terisi',
-      bg: 'bg-blue-50 text-[#1E3A8A] border-blue-200',
-      barColor: 'from-[#2563EB] to-[#1E3A8A]',
-      icon: <TrendingUp className="w-3.5 h-3.5 text-[#2563EB]" />
+      bg: 'bg-orange-500/10 text-[#F97316] border-orange-500/30',
+      barColor: 'from-[#F97316] to-[#F43F5E]',
+      icon: <TrendingUp className="w-3.5 h-3.5 text-[#F97316]" />
     };
   }
 
@@ -49,12 +49,12 @@ export default function QuotaBurnRateCard({ kuotaItem, onSimulateAdd }) {
   };
 
   return (
-    <div className="bg-white rounded-2xl border border-slate-200 p-4 sm:p-5 shadow-sm hover:shadow-md transition-all flex flex-col justify-between">
+    <div className="bg-[#1A1A1E] rounded-2xl border border-white/10 p-4 sm:p-5 shadow-sm hover:shadow-md transition-all flex flex-col justify-between">
       <div>
         {/* Header Jalur & Status Sisa Kursi */}
         <div className="flex items-start justify-between gap-2 mb-3">
           <div>
-            <h3 className="font-extrabold text-slate-900 text-base leading-snug">
+            <h3 className="font-extrabold text-white text-base leading-snug">
               {getJalurLabel(jalur)}
             </h3>
           </div>
@@ -67,14 +67,14 @@ export default function QuotaBurnRateCard({ kuotaItem, onSimulateAdd }) {
         {/* Progress Keterisian Kursi */}
         <div className="mt-2 mb-4">
           <div className="flex items-baseline justify-between text-xs mb-1.5 font-medium">
-            <span className="text-slate-600 font-semibold">
+            <span className="text-slate-400 font-semibold">
               {kuota_terisi} / {total_kuota} Kursi
             </span>
-            <span className="font-mono font-bold text-slate-900">
+            <span className="font-mono font-bold text-white">
               {formatPercentage(saturation)}
             </span>
           </div>
-          <div className="w-full h-2.5 bg-slate-100 rounded-full overflow-hidden p-0.5 border border-slate-200/80">
+          <div className="w-full h-2.5 bg-[#222227] rounded-full overflow-hidden p-0.5 border border-white/10">
             <div
               className={`h-full rounded-full bg-gradient-to-r ${statusBadge.barColor} transition-all duration-700 ease-out`}
               style={{ width: `${Math.min(100, saturation)}%` }}
@@ -83,26 +83,26 @@ export default function QuotaBurnRateCard({ kuotaItem, onSimulateAdd }) {
         </div>
 
         {/* Kotak Kecepatan Penuh & Perkiraan Waktu */}
-        <div className="grid grid-cols-2 gap-2 p-2.5 rounded-xl bg-slate-50 border border-slate-100 text-xs">
+        <div className="grid grid-cols-2 gap-2 p-2.5 rounded-xl bg-[#222227] border border-white/10 text-xs">
           <div className="flex items-center gap-2">
-            <div className="p-1 rounded-lg bg-amber-500/10 text-amber-600">
+            <div className="p-1 rounded-lg bg-amber-500/10 text-amber-400">
               <Flame className="w-3.5 h-3.5" />
             </div>
             <div>
               <p className="text-[10px] text-slate-400 font-medium">Laju Masuk</p>
-              <p className="font-bold font-mono text-slate-800 text-xs">
+              <p className="font-bold font-mono text-[#E2E8F0] text-xs">
                 {burn_rate_per_jam}/jam
               </p>
             </div>
           </div>
 
           <div className="flex items-center gap-2">
-            <div className="p-1 rounded-lg bg-blue-500/10 text-blue-600">
+            <div className="p-1 rounded-lg bg-orange-500/10 text-[#F97316]">
               <Clock className="w-3.5 h-3.5" />
             </div>
             <div>
               <p className="text-[10px] text-slate-400 font-medium">Estimasi Penuh</p>
-              <p className="font-bold font-mono text-slate-800 text-xs">
+              <p className="font-bold font-mono text-[#E2E8F0] text-xs">
                 {hoursLeft !== null ? `${hoursLeft} jam` : 'Aman'}
               </p>
             </div>
@@ -110,12 +110,12 @@ export default function QuotaBurnRateCard({ kuotaItem, onSimulateAdd }) {
         </div>
 
         {/* Total yang sudah mendaftar */}
-        <div className="mt-2.5 flex items-center justify-between text-xs text-slate-500 pt-2 border-t border-slate-100">
+        <div className="mt-2.5 flex items-center justify-between text-xs text-slate-400 pt-2 border-t border-white/10">
           <span className="flex items-center gap-1.5 text-[11px]">
             <Users className="w-3 h-3 text-slate-400" />
             Pendaftar:
           </span>
-          <span className="font-mono font-bold text-slate-800 text-[11px]">
+          <span className="font-mono font-bold text-[#E2E8F0] text-[11px]">
             {pendaftar_total}
           </span>
         </div>
@@ -123,13 +123,13 @@ export default function QuotaBurnRateCard({ kuotaItem, onSimulateAdd }) {
 
       {/* Tombol Simulasi Uji Coba */}
       {onSimulateAdd && (
-        <div className="mt-3 pt-2.5 border-t border-dashed border-slate-200">
+        <div className="mt-3 pt-2.5 border-t border-dashed border-white/10">
           <button
             onClick={handleSimulate}
             disabled={isUpdating || remaining === 0}
-            className="w-full text-center py-1.5 px-3 rounded-xl text-[11px] font-bold text-[#1E3A8A] bg-blue-50 hover:bg-blue-100 border border-blue-200 transition flex items-center justify-center gap-1.5 disabled:opacity-50"
+            className="w-full text-center py-1.5 px-3 rounded-xl text-[11px] font-bold text-[#F97316] bg-orange-500/10 hover:bg-orange-500/15 border border-orange-500/30 transition flex items-center justify-center gap-1.5 disabled:opacity-50"
           >
-            <TrendingUp className="w-3 h-3 text-[#2563EB]" />
+            <TrendingUp className="w-3 h-3 text-[#F97316]" />
             <span>+1 Berkas (Simulasi)</span>
           </button>
         </div>

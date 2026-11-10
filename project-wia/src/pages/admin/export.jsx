@@ -41,52 +41,52 @@ export default function AdminExportPage({ kuotaList, pendaftaranList, auditLogs 
   };
 
   return (
-    <div className="min-h-screen bg-slate-100 flex flex-col md:flex-row font-sans">
+    <div className="min-h-screen bg-[#222227] flex flex-col md:flex-row font-sans">
       <AdminSidebar />
       <main className="flex-1 p-6 sm:p-10 max-w-7xl">
         <div className="mb-8">
-          <h1 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">
+          <h1 className="text-2xl sm:text-3xl font-black text-white tracking-tight">
             Export Data Laporan & Rekapitulasi Terbuka
           </h1>
-          <p className="text-xs text-slate-500 mt-1">
+          <p className="text-xs text-slate-400 mt-1">
             Unduh berkas rekapitulasi PPDB SMAN untuk arsip pengawasan internal, DPRD, dan Ombudsman Publik.
           </p>
         </div>
 
         {downloadSuccess && (
-          <div className="mb-6 p-4 rounded-2xl bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs flex items-center gap-2 animate-fade-in">
-            <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
+          <div className="mb-6 p-4 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs flex items-center gap-2 animate-fade-in">
+            <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
             <span>{downloadSuccess}</span>
           </div>
         )}
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div className="bg-white rounded-3xl border border-slate-200 p-6 shadow-sm space-y-4 flex flex-col justify-between">
+          <div className="bg-[#1A1A1E] rounded-3xl border border-white/10 p-6 shadow-sm space-y-4 flex flex-col justify-between">
             <div>
-              <div className="w-10 h-10 rounded-xl bg-blue-50 text-[#1E3A8A] flex items-center justify-center font-bold mb-3">
+              <div className="w-10 h-10 rounded-xl bg-orange-500/10 text-[#F97316] flex items-center justify-center font-bold mb-3">
                 <FileSpreadsheet className="w-5 h-5" />
               </div>
-              <h3 className="font-extrabold text-slate-900 text-base">Rekapitulasi Kuota & Burn-Rate</h3>
-              <p className="text-xs text-slate-500 mt-1 leading-relaxed">
+              <h3 className="font-extrabold text-white text-base">Rekapitulasi Kuota & Burn-Rate</h3>
+              <p className="text-xs text-slate-400 mt-1 leading-relaxed">
                 Format CSV berisikan data kuota daya tampung, jumlah kursi terisi, dan laju pengisian per jam per SMAN.
               </p>
             </div>
             <button
               onClick={exportKuotaCSV}
-              className="w-full py-2.5 px-4 rounded-xl bg-[#1E3A8A] hover:bg-[#2563EB] text-white font-bold text-xs transition flex items-center justify-center gap-2"
+              className="w-full py-2.5 px-4 rounded-xl bg-[#F97316] hover:bg-[#EA580C] text-white font-bold text-xs transition flex items-center justify-center gap-2"
             >
               <Download className="w-4 h-4" />
               <span>Unduh CSV Kuota SMAN</span>
             </button>
           </div>
 
-          <div className="bg-white rounded-3xl border border-slate-200 p-6 shadow-sm space-y-4 flex flex-col justify-between">
+          <div className="bg-[#1A1A1E] rounded-3xl border border-white/10 p-6 shadow-sm space-y-4 flex flex-col justify-between">
             <div>
-              <div className="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center font-bold mb-3">
+              <div className="w-10 h-10 rounded-xl bg-emerald-500/10 text-emerald-400 flex items-center justify-center font-bold mb-3">
                 <FileText className="w-5 h-5" />
               </div>
-              <h3 className="font-extrabold text-slate-900 text-base">Daftar Pemohon & Validasi GIS</h3>
-              <p className="text-xs text-slate-500 mt-1 leading-relaxed">
+              <h3 className="font-extrabold text-white text-base">Daftar Pemohon & Validasi GIS</h3>
+              <p className="text-xs text-slate-400 mt-1 leading-relaxed">
                 Format CSV memuat nomor tiket, NIK, nama siswa, jarak ukur resmi, status Dual-Truth, dan putusan verifikasi.
               </p>
             </div>
@@ -99,19 +99,19 @@ export default function AdminExportPage({ kuotaList, pendaftaranList, auditLogs 
             </button>
           </div>
 
-          <div className="bg-white rounded-3xl border border-slate-200 p-6 shadow-sm space-y-4 flex flex-col justify-between">
+          <div className="bg-[#1A1A1E] rounded-3xl border border-white/10 p-6 shadow-sm space-y-4 flex flex-col justify-between">
             <div>
-              <div className="w-10 h-10 rounded-xl bg-slate-900 text-white flex items-center justify-center font-bold mb-3">
+              <div className="w-10 h-10 rounded-xl bg-[#141417] text-white flex items-center justify-center font-bold mb-3">
                 <Download className="w-5 h-5 text-emerald-400" />
               </div>
-              <h3 className="font-extrabold text-slate-900 text-base">Buku Besar Audit Log Kriptografi</h3>
-              <p className="text-xs text-slate-500 mt-1 leading-relaxed">
+              <h3 className="font-extrabold text-white text-base">Buku Besar Audit Log Kriptografi</h3>
+              <p className="text-xs text-slate-400 mt-1 leading-relaxed">
                 Format JSON lengkap mencakup timestamp, previous hash, current SHA-256 hash, dan rincian mutasi berkas.
               </p>
             </div>
             <button
               onClick={exportAuditJSON}
-              className="w-full py-2.5 px-4 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs transition flex items-center justify-center gap-2"
+              className="w-full py-2.5 px-4 rounded-xl bg-[#141417] hover:bg-[#222227] text-white font-bold text-xs transition flex items-center justify-center gap-2"
             >
               <Download className="w-4 h-4" />
               <span>Unduh Audit Chain (JSON)</span>

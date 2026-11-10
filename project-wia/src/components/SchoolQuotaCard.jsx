@@ -27,7 +27,7 @@ export default function SchoolQuotaCard({ schoolData }) {
   // Status Badge Keseluruhan Sekolah
   let statusBadge = {
     label: 'Tersedia',
-    bg: 'bg-emerald-50 text-emerald-700 border-emerald-200',
+    bg: 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30',
     barColor: 'from-emerald-500 to-[#10B981]',
     icon: <CheckCircle className="w-3.5 h-3.5 text-[#10B981]" />
   };
@@ -35,23 +35,23 @@ export default function SchoolQuotaCard({ schoolData }) {
   if (saturationPct >= 100 || remainingSeats === 0) {
     statusBadge = {
       label: 'Kuota Penuh',
-      bg: 'bg-slate-100 text-slate-700 border-slate-300',
+      bg: 'bg-[#222227] text-slate-300 border-white/10',
       barColor: 'from-slate-500 to-slate-600',
-      icon: <XCircle className="w-3.5 h-3.5 text-slate-500" />
+      icon: <XCircle className="w-3.5 h-3.5 text-slate-400" />
     };
   } else if (saturationPct >= 85) {
     statusBadge = {
       label: 'Hampir Penuh',
-      bg: 'bg-pink-50 text-[#DB2777] border-pink-200',
-      barColor: 'from-[#EC4899] to-[#DB2777]',
-      icon: <AlertTriangle className="w-3.5 h-3.5 text-[#EC4899] animate-pulse" />
+      bg: 'bg-rose-500/10 text-[#F43F5E] border-rose-500/30',
+      barColor: 'from-[#F97316] to-[#F43F5E]',
+      icon: <AlertTriangle className="w-3.5 h-3.5 text-[#F43F5E] animate-pulse" />
     };
   } else if (saturationPct >= 65) {
     statusBadge = {
       label: 'Cepat Terisi',
-      bg: 'bg-blue-50 text-[#1E3A8A] border-blue-200',
-      barColor: 'from-[#2563EB] to-[#1E3A8A]',
-      icon: <TrendingUp className="w-3.5 h-3.5 text-[#2563EB]" />
+      bg: 'bg-orange-500/10 text-[#F97316] border-orange-500/30',
+      barColor: 'from-[#F97316] to-[#F43F5E]',
+      icon: <TrendingUp className="w-3.5 h-3.5 text-[#F97316]" />
     };
   }
 
@@ -60,48 +60,48 @@ export default function SchoolQuotaCard({ schoolData }) {
     switch (jalur) {
       case 'zonasi':
         return {
-          barColor: 'from-blue-500 to-[#1E3A8A]',
-          badgeBg: 'bg-blue-50 text-[#1E3A8A] border-blue-200',
-          dot: 'bg-[#2563EB]'
+          barColor: 'from-[#F97316] to-[#EA580C]',
+          badgeBg: 'bg-orange-500/10 text-[#F97316] border-orange-500/30',
+          dot: 'bg-[#F97316]'
         };
       case 'afirmasi':
         return {
           barColor: 'from-emerald-400 to-[#059669]',
-          badgeBg: 'bg-emerald-50 text-emerald-800 border-emerald-200',
+          badgeBg: 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30',
           dot: 'bg-[#10B981]'
         };
       case 'prestasi_akademik':
       case 'prestasi':
         return {
           barColor: 'from-purple-500 to-[#6D28D9]',
-          badgeBg: 'bg-purple-50 text-purple-800 border-purple-200',
+          badgeBg: 'bg-rose-500/10 text-rose-300 border-rose-500/30',
           dot: 'bg-[#8B5CF6]'
         };
       case 'perpindahan_tugas':
         return {
           barColor: 'from-amber-400 to-[#D97706]',
-          badgeBg: 'bg-amber-50 text-amber-800 border-amber-200',
+          badgeBg: 'bg-amber-500/10 text-amber-400 border-amber-500/30',
           dot: 'bg-[#F59E0B]'
         };
       default:
         return {
           barColor: 'from-slate-400 to-slate-600',
-          badgeBg: 'bg-slate-50 text-slate-800 border-slate-200',
+          badgeBg: 'bg-[#222227] text-[#E2E8F0] border-white/10',
           dot: 'bg-slate-500'
         };
     }
   };
 
   return (
-    <div className="bg-white rounded-3xl border border-slate-200 overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between">
+    <div className="bg-[#1A1A1E] rounded-3xl border border-white/10 overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between">
       <div>
         {/* ============================================================== */}
         {/* 1. HEADER KARTU SEKOLAH */}
         {/* ============================================================== */}
-        <div className="p-5 sm:p-6 bg-gradient-to-r from-slate-900 via-[#1E3A8A] to-slate-900 text-white relative">
+        <div className="p-5 sm:p-6 bg-gradient-to-r from-[#141417] via-[#221614] to-[#141417] text-white relative">
           <div className="flex items-start justify-between gap-3">
             <div className="flex items-start gap-3">
-              <div className="w-10 h-10 rounded-2xl bg-white/10 text-cyan-300 backdrop-blur border border-white/20 flex items-center justify-center font-black text-sm shrink-0 shadow-inner">
+              <div className="w-10 h-10 rounded-2xl bg-white/10 text-[#F97316] backdrop-blur border border-white/20 flex items-center justify-center font-black text-sm shrink-0 shadow-inner">
                 {school.id}
               </div>
               <div>
@@ -109,7 +109,7 @@ export default function SchoolQuotaCard({ schoolData }) {
                   {school.nama_sekolah}
                 </h3>
                 <p className="text-xs text-slate-200 flex items-center gap-1.5 mt-0.5">
-                  <MapPin className="w-3.5 h-3.5 text-pink-400 shrink-0" />
+                  <MapPin className="w-3.5 h-3.5 text-[#F43F5E] shrink-0" />
                   <span>{school.kecamatan}, {school.kota}</span>
                 </p>
               </div>
@@ -140,34 +140,34 @@ export default function SchoolQuotaCard({ schoolData }) {
         {/* ============================================================== */}
         {/* 2. MASTER TOTAL KUOTA TERISI (BAR BESAR) */}
         {/* ============================================================== */}
-        <div className="p-5 sm:p-6 border-b border-slate-100 bg-slate-50/60">
+        <div className="p-5 sm:p-6 border-b border-white/10 bg-[#222227]">
           <div className="flex items-end justify-between mb-2">
             <div>
-              <span className="text-[11px] font-bold uppercase tracking-wider text-slate-500 block">
+              <span className="text-[11px] font-bold uppercase tracking-wider text-slate-400 block">
                 Total Kuota Terisi Sekolah
               </span>
               <div className="flex items-baseline gap-2 mt-0.5">
-                <span className="text-xl sm:text-2xl font-black text-slate-900 font-mono">
+                <span className="text-xl sm:text-2xl font-black text-white font-mono">
                   {totalTerisi}
                 </span>
-                <span className="text-xs text-slate-500 font-semibold">
+                <span className="text-xs text-slate-400 font-semibold">
                   / {totalKuota} Kursi
                 </span>
               </div>
             </div>
 
             <div className="text-right">
-              <span className="font-mono font-black text-base sm:text-lg text-[#1E3A8A]">
+              <span className="font-mono font-black text-base sm:text-lg text-[#F97316]">
                 {formatPercentage(saturationPct)}
               </span>
-              <span className="block text-[11px] font-bold text-slate-500">
-                Tersisa: <strong className="text-emerald-700">{remainingSeats}</strong> kursi
+              <span className="block text-[11px] font-bold text-slate-400">
+                Tersisa: <strong className="text-emerald-400">{remainingSeats}</strong> kursi
               </span>
             </div>
           </div>
 
           {/* Bar Total Kuota Terisi */}
-          <div className="w-full h-3.5 bg-slate-200/80 rounded-full overflow-hidden p-0.5 border border-slate-300/60 shadow-inner">
+          <div className="w-full h-3.5 bg-[#2A2A32] rounded-full overflow-hidden p-0.5 border border-white/10 shadow-inner">
             <div
               className={`h-full rounded-full bg-gradient-to-r ${statusBadge.barColor} transition-all duration-700 ease-out`}
               style={{ width: `${Math.min(100, saturationPct)}%` }}
@@ -175,26 +175,26 @@ export default function SchoolQuotaCard({ schoolData }) {
           </div>
 
           {/* Quick Metrics (Laju & Total Pendaftar) */}
-          <div className="grid grid-cols-2 gap-2 mt-3 pt-2.5 border-t border-slate-200/60 text-xs">
+          <div className="grid grid-cols-2 gap-2 mt-3 pt-2.5 border-t border-white/10 text-xs">
             <div className="flex items-center gap-2">
-              <div className="p-1 rounded-lg bg-amber-500/10 text-amber-600">
+              <div className="p-1 rounded-lg bg-amber-500/10 text-amber-400">
                 <Flame className="w-3.5 h-3.5" />
               </div>
               <div>
                 <p className="text-[10px] text-slate-400 font-medium">Laju Pendaftaran</p>
-                <p className="font-mono font-black text-slate-800 text-xs">
+                <p className="font-mono font-black text-[#E2E8F0] text-xs">
                   {avgBurnRate} / jam
                 </p>
               </div>
             </div>
 
             <div className="flex items-center gap-2">
-              <div className="p-1 rounded-lg bg-blue-500/10 text-blue-600">
+              <div className="p-1 rounded-lg bg-orange-500/10 text-[#F97316]">
                 <Users className="w-3.5 h-3.5" />
               </div>
               <div>
                 <p className="text-[10px] text-slate-400 font-medium">Total Pendaftar</p>
-                <p className="font-mono font-black text-slate-800 text-xs">
+                <p className="font-mono font-black text-[#E2E8F0] text-xs">
                   {totalPendaftar} Siswa
                 </p>
               </div>
@@ -207,7 +207,7 @@ export default function SchoolQuotaCard({ schoolData }) {
         {/* ============================================================== */}
         <div className="p-5 sm:p-6 space-y-3.5">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-black uppercase tracking-wider text-slate-700">
+            <span className="text-xs font-black uppercase tracking-wider text-slate-300">
               Rincian Keterisian Per Jalur:
             </span>
             <span className="text-[11px] font-semibold text-slate-400">
@@ -226,13 +226,13 @@ export default function SchoolQuotaCard({ schoolData }) {
               return (
                 <div 
                   key={item.jalur}
-                  className="p-3 rounded-2xl bg-slate-50 border border-slate-100/90 hover:bg-slate-100/60 transition"
+                  className="p-3 rounded-2xl bg-[#222227] border border-white/10 hover:bg-white/10 transition"
                 >
                   {/* Jalur Label & Kuota Info */}
                   <div className="flex items-start justify-between gap-2 mb-1.5 text-xs">
                     <div className="flex items-center gap-1.5">
                       <span className={`w-2 h-2 rounded-full ${theme.dot} shrink-0`}></span>
-                      <span className="font-bold text-slate-900 leading-tight">
+                      <span className="font-bold text-white leading-tight">
                         {getJalurLabel(item.jalur)}
                       </span>
                       <span className="text-[10px] font-semibold text-slate-400">
@@ -241,14 +241,14 @@ export default function SchoolQuotaCard({ schoolData }) {
                     </div>
 
                     <div className="text-right shrink-0">
-                      <span className="font-mono font-bold text-slate-900 text-[11px]">
+                      <span className="font-mono font-bold text-white text-[11px]">
                         {item.kuota_terisi} / {item.total_kuota} Kursi
                       </span>
                     </div>
                   </div>
 
                   {/* Bar Keterisian Per Jalur */}
-                  <div className="w-full h-2.5 bg-slate-200 rounded-full overflow-hidden p-0.5">
+                  <div className="w-full h-2.5 bg-[#2A2A32] rounded-full overflow-hidden p-0.5">
                     <div
                       className={`h-full rounded-full bg-gradient-to-r ${theme.barColor} transition-all duration-500`}
                       style={{ width: `${Math.min(100, jalurSaturation)}%` }}
@@ -256,21 +256,21 @@ export default function SchoolQuotaCard({ schoolData }) {
                   </div>
 
                   {/* Keterangan Angka Sisa & Persentase */}
-                  <div className="flex items-center justify-between text-[11px] text-slate-600 mt-1.5 font-medium">
+                  <div className="flex items-center justify-between text-[11px] text-slate-400 mt-1.5 font-medium">
                     <span className="inline-flex items-center gap-1">
                       <span>Sisa:</span>
                       <strong className={`font-mono font-black px-1.5 py-0.5 rounded ${
                         jalurRemaining <= 5 
-                          ? 'bg-rose-100 text-rose-700' 
+                          ? 'bg-rose-500/15 text-[#FB7185]' 
                           : jalurRemaining >= 25 
-                          ? 'bg-emerald-100 text-emerald-800' 
-                          : 'bg-blue-100 text-blue-800'
+                          ? 'bg-emerald-500/15 text-emerald-400' 
+                          : 'bg-orange-500/15 text-[#F97316]'
                       }`}>
                         {jalurRemaining} Kursi
                       </strong>
                     </span>
                     <span className="text-[10px] text-slate-400">
-                      Pendaftar: <strong className="text-slate-700 font-mono">{item.pendaftar_total}</strong> siswa
+                      Pendaftar: <strong className="text-slate-300 font-mono">{item.pendaftar_total}</strong> siswa
                     </span>
                   </div>
                 </div>
@@ -283,10 +283,10 @@ export default function SchoolQuotaCard({ schoolData }) {
       {/* ============================================================== */}
       {/* 4. FOOTER AKSI KARTU: DAFTAR */}
       {/* ============================================================== */}
-      <div className="p-4 sm:p-5 bg-slate-50 border-t border-slate-200/80">
+      <div className="p-4 sm:p-5 bg-[#222227] border-t border-white/10">
         <Link
           href="/daftar"
-          className="w-full py-2.5 px-4 rounded-2xl bg-[#EC4899] hover:bg-[#DB2777] text-white font-black text-xs transition shadow-md shadow-pink-500/20 flex items-center justify-center gap-1.5 text-center hover:scale-[1.01]"
+          className="w-full py-2.5 px-4 rounded-2xl bg-gradient-to-r from-[#F97316] to-[#F43F5E] hover:opacity-90 text-white font-black text-xs transition shadow-md shadow-orange-500/25 flex items-center justify-center gap-1.5 text-center hover:scale-[1.01]"
         >
           <span>Daftar SMAN</span>
           <ArrowRight className="w-4 h-4" />

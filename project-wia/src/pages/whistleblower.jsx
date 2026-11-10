@@ -110,17 +110,17 @@ export default function WhistleblowerPage({ initialReports }) {
       {/* Header Ringkas */}
       <div className="max-w-4xl mx-auto mb-6 text-center sm:text-left">
         <div className="flex items-center gap-2 mb-1 justify-center sm:justify-start">
-          <span className="p-1 rounded bg-[#EC4899] text-white">
+          <span className="p-1 rounded bg-gradient-to-r from-[#F97316] to-[#F43F5E] text-white">
             <AlertCircle className="w-3.5 h-3.5" />
           </span>
-          <span className="text-xs font-bold uppercase tracking-wider text-[#EC4899]">
+          <span className="text-xs font-bold uppercase tracking-wider text-[#F43F5E]">
             Whistleblower Anonim
           </span>
         </div>
-        <h1 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">
+        <h1 className="text-2xl sm:text-3xl font-black text-white tracking-tight">
           Lapor Kecurangan & Anomali PPDB
         </h1>
-        <p className="text-xs sm:text-sm text-slate-500 mt-0.5 max-w-xl">
+        <p className="text-xs sm:text-sm text-slate-400 mt-0.5 max-w-xl">
           Pengaduan warga 100% rahasia tanpa pencatatan IP. Pantau progres audit dinas via token.
         </p>
 
@@ -130,8 +130,8 @@ export default function WhistleblowerPage({ initialReports }) {
             onClick={() => setActiveTab('laporkan')}
             className={`px-3.5 py-2 rounded-xl text-xs font-bold transition ${
               activeTab === 'laporkan'
-                ? 'bg-[#EC4899] text-white shadow-md'
-                : 'bg-white border border-slate-200 text-slate-600 hover:bg-slate-50'
+                ? 'bg-gradient-to-r from-[#F97316] to-[#F43F5E] text-white shadow-md'
+                : 'bg-[#1A1A1E] border border-white/10 text-slate-400 hover:bg-white/5'
             }`}
           >
             Form Pengaduan
@@ -140,8 +140,8 @@ export default function WhistleblowerPage({ initialReports }) {
             onClick={() => setActiveTab('pantau')}
             className={`px-3.5 py-2 rounded-xl text-xs font-bold transition ${
               activeTab === 'pantau'
-                ? 'bg-[#1E3A8A] text-white shadow-md'
-                : 'bg-white border border-slate-200 text-slate-600 hover:bg-slate-50'
+                ? 'bg-[#F97316] text-white shadow-md'
+                : 'bg-[#1A1A1E] border border-white/10 text-slate-400 hover:bg-white/5'
             }`}
           >
             Pantau Token Laporan
@@ -153,19 +153,19 @@ export default function WhistleblowerPage({ initialReports }) {
         {activeTab === 'laporkan' && (
           <div>
             {submissionSuccess ? (
-              <div className="bg-white rounded-3xl border border-emerald-200 p-8 shadow-sm text-center space-y-4 animate-fade-in">
-                <div className="w-14 h-14 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center mx-auto">
+              <div className="bg-[#1A1A1E] rounded-3xl border border-emerald-500/30 p-8 shadow-sm text-center space-y-4 animate-fade-in">
+                <div className="w-14 h-14 rounded-full bg-emerald-500/15 text-emerald-400 flex items-center justify-center mx-auto">
                   <CheckCircle2 className="w-8 h-8" />
                 </div>
-                <h3 className="text-xl font-black text-slate-900">
+                <h3 className="text-xl font-black text-white">
                   Laporan Anda Sudah Masuk ke Tim Pengawas Dinas!
                 </h3>
-                <p className="text-xs text-slate-600 max-w-md mx-auto">
+                <p className="text-xs text-slate-400 max-w-md mx-auto">
                   Identitas Anda dirahasiakan 100%. Simpan Token Rahasia berikut untuk mengecek apa tindakan yang sudah diambil oleh petugas:
                 </p>
-                <div className="p-4 rounded-2xl bg-[#0F172A] text-white max-w-md mx-auto">
+                <div className="p-4 rounded-2xl bg-[#18181B] text-white max-w-md mx-auto">
                   <span className="text-[10px] text-slate-400 uppercase font-mono block">Token Rahasia Anda:</span>
-                  <span className="text-xl font-mono font-black text-pink-400 tracking-wider">
+                  <span className="text-xl font-mono font-black text-[#F43F5E] tracking-wider">
                     {submissionSuccess.token_investigasi}
                   </span>
                 </div>
@@ -176,22 +176,22 @@ export default function WhistleblowerPage({ initialReports }) {
                       setActiveTab('pantau');
                       setSubmissionSuccess(null);
                     }}
-                    className="px-5 py-2.5 rounded-xl bg-[#1E3A8A] text-white text-xs font-bold hover:bg-[#2563EB] transition"
+                    className="px-5 py-2.5 rounded-xl bg-[#F97316] text-white text-xs font-bold hover:bg-[#EA580C] transition"
                   >
                     Buka Pemantauan Laporan
                   </button>
                   <button
                     onClick={() => setSubmissionSuccess(null)}
-                    className="px-5 py-2.5 rounded-xl border border-slate-200 text-slate-700 text-xs font-semibold hover:bg-slate-50 transition"
+                    className="px-5 py-2.5 rounded-xl border border-white/10 text-slate-300 text-xs font-semibold hover:bg-white/5 transition"
                   >
                     Kirim Laporan Lain
                   </button>
                 </div>
               </div>
             ) : (
-              <form onSubmit={handleSubmit} className="bg-white rounded-3xl border border-slate-200 p-6 sm:p-8 shadow-sm space-y-5">
-                <div className="p-4 rounded-2xl bg-[#0F172A] text-white flex items-center gap-3">
-                  <div className="p-2 rounded-xl bg-[#EC4899] text-white shrink-0">
+              <form onSubmit={handleSubmit} className="bg-[#1A1A1E] rounded-3xl border border-white/10 p-6 sm:p-8 shadow-sm space-y-5">
+                <div className="p-4 rounded-2xl bg-[#18181B] text-white flex items-center gap-3">
+                  <div className="p-2 rounded-xl bg-gradient-to-r from-[#F97316] to-[#F43F5E] text-white shrink-0">
                     <EyeOff className="w-5 h-5" />
                   </div>
                   <div>
@@ -204,13 +204,13 @@ export default function WhistleblowerPage({ initialReports }) {
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
-                    <label className="text-xs font-bold text-slate-700 block mb-1">
+                    <label className="text-xs font-bold text-slate-300 block mb-1">
                       Apa Dugaan Kecurangan yang Terjadi?
                     </label>
                     <select
                       value={formData.kategori}
                       onChange={(e) => setFormData({ ...formData, kategori: e.target.value })}
-                      className="w-full p-2.5 rounded-xl border border-slate-300 text-xs font-bold text-slate-800 bg-white focus:ring-2 focus:ring-[#EC4899]"
+                      className="w-full p-2.5 rounded-xl border border-white/10 text-xs font-bold text-[#E2E8F0] bg-[#1A1A1E] focus:ring-2 focus:ring-[#F43F5E]"
                     >
                       <option value="manipulasi_koordinat">Memajukan Titik Rumah di Peta agar Dekat Sekolah</option>
                       <option value="numpang_kk">Numpang Kartu Keluarga (KK Baru &lt; 1 Tahun)</option>
@@ -221,7 +221,7 @@ export default function WhistleblowerPage({ initialReports }) {
                   </div>
 
                   <div>
-                    <label className="text-xs font-bold text-slate-700 block mb-1">
+                    <label className="text-xs font-bold text-slate-300 block mb-1">
                       Sekolah yang Dilaporkan / Nomor Tiket (Jika Tahu):
                     </label>
                     <input
@@ -229,13 +229,13 @@ export default function WhistleblowerPage({ initialReports }) {
                       placeholder="Contoh: SMAN 8 Jakarta atau TIKET-SMU-2026-098215"
                       value={formData.tiket_terkait}
                       onChange={(e) => setFormData({ ...formData, tiket_terkait: e.target.value })}
-                      className="w-full px-3 py-2.5 rounded-xl border border-slate-300 text-xs text-slate-800 focus:ring-2 focus:ring-[#EC4899]"
+                      className="w-full px-3 py-2.5 rounded-xl border border-white/10 text-xs text-[#E2E8F0] focus:ring-2 focus:ring-[#F43F5E]"
                     />
                   </div>
                 </div>
 
                 <div>
-                  <label className="text-xs font-bold text-slate-700 block mb-1">
+                  <label className="text-xs font-bold text-slate-300 block mb-1">
                     Judul Pengaduan:
                   </label>
                   <input
@@ -244,12 +244,12 @@ export default function WhistleblowerPage({ initialReports }) {
                     placeholder="Contoh: Ada siswa beralamat di Rawamangun tapi titik petanya dibuat di Tebet"
                     value={formData.judul}
                     onChange={(e) => setFormData({ ...formData, judul: e.target.value })}
-                    className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-xs text-slate-800 font-bold focus:ring-2 focus:ring-[#EC4899]"
+                    className="w-full px-3.5 py-2.5 rounded-xl border border-white/10 text-xs text-[#E2E8F0] font-bold focus:ring-2 focus:ring-[#F43F5E]"
                   />
                 </div>
 
                 <div>
-                  <label className="text-xs font-bold text-slate-700 block mb-1">
+                  <label className="text-xs font-bold text-slate-300 block mb-1">
                     Ceritakan Fakta yang Anda Ketahui:
                   </label>
                   <textarea
@@ -258,16 +258,16 @@ export default function WhistleblowerPage({ initialReports }) {
                     placeholder="Jelaskan alamat rumah yang sebenarnya, nama anak, atau bukti yang Anda miliki..."
                     value={formData.deskripsi}
                     onChange={(e) => setFormData({ ...formData, deskripsi: e.target.value })}
-                    className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-xs text-slate-800 leading-relaxed focus:ring-2 focus:ring-[#EC4899]"
+                    className="w-full px-3.5 py-2.5 rounded-xl border border-white/10 text-xs text-[#E2E8F0] leading-relaxed focus:ring-2 focus:ring-[#F43F5E]"
                   ></textarea>
                 </div>
 
-                <div className="p-3.5 rounded-xl border border-dashed border-slate-300 bg-slate-50 flex items-center justify-between">
-                  <div className="flex items-center gap-2.5 text-xs text-slate-600">
+                <div className="p-3.5 rounded-xl border border-dashed border-white/10 bg-[#222227] flex items-center justify-between">
+                  <div className="flex items-center gap-2.5 text-xs text-slate-400">
                     <Upload className="w-4 h-4 text-slate-400" />
                     <span>Lampirkan Foto Rumah / Tangkapan Layar / Dokumen Pendukung (Maks 10 MB)</span>
                   </div>
-                  <span className="text-[10px] text-[#1E3A8A] font-bold bg-blue-100 px-2 py-0.5 rounded">
+                  <span className="text-[10px] text-[#F97316] font-bold bg-orange-500/15 px-2 py-0.5 rounded">
                     Tersimpan Aman
                   </span>
                 </div>
@@ -276,7 +276,7 @@ export default function WhistleblowerPage({ initialReports }) {
                   <button
                     type="submit"
                     disabled={isSubmitting}
-                    className="px-6 py-3 rounded-2xl bg-[#EC4899] hover:bg-[#DB2777] text-white font-black text-xs shadow-md transition flex items-center gap-2 disabled:opacity-50"
+                    className="px-6 py-3 rounded-2xl bg-gradient-to-r from-[#F97316] to-[#F43F5E] hover:opacity-90 text-white font-black text-xs shadow-md transition flex items-center gap-2 disabled:opacity-50"
                   >
                     <Send className="w-4 h-4 text-white" />
                     <span>{isSubmitting ? 'Mengirim...' : 'Kirim Laporan Pengaduan'}</span>
@@ -290,7 +290,7 @@ export default function WhistleblowerPage({ initialReports }) {
         {/* TAB 2 */}
         {activeTab === 'pantau' && (
           <div className="space-y-6">
-            <div className="bg-white rounded-3xl border border-slate-200 p-6 shadow-sm">
+            <div className="bg-[#1A1A1E] rounded-3xl border border-white/10 p-6 shadow-sm">
               <form onSubmit={handleTrack} className="flex flex-col sm:flex-row items-center gap-3">
                 <div className="relative flex-1 w-full">
                   <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
@@ -299,18 +299,18 @@ export default function WhistleblowerPage({ initialReports }) {
                     placeholder="Masukkan Token Rahasia Anda (contoh: TOKEN-WBL-7719-XPQ)"
                     value={tokenInput}
                     onChange={(e) => setTokenInput(e.target.value)}
-                    className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-300 font-mono text-xs text-slate-800 focus:ring-2 focus:ring-[#2563EB]"
+                    className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-white/10 font-mono text-xs text-[#E2E8F0] focus:ring-2 focus:ring-[#F97316]"
                   />
                 </div>
                 <button
                   type="submit"
-                  className="w-full sm:w-auto px-6 py-2.5 rounded-xl bg-[#1E3A8A] hover:bg-[#2563EB] text-white font-bold text-xs transition"
+                  className="w-full sm:w-auto px-6 py-2.5 rounded-xl bg-[#F97316] hover:bg-[#EA580C] text-white font-bold text-xs transition"
                 >
                   Cek Tindak Lanjut
                 </button>
               </form>
 
-              <div className="mt-3 pt-3 border-t border-slate-100 flex flex-wrap items-center gap-2 text-xs">
+              <div className="mt-3 pt-3 border-t border-white/10 flex flex-wrap items-center gap-2 text-xs">
                 <span className="text-slate-400 font-medium">Contoh Token Pengaduan:</span>
                 <button
                   type="button"
@@ -319,7 +319,7 @@ export default function WhistleblowerPage({ initialReports }) {
                     const matched = reports.find(r => r.token_investigasi === 'TOKEN-WBL-7719-XPQ');
                     if (matched) setTrackedReport(matched);
                   }}
-                  className="font-mono text-[11px] bg-slate-100 hover:bg-slate-200 px-2.5 py-1 rounded-lg text-slate-700 font-bold"
+                  className="font-mono text-[11px] bg-[#222227] hover:bg-white/15 px-2.5 py-1 rounded-lg text-slate-300 font-bold"
                 >
                   TOKEN-WBL-7719-XPQ (Investigasi)
                 </button>
@@ -330,7 +330,7 @@ export default function WhistleblowerPage({ initialReports }) {
                     const matched = reports.find(r => r.token_investigasi === 'TOKEN-WBL-8820-KLP');
                     if (matched) setTrackedReport(matched);
                   }}
-                  className="font-mono text-[11px] bg-emerald-50 hover:bg-emerald-100 text-emerald-800 border border-emerald-200 px-2.5 py-1 rounded-lg font-bold"
+                  className="font-mono text-[11px] bg-emerald-500/10 hover:bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 px-2.5 py-1 rounded-lg font-bold"
                 >
                   TOKEN-WBL-8820-KLP (Valid & Sanksi)
                 </button>
@@ -341,7 +341,7 @@ export default function WhistleblowerPage({ initialReports }) {
                     const matched = reports.find(r => r.token_investigasi === 'TOKEN-WBL-3311-SPM');
                     if (matched) setTrackedReport(matched);
                   }}
-                  className="font-mono text-[11px] bg-rose-50 hover:bg-rose-100 text-rose-800 border border-rose-200 px-2.5 py-1 rounded-lg font-bold"
+                  className="font-mono text-[11px] bg-rose-500/10 hover:bg-rose-500/15 text-[#FB7185] border border-rose-500/30 px-2.5 py-1 rounded-lg font-bold"
                 >
                   TOKEN-WBL-3311-SPM (Termitigasi Spam)
                 </button>
@@ -349,32 +349,32 @@ export default function WhistleblowerPage({ initialReports }) {
             </div>
 
             {trackError && (
-              <div className="p-4 rounded-xl bg-rose-50 border border-rose-200 text-rose-800 text-xs">
+              <div className="p-4 rounded-xl bg-rose-500/10 border border-rose-500/30 text-[#FB7185] text-xs">
                 {trackError}
               </div>
             )}
 
             {trackedReport && (
-              <div className="bg-white rounded-3xl border border-slate-200 p-6 sm:p-8 shadow-sm space-y-4 animate-fade-in">
-                <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 border-b border-slate-100 pb-4">
+              <div className="bg-[#1A1A1E] rounded-3xl border border-white/10 p-6 sm:p-8 shadow-sm space-y-4 animate-fade-in">
+                <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 border-b border-white/10 pb-4">
                   <div>
                     <span className="text-[10px] font-mono text-slate-400 uppercase">Nomor Kasus Pengaduan:</span>
-                    <h3 className="font-black text-slate-900 text-base">{trackedReport.kode_laporan} - {trackedReport.judul}</h3>
+                    <h3 className="font-black text-white text-base">{trackedReport.kode_laporan} - {trackedReport.judul}</h3>
                   </div>
-                  <span className="px-3.5 py-1 rounded-full text-xs font-black uppercase tracking-wider bg-amber-100 text-amber-800 border border-amber-300">
+                  <span className="px-3.5 py-1 rounded-full text-xs font-black uppercase tracking-wider bg-amber-500/15 text-amber-400 border border-amber-500/30">
                     Status: {trackedReport.status}
                   </span>
                 </div>
 
                 <div className="space-y-3 text-xs">
-                  <div className="p-4 rounded-2xl bg-slate-50 space-y-1">
-                    <span className="text-slate-500 font-bold">Laporan yang Anda Kirim:</span>
-                    <p className="text-slate-800 leading-relaxed">{trackedReport.deskripsi}</p>
+                  <div className="p-4 rounded-2xl bg-[#222227] space-y-1">
+                    <span className="text-slate-400 font-bold">Laporan yang Anda Kirim:</span>
+                    <p className="text-[#E2E8F0] leading-relaxed">{trackedReport.deskripsi}</p>
                   </div>
 
-                  <div className="p-4 rounded-2xl bg-blue-50 border border-blue-200 text-blue-900">
-                    <span className="font-bold flex items-center gap-1.5 mb-1 text-blue-950">
-                      <Clock className="w-3.5 h-3.5 text-blue-600" />
+                  <div className="p-4 rounded-2xl bg-orange-500/10 border border-orange-500/30 text-[#F97316]">
+                    <span className="font-bold flex items-center gap-1.5 mb-1 text-[#F97316]">
+                      <Clock className="w-3.5 h-3.5 text-[#F97316]" />
                       Tanggapan Resmi Tim Pengawas Dinas Pendidikan:
                     </span>
                     <p className="text-xs leading-relaxed opacity-90">

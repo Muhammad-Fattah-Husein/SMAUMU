@@ -2,7 +2,7 @@ import { Html, Head, Main, NextScript } from 'next/document';
 
 export default function Document() {
   return (
-    <Html lang="id" className="scroll-smooth">
+    <Html lang="id" className="dark scroll-smooth">
       <Head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
@@ -11,7 +11,7 @@ export default function Document() {
           rel="stylesheet"
         />
       </Head>
-      <body className="bg-slate-50 text-slate-900 antialiased selection:bg-brand-500 selection:text-white">
+      <body className="bg-[#121212] text-[#E2E8F0] antialiased selection:bg-[#F97316] selection:text-white">
         <Main />
         <NextScript />
       </body>

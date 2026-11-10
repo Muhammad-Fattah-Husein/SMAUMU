@@ -9,7 +9,7 @@ const Command = React.forwardRef(function Command({ className, ...props }, ref) 
     <CommandPrimitive
       ref={ref}
       className={cn(
-        'flex h-full w-full flex-col overflow-hidden rounded-3xl bg-white text-slate-800',
+        'flex h-full w-full flex-col overflow-hidden rounded-3xl bg-[#1A1A1E] text-[#E2E8F0]',
         className
       )}
       {...props}
@@ -21,7 +21,7 @@ Command.displayName = CommandPrimitive.displayName;
 function CommandDialog({ children, ...props }) {
   return (
     <Dialog {...props}>
-      <DialogContent className="overflow-hidden p-0 shadow-2xl max-w-xl" hideClose>
+      <DialogContent className="overflow-hidden p-0 shadow-2xl max-w-xl border border-white/10" hideClose>
         <DialogTitle className="sr-only">Pencarian Cepat SMAUMU</DialogTitle>
         <DialogDescription className="sr-only">
           Cari menu layanan publik, halaman admin, atau data SMA Negeri di DKI Jakarta.
@@ -36,17 +36,17 @@ function CommandDialog({ children, ...props }) {
 
 const CommandInput = React.forwardRef(function CommandInput({ className, ...props }, ref) {
   return (
-    <div className="flex items-center border-b border-slate-200 bg-slate-50/70 px-4" cmdk-input-wrapper="">
-      <Search className="mr-2.5 h-4 w-4 shrink-0 text-slate-400" />
+    <div className="flex items-center border-b border-white/10 bg-[#141417] px-4" cmdk-input-wrapper="">
+      <Search className="mr-2.5 h-4 w-4 shrink-0 text-[#F97316]" />
       <CommandPrimitive.Input
         ref={ref}
         className={cn(
-          'flex h-12 w-full rounded-md bg-transparent py-3 text-xs sm:text-sm font-semibold text-slate-900 outline-none placeholder:text-slate-400 disabled:cursor-not-allowed disabled:opacity-50',
+          'flex h-12 w-full rounded-md bg-transparent py-3 text-xs sm:text-sm font-semibold text-[#E2E8F0] outline-none placeholder:text-slate-500 disabled:cursor-not-allowed disabled:opacity-50',
           className
         )}
         {...props}
       />
-      <span className="hidden sm:inline ml-2 px-2 py-0.5 rounded-md text-[10px] font-mono font-bold bg-slate-200 text-slate-600 shrink-0">
+      <span className="hidden sm:inline ml-2 px-2 py-0.5 rounded-md text-[10px] font-mono font-bold bg-white/10 text-slate-300 border border-white/10 shrink-0">
         ESC
       </span>
     </div>
@@ -81,7 +81,7 @@ const CommandGroup = React.forwardRef(function CommandGroup({ className, ...prop
     <CommandPrimitive.Group
       ref={ref}
       className={cn(
-        'overflow-hidden p-1 text-slate-800 [&_[cmdk-group-heading]]:px-3 [&_[cmdk-group-heading]]:py-1.5 [&_[cmdk-group-heading]]:text-[10px] [&_[cmdk-group-heading]]:font-bold [&_[cmdk-group-heading]]:uppercase [&_[cmdk-group-heading]]:tracking-wider [&_[cmdk-group-heading]]:text-slate-400',
+        'overflow-hidden p-1 text-[#E2E8F0] [&_[cmdk-group-heading]]:px-3 [&_[cmdk-group-heading]]:py-1.5 [&_[cmdk-group-heading]]:text-[10px] [&_[cmdk-group-heading]]:font-bold [&_[cmdk-group-heading]]:uppercase [&_[cmdk-group-heading]]:tracking-wider [&_[cmdk-group-heading]]:text-slate-400',
         className
       )}
       {...props}
@@ -94,7 +94,7 @@ const CommandSeparator = React.forwardRef(function CommandSeparator({ className,
   return (
     <CommandPrimitive.Separator
       ref={ref}
-      className={cn('-mx-1 my-1 h-px bg-slate-100', className)}
+      className={cn('-mx-1 my-1 h-px bg-white/10', className)}
       {...props}
     />
   );
@@ -106,7 +106,7 @@ const CommandItem = React.forwardRef(function CommandItem({ className, ...props 
     <CommandPrimitive.Item
       ref={ref}
       className={cn(
-        'relative flex cursor-pointer select-none items-center justify-between gap-2 rounded-xl px-3 py-2 text-xs font-semibold text-slate-700 outline-none transition-colors data-[disabled=true]:pointer-events-none data-[selected=true]:bg-blue-50 data-[selected=true]:text-[#1E3A8A] data-[disabled=true]:opacity-50',
+        'relative flex cursor-pointer select-none items-center justify-between gap-2 rounded-xl px-3 py-2 text-xs font-semibold text-[#E2E8F0] outline-none transition-colors data-[disabled=true]:pointer-events-none data-[selected=true]:bg-orange-500/15 data-[selected=true]:text-[#F97316] data-[disabled=true]:opacity-50',
         className
       )}
       {...props}

@@ -115,13 +115,13 @@ export default function DetailedMapView({
       html: `
         <div style="position: relative; width: 48px; height: 48px; display: flex; align-items: center; justify-content: center; cursor: grab;">
           <!-- Radar Pulse -->
-          <div style="position: absolute; width: 44px; height: 44px; border-radius: 9999px; background: rgba(236, 72, 153, 0.4); animation: ping 1.8s cubic-bezier(0, 0, 0.2, 1) infinite;"></div>
+          <div style="position: absolute; width: 44px; height: 44px; border-radius: 9999px; background: rgba(244, 63, 94, 0.4); animation: ping 1.8s cubic-bezier(0, 0, 0.2, 1) infinite;"></div>
           <!-- Pin Circle -->
-          <div style="position: relative; width: 36px; height: 36px; border-radius: 9999px; background: #EC4899; border: 2.5px solid #FFFFFF; box-shadow: 0 4px 12px rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; font-size: 17px;">
+          <div style="position: relative; width: 36px; height: 36px; border-radius: 9999px; background: #F43F5E; border: 2.5px solid #FFFFFF; box-shadow: 0 4px 12px rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; font-size: 17px;">
             🏠
           </div>
           <!-- Label Floating -->
-          <div style="position: absolute; top: 40px; white-space: nowrap; background: #0F172A; color: #FFFFFF; font-size: 10px; font-weight: 800; padding: 2px 7px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.3); box-shadow: 0 2px 6px rgba(0,0,0,0.5); pointer-events: none;">
+          <div style="position: absolute; top: 40px; white-space: nowrap; background: #18181B; color: #E2E8F0; font-size: 10px; font-weight: 800; padding: 2px 7px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.2); box-shadow: 0 2px 6px rgba(0,0,0,0.5); pointer-events: none;">
             Rumah Siswa
           </div>
         </div>
@@ -164,9 +164,9 @@ export default function DetailedMapView({
       const isBest = bestSchool && bestSchool.school.id === school.id;
       const isSelected = selectedSchoolId === school.id;
 
-      const badgeBg = isBest ? '#10B981' : isSelected ? '#2563EB' : '#1E293B';
-      const badgeBorder = isBest ? '#34D399' : isSelected ? '#60A5FA' : '#FFFFFF';
-      const labelColor = isBest ? '#34D399' : '#FFFFFF';
+      const badgeBg = isBest ? '#10B981' : isSelected ? '#F97316' : '#18181B';
+      const badgeBorder = isBest ? '#34D399' : isSelected ? '#FDBA74' : '#E2E8F0';
+      const labelColor = isBest ? '#34D399' : '#E2E8F0';
 
       const schoolIcon = L.divIcon({
         className: `school-marker-${school.id}`,
@@ -179,7 +179,7 @@ export default function DetailedMapView({
               border-radius: 9999px; 
               background: ${badgeBg}; 
               border: 2px solid ${badgeBorder}; 
-              box-shadow: 0 4px 10px rgba(0,0,0,0.4); 
+              box-shadow: 0 4px 10px rgba(0,0,0,0.45); 
               display: flex; 
               align-items: center; 
               justify-content: center; 
@@ -193,7 +193,7 @@ export default function DetailedMapView({
             <div style="
               margin-top: 3px;
               white-space: nowrap; 
-              background: #0F172A; 
+              background: #18181B; 
               color: ${labelColor}; 
               font-size: 10px; 
               font-weight: 800; 
@@ -216,25 +216,25 @@ export default function DetailedMapView({
         marker.on('click', () => onSelectSchool(school.id));
 
         marker.bindPopup(`
-          <div style="font-family: inherit; font-size: 12px; padding: 4px; min-width: 190px;">
-            <div style="font-weight: 800; font-size: 13px; color: #1E3A8A; margin-bottom: 2px;">
+          <div style="font-family: inherit; font-size: 12px; padding: 4px; min-width: 190px; color: #E2E8F0;">
+            <div style="font-weight: 800; font-size: 13px; color: #F97316; margin-bottom: 2px;">
               ${school.nama_sekolah}
             </div>
-            <div style="color: #64748B; font-size: 11px; margin-bottom: 6px;">
+            <div style="color: #94A3B8; font-size: 11px; margin-bottom: 6px;">
               ${school.alamat || 'DKI Jakarta'}
             </div>
             <div style="display: flex; justify-content: space-between; margin-bottom: 3px;">
-              <span style="font-weight: 600;">Jarak dari Rumah:</span>
-              <strong style="color: #0F172A;">${formatDistance(item.distanceMeters)}</strong>
+              <span style="font-weight: 600; color: #CBD5E1;">Jarak dari Rumah:</span>
+              <strong style="color: #FFFFFF;">${formatDistance(item.distanceMeters)}</strong>
             </div>
             <div style="display: flex; justify-content: space-between; margin-bottom: 6px;">
-              <span style="font-weight: 600;">Peluang Zonasi:</span>
-              <strong style="color: ${item.probability >= 70 ? '#10B981' : item.probability >= 40 ? '#D97706' : '#EF4444'};">
+              <span style="font-weight: 600; color: #CBD5E1;">Peluang Zonasi:</span>
+              <strong style="color: ${item.probability >= 70 ? '#34D399' : item.probability >= 40 ? '#FBBF24' : '#FB7185'};">
                 ${item.probability}% (${item.statusLabel})
               </strong>
             </div>
-            <div style="font-size: 10px; color: #475569; background: #F1F5F9; padding: 4px 6px; border-radius: 4px;">
-              Kuota Zonasi: <strong>${item.quotaZonasi} kursi</strong> • Radius Maks: <strong>${(school.radius_max / 1000).toFixed(1)} km</strong>
+            <div style="font-size: 10px; color: #CBD5E1; background: #222227; border: 1px solid rgba(255,255,255,0.1); padding: 4px 6px; border-radius: 4px;">
+              Kuota Zonasi: <strong style="color:#FFFFFF;">${item.quotaZonasi} kursi</strong> • Radius Maks: <strong style="color:#F97316;">${(school.radius_max / 1000).toFixed(1)} km</strong>
             </div>
           </div>
         `);
@@ -249,21 +249,21 @@ export default function DetailedMapView({
       if (!schoolCirclesRef.current[school.id]) {
         const circle = L.circle([school.lat, school.lng], {
           radius: circleRadius,
-          color: isBest ? '#10B981' : isSelected ? '#38BDF8' : '#64748B',
+          color: isBest ? '#10B981' : isSelected ? '#F97316' : '#64748B',
           weight: isBest || isSelected ? 2 : 1,
           dashArray: isBest ? null : '4, 4',
-          fillColor: isBest ? '#10B981' : isSelected ? '#38BDF8' : '#94A3B8',
-          fillOpacity: isBest ? 0.08 : isSelected ? 0.06 : 0.02
+          fillColor: isBest ? '#10B981' : isSelected ? '#F97316' : '#94A3B8',
+          fillOpacity: isBest ? 0.08 : isSelected ? 0.08 : 0.02
         }).addTo(map);
 
         schoolCirclesRef.current[school.id] = circle;
       } else {
         schoolCirclesRef.current[school.id].setStyle({
-          color: isBest ? '#10B981' : isSelected ? '#38BDF8' : '#64748B',
+          color: isBest ? '#10B981' : isSelected ? '#F97316' : '#64748B',
           weight: isBest || isSelected ? 2 : 1,
           dashArray: isBest ? null : '4, 4',
-          fillColor: isBest ? '#10B981' : isSelected ? '#38BDF8' : '#94A3B8',
-          fillOpacity: isBest ? 0.08 : isSelected ? 0.06 : 0.02
+          fillColor: isBest ? '#10B981' : isSelected ? '#F97316' : '#94A3B8',
+          fillOpacity: isBest ? 0.08 : isSelected ? 0.08 : 0.02
         });
       }
     });
@@ -286,7 +286,7 @@ export default function DetailedMapView({
 
     if (!polylineRef.current) {
       const line = L.polyline(latlngs, {
-        color: targetSchoolItem.school.id === bestSchool?.school.id ? '#10B981' : '#2563EB',
+        color: targetSchoolItem.school.id === bestSchool?.school.id ? '#10B981' : '#F97316',
         weight: 3.5,
         opacity: 0.85,
         dashArray: '6, 6'
@@ -295,7 +295,7 @@ export default function DetailedMapView({
     } else {
       polylineRef.current.setLatLngs(latlngs);
       polylineRef.current.setStyle({
-        color: targetSchoolItem.school.id === bestSchool?.school.id ? '#10B981' : '#2563EB',
+        color: targetSchoolItem.school.id === bestSchool?.school.id ? '#10B981' : '#F97316',
         dashArray: '6, 6'
       });
     }
@@ -318,14 +318,14 @@ export default function DetailedMapView({
   };
 
   return (
-    <div className="relative w-full h-[470px] sm:h-[500px] rounded-2xl overflow-hidden shadow-inner border border-slate-700 bg-slate-900">
+    <div className="relative w-full h-[470px] sm:h-[500px] rounded-2xl overflow-hidden shadow-inner border border-white/10 bg-[#18181B]">
       {/* Container DOM tempat Leaflet me-render peta */}
       <div ref={mapContainerRef} className="w-full h-full z-0" />
 
       {/* Floating Toolbar Atas: Tipe Peta & Navigasi Cepat */}
       <div className="absolute top-3 inset-x-3 z-[400] flex items-center justify-between pointer-events-none gap-2">
         {/* Layer Switcher */}
-        <div className="pointer-events-auto flex items-center gap-1 bg-slate-950/85 backdrop-blur-md p-1 rounded-xl border border-slate-700/80 shadow-lg">
+        <div className="pointer-events-auto flex items-center gap-1 bg-[#18181B]/95 backdrop-blur-md p-1 rounded-xl border border-white/15 shadow-lg">
           {Object.entries(TILE_LAYERS).map(([key, config]) => {
             const isActive = activeTileType === key;
             return (
@@ -334,8 +334,8 @@ export default function DetailedMapView({
                 onClick={() => setActiveTileType(key)}
                 className={`px-2 py-1 rounded-lg text-[10px] font-bold flex items-center gap-1 transition ${
                   isActive
-                    ? 'bg-blue-600 text-white shadow'
-                    : 'text-slate-300 hover:text-white hover:bg-slate-800/80'
+                    ? 'bg-[#F97316] text-white shadow'
+                    : 'text-slate-300 hover:text-white hover:bg-white/10'
                 }`}
                 title={`Ganti ke ${config.name}`}
               >
@@ -350,7 +350,7 @@ export default function DetailedMapView({
         <div className="pointer-events-auto flex items-center gap-1.5">
           <button
             onClick={handleCenterHouse}
-            className="px-2.5 py-1 bg-slate-950/85 hover:bg-slate-800 text-pink-400 hover:text-pink-300 backdrop-blur-md rounded-xl border border-slate-700/80 shadow-lg text-[11px] font-bold flex items-center gap-1 transition"
+            className="px-2.5 py-1 bg-[#18181B]/95 hover:bg-[#222227] text-[#F43F5E] hover:text-rose-300 backdrop-blur-md rounded-xl border border-white/15 shadow-lg text-[11px] font-bold flex items-center gap-1 transition"
             title="Pusatkan ke Rumah Siswa"
           >
             <MapPin className="w-3.5 h-3.5" />
@@ -359,7 +359,7 @@ export default function DetailedMapView({
 
           <button
             onClick={handleFitAll}
-            className="px-2.5 py-1 bg-slate-950/85 hover:bg-slate-800 text-cyan-400 hover:text-cyan-300 backdrop-blur-md rounded-xl border border-slate-700/80 shadow-lg text-[11px] font-bold flex items-center gap-1 transition"
+            className="px-2.5 py-1 bg-[#18181B]/95 hover:bg-[#222227] text-[#F97316] hover:text-orange-300 backdrop-blur-md rounded-xl border border-white/15 shadow-lg text-[11px] font-bold flex items-center gap-1 transition"
             title="Lihat seluruh sekolah dan rumah"
           >
             <Crosshair className="w-3.5 h-3.5" />
@@ -372,14 +372,14 @@ export default function DetailedMapView({
       <div className="absolute bottom-3 right-3 z-[400] flex flex-col gap-1">
         <button
           onClick={handleZoomIn}
-          className="w-7 h-7 bg-slate-950/85 hover:bg-slate-800 text-white backdrop-blur-md rounded-lg border border-slate-700/80 shadow-lg flex items-center justify-center transition"
+          className="w-7 h-7 bg-[#18181B]/95 hover:bg-[#222227] text-[#E2E8F0] backdrop-blur-md rounded-lg border border-white/15 shadow-lg flex items-center justify-center transition"
           title="Zoom In"
         >
           <ZoomIn className="w-4 h-4" />
         </button>
         <button
           onClick={handleZoomOut}
-          className="w-7 h-7 bg-slate-950/85 hover:bg-slate-800 text-white backdrop-blur-md rounded-lg border border-slate-700/80 shadow-lg flex items-center justify-center transition"
+          className="w-7 h-7 bg-[#18181B]/95 hover:bg-[#222227] text-[#E2E8F0] backdrop-blur-md rounded-lg border border-white/15 shadow-lg flex items-center justify-center transition"
           title="Zoom Out"
         >
           <ZoomOut className="w-4 h-4" />
@@ -388,8 +388,8 @@ export default function DetailedMapView({
 
       {/* Petunjuk Interaksi di Kiri Bawah */}
       <div className="absolute bottom-3 left-3 z-[400] pointer-events-none">
-        <div className="bg-slate-950/85 backdrop-blur-md px-2.5 py-1 rounded-xl border border-slate-700/80 shadow-lg text-[10px] text-slate-300 flex items-center gap-1.5">
-          <span className="w-2 h-2 rounded-full bg-pink-500 animate-pulse"></span>
+        <div className="bg-[#18181B]/95 backdrop-blur-md px-2.5 py-1 rounded-xl border border-white/15 shadow-lg text-[10px] text-[#E2E8F0] flex items-center gap-1.5">
+          <span className="w-2 h-2 rounded-full bg-[#F43F5E] animate-pulse"></span>
           <span>Klik peta atau geser pin 🏠</span>
         </div>
       </div>

@@ -51,7 +51,7 @@ export default function AdminDashboardPage({ initialStats, initialPending, initi
   };
 
   return (
-    <div className="min-h-screen bg-slate-100 flex flex-col md:flex-row font-sans">
+    <div className="min-h-screen bg-[#222227] flex flex-col md:flex-row font-sans">
       <AdminSidebar />
 
       <main className="flex-1 p-6 sm:p-10 max-w-7xl">
@@ -59,17 +59,17 @@ export default function AdminDashboardPage({ initialStats, initialPending, initi
         <div className="mb-6 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
           <div>
             <div className="flex items-center gap-2 mb-1">
-              <span className="p-1 rounded bg-[#1E3A8A] text-white">
+              <span className="p-1 rounded bg-[#F97316] text-white">
                 <LayoutDashboard className="w-3.5 h-3.5" />
               </span>
-              <span className="text-xs font-bold uppercase tracking-wider text-[#1E3A8A]">
+              <span className="text-xs font-bold uppercase tracking-wider text-[#F97316]">
                 SAP Fiori & Metronic Executive Control Center
               </span>
             </div>
-            <h1 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">
+            <h1 className="text-2xl sm:text-3xl font-black text-white tracking-tight">
               Pusat Komando Transparansi & Audit PPDB SMAN
             </h1>
-            <p className="text-xs text-slate-500 mt-0.5">
+            <p className="text-xs text-slate-400 mt-0.5">
               Pemantauan terpadu pendaftaran, anomali geospasial, mitigasi aduan warga, dan rantai integritas SHA-256.
             </p>
           </div>
@@ -79,16 +79,16 @@ export default function AdminDashboardPage({ initialStats, initialPending, initi
             <button
               type="button"
               onClick={() => setIsCommandOpen(true)}
-              className="px-3.5 py-2 rounded-xl bg-white border border-slate-300 hover:border-blue-400 text-xs font-bold text-slate-700 shadow-xs flex items-center gap-2 transition hover:bg-blue-50/50"
+              className="px-3.5 py-2 rounded-xl bg-[#1A1A1E] border border-white/10 hover:border-orange-500/40 text-xs font-bold text-slate-300 shadow-xs flex items-center gap-2 transition hover:bg-orange-500/15"
             >
               <Search className="w-3.5 h-3.5 text-slate-400" />
               <span>Cari Cepat...</span>
-              <kbd className="font-mono text-[10px] bg-slate-100 px-1.5 py-0.5 rounded text-slate-500 border border-slate-200">
+              <kbd className="font-mono text-[10px] bg-[#222227] px-1.5 py-0.5 rounded text-slate-400 border border-white/10">
                 Ctrl + K
               </kbd>
             </button>
 
-            <span className="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl bg-emerald-50 text-emerald-800 text-xs font-bold border border-emerald-300 shadow-xs">
+            <span className="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl bg-emerald-500/10 text-emerald-400 text-xs font-bold border border-emerald-500/30 shadow-xs">
               <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
               <span>Sistem Aktif & Terenkripsi</span>
             </span>
@@ -157,19 +157,19 @@ export default function AdminDashboardPage({ initialStats, initialPending, initi
         {/* ============================================================== */}
         {/* 2. TABEL ANTREAN BERKAS (METRONIC WORKLIST) */}
         {/* ============================================================== */}
-        <div className="bg-white rounded-3xl border border-slate-200 overflow-hidden shadow-xs mb-8">
-          <div className="p-5 border-b border-slate-100 flex items-center justify-between">
+        <div className="bg-[#1A1A1E] rounded-3xl border border-white/10 overflow-hidden shadow-xs mb-8">
+          <div className="p-5 border-b border-white/10 flex items-center justify-between">
             <div>
-              <h3 className="font-black text-base text-slate-900 tracking-tight">
+              <h3 className="font-black text-base text-white tracking-tight">
                 Antrean Verifikasi Berkas Terkini & Deteksi Anomali
               </h3>
-              <p className="text-xs text-slate-500 mt-0.5">
+              <p className="text-xs text-slate-400 mt-0.5">
                 Tinjau kesesuaian koordinat GIS, status kependudukan, dan nilai rapor.
               </p>
             </div>
             <Link
               href="/admin/permohonan"
-              className="text-xs font-bold text-[#1E3A8A] hover:text-[#2563EB] flex items-center gap-1 transition"
+              className="text-xs font-bold text-[#F97316] hover:text-[#F97316] flex items-center gap-1 transition"
             >
               <span>Buka Worklist Lengkap ({pendingList.length})</span>
               <ArrowRight className="w-3.5 h-3.5" />
@@ -177,8 +177,8 @@ export default function AdminDashboardPage({ initialStats, initialPending, initi
           </div>
 
           <div className="overflow-x-auto">
-            <table className="w-full text-left text-xs divide-y divide-slate-100">
-              <thead className="bg-slate-50/80 text-slate-600 uppercase text-[10px] font-bold">
+            <table className="w-full text-left text-xs divide-y divide-white/10">
+              <thead className="bg-[#222227] text-slate-400 uppercase text-[10px] font-bold">
                 <tr>
                   <th className="py-3 px-4">Nomor Tiket & Siswa</th>
                   <th className="py-3 px-4">Sekolah & Jalur</th>
@@ -188,24 +188,24 @@ export default function AdminDashboardPage({ initialStats, initialPending, initi
                   <th className="py-3 px-4 text-right">Aksi Cepat</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-100 bg-white">
+              <tbody className="divide-y divide-white/10 bg-[#1A1A1E]">
                 {pendingList.slice(0, 5).map((p) => {
                   const statusB = getStatusTahapanBadge(p.status_tahapan);
                   const isAnomaly = p.geo_anomaly_status === 'anomali_kritis_fraud';
 
                   return (
-                    <tr key={p.id} className="hover:bg-slate-50/70 transition">
+                    <tr key={p.id} className="hover:bg-white/5 transition">
                       <td className="py-3.5 px-4 whitespace-nowrap">
-                        <span className="font-mono font-bold text-slate-900 block">{p.nomor_tiket}</span>
-                        <span className="text-slate-600 font-semibold">{p.nama_siswa}</span>
+                        <span className="font-mono font-bold text-white block">{p.nomor_tiket}</span>
+                        <span className="text-slate-400 font-semibold">{p.nama_siswa}</span>
                       </td>
                       <td className="py-3.5 px-4 whitespace-nowrap">
-                        <span className="font-bold text-slate-800 block">{p.sekolah_nama}</span>
-                        <span className="text-[10px] text-blue-700 font-semibold uppercase">{p.jalur?.replace('_', ' ')}</span>
+                        <span className="font-bold text-[#E2E8F0] block">{p.sekolah_nama}</span>
+                        <span className="text-[10px] text-[#F97316] font-semibold uppercase">{p.jalur?.replace('_', ' ')}</span>
                       </td>
                       <td className="py-3.5 px-4 whitespace-nowrap font-mono text-[11px]">
                         <div>Klaim: {formatDistance(p.jarak_klaim_meter || 1200)}</div>
-                        <div className={isAnomaly ? 'text-rose-600 font-bold' : 'text-slate-500'}>
+                        <div className={isAnomaly ? 'text-[#FB7185] font-bold' : 'text-slate-400'}>
                           Resmi: {formatDistance(p.jarak_resmi_meter || 1200)}
                         </div>
                       </td>
@@ -250,19 +250,19 @@ export default function AdminDashboardPage({ initialStats, initialPending, initi
         {/* ============================================================== */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
           {/* Metronic Chronological Audit Trail */}
-          <div className="bg-white rounded-3xl p-6 border border-slate-200 shadow-xs space-y-4">
-            <div className="flex items-center justify-between border-b border-slate-100 pb-3">
+          <div className="bg-[#1A1A1E] rounded-3xl p-6 border border-white/10 shadow-xs space-y-4">
+            <div className="flex items-center justify-between border-b border-white/10 pb-3">
               <div className="flex items-center gap-2">
-                <span className="p-1.5 rounded-xl bg-blue-50 text-[#1E3A8A]">
+                <span className="p-1.5 rounded-xl bg-orange-500/10 text-[#F97316]">
                   <History className="w-4 h-4" />
                 </span>
-                <h3 className="font-black text-base text-slate-900 tracking-tight">
+                <h3 className="font-black text-base text-white tracking-tight">
                   Jejak Audit Kriptografis Terkini (Merkle Chain)
                 </h3>
               </div>
               <Link
                 href="/admin/audit-log"
-                className="text-xs font-bold text-[#1E3A8A] hover:underline flex items-center gap-1"
+                className="text-xs font-bold text-[#F97316] hover:underline flex items-center gap-1"
               >
                 <span>Buku Besar</span>
                 <ArrowRight className="w-3.5 h-3.5" />
@@ -270,16 +270,16 @@ export default function AdminDashboardPage({ initialStats, initialPending, initi
             </div>
 
             {/* Vertical Timeline */}
-            <div className="space-y-4 relative before:absolute before:inset-0 before:left-3.5 before:w-0.5 before:bg-slate-200">
+            <div className="space-y-4 relative before:absolute before:inset-0 before:left-3.5 before:w-0.5 before:bg-[#2A2A32]">
               {(initialAudit || []).slice(0, 4).map((a, idx) => (
                 <div key={idx} className="relative flex items-start gap-3 pl-2">
-                  <div className="w-4 h-4 rounded-full bg-[#1E3A8A] text-white border-2 border-white flex items-center justify-center shrink-0 z-10 shadow-xs" />
-                  <div className="min-w-0 flex-1 p-3 rounded-2xl bg-slate-50 border border-slate-200/80 text-xs space-y-1">
+                  <div className="w-4 h-4 rounded-full bg-[#F97316] text-white border-2 border-white flex items-center justify-center shrink-0 z-10 shadow-xs" />
+                  <div className="min-w-0 flex-1 p-3 rounded-2xl bg-[#222227] border border-white/10 text-xs space-y-1">
                     <div className="flex items-center justify-between">
-                      <span className="font-bold text-slate-900">{a.aksi?.replace(/_/g, ' ')}</span>
+                      <span className="font-bold text-white">{a.aksi?.replace(/_/g, ' ')}</span>
                       <span className="text-[10px] text-slate-400 font-mono">{formatDateIndo(a.created_at)}</span>
                     </div>
-                    <p className="text-slate-600 text-[11px] leading-snug">{a.deskripsi_tindakan}</p>
+                    <p className="text-slate-400 text-[11px] leading-snug">{a.deskripsi_tindakan}</p>
                     <div className="pt-1 font-mono text-[10px] text-slate-400 truncate">
                       Hash: {a.curr_hash?.substring(0, 24)}...
                     </div>
@@ -290,9 +290,9 @@ export default function AdminDashboardPage({ initialStats, initialPending, initi
           </div>
 
           {/* Posko Whistleblower Feed */}
-          <div className="bg-slate-900 text-white rounded-3xl p-6 border border-slate-800 shadow-xl space-y-4 flex flex-col justify-between">
+          <div className="bg-[#141417] text-white rounded-3xl p-6 border border-white/10 shadow-xl space-y-4 flex flex-col justify-between">
             <div>
-              <div className="flex items-center justify-between border-b border-slate-800 pb-3 mb-4">
+              <div className="flex items-center justify-between border-b border-white/10 pb-3 mb-4">
                 <div className="flex items-center gap-2">
                   <span className="p-1.5 rounded-xl bg-rose-600 text-white">
                     <AlertCircle className="w-4 h-4" />
@@ -312,7 +312,7 @@ export default function AdminDashboardPage({ initialStats, initialPending, initi
 
               <div className="space-y-3">
                 {initialReports.slice(0, 3).map((r) => (
-                  <div key={r.id} className="p-3.5 rounded-2xl bg-slate-800/80 border border-slate-700 text-xs space-y-1.5">
+                  <div key={r.id} className="p-3.5 rounded-2xl bg-[#222227] border border-white/10 text-xs space-y-1.5">
                     <div className="flex items-center justify-between">
                       <span className="font-mono text-rose-400 font-bold">{r.kode_laporan}</span>
                       <span className="text-[10px] bg-slate-700 px-2 py-0.5 rounded text-slate-300 uppercase font-semibold">
@@ -320,7 +320,7 @@ export default function AdminDashboardPage({ initialStats, initialPending, initi
                       </span>
                     </div>
                     <h4 className="font-bold text-white text-xs line-clamp-1">{r.judul}</h4>
-                    <div className="flex items-center justify-between text-[10px] text-slate-400 pt-1 border-t border-slate-700/80">
+                    <div className="flex items-center justify-between text-[10px] text-slate-400 pt-1 border-t border-white/10">
                       <span>Token: <strong className="font-mono text-slate-200">{r.token_investigasi}</strong></span>
                       <span className="text-amber-400 font-bold">Status: {r.status}</span>
                     </div>
@@ -329,7 +329,7 @@ export default function AdminDashboardPage({ initialStats, initialPending, initi
               </div>
             </div>
 
-            <div className="pt-3 border-t border-slate-800 flex items-center justify-between text-[11px] text-slate-400">
+            <div className="pt-3 border-t border-white/10 flex items-center justify-between text-[11px] text-slate-400">
               <span>Algoritma Anti-Spam Heuristik Aktif</span>
               <span className="text-emerald-400 font-bold">✓ 100% Anonim</span>
             </div>

@@ -25,8 +25,8 @@ import { formatDistance } from '@/utils/formatters';
 const DetailedMapView = dynamic(() => import('./DetailedMapView'), {
   ssr: false,
   loading: () => (
-    <div className="w-full h-[470px] sm:h-[500px] bg-slate-950 rounded-2xl border border-slate-800 flex flex-col items-center justify-center text-slate-400 gap-3">
-      <div className="w-8 h-8 border-3 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+    <div className="w-full h-[470px] sm:h-[500px] bg-[#121212] rounded-2xl border border-white/10 flex flex-col items-center justify-center text-slate-400 gap-3">
+      <div className="w-8 h-8 border-3 border-orange-500/30 border-t-transparent rounded-full animate-spin"></div>
       <p className="text-xs font-semibold text-slate-300">Memuat Peta Detail Google Maps...</p>
     </div>
   )
@@ -159,11 +159,11 @@ export default function PassingGradeCalculator() {
   const bestSchool = comparisonResults[0];
 
   return (
-    <div className="bg-white rounded-3xl border border-slate-200 overflow-hidden shadow-xl">
+    <div className="bg-[#1A1A1E] rounded-3xl border border-white/10 overflow-hidden shadow-xl">
       {/* Header Interaktif */}
-      <div className="p-6 sm:p-7 bg-gradient-to-r from-[#0B2545] via-[#1E3A8A] to-[#0B2545] text-white flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+      <div className="p-6 sm:p-7 bg-gradient-to-r from-[#141417] via-[#221614] to-[#141417] text-white flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
         <div className="flex items-center gap-3.5">
-          <div className="p-3 rounded-2xl bg-white/10 text-pink-400 backdrop-blur border border-white/15 shadow-inner">
+          <div className="p-3 rounded-2xl bg-white/10 text-[#F43F5E] backdrop-blur border border-white/15 shadow-inner">
             <Compass className="w-6 h-6 animate-spin-slow" />
           </div>
           <div>
@@ -171,7 +171,7 @@ export default function PassingGradeCalculator() {
               <h3 className="font-black text-lg sm:text-xl tracking-tight text-white">
                 Simulator Zonasi Berbasis Peta Google Maps
               </h3>
-              <span className="bg-[#EC4899] text-white text-[10px] font-black px-2.5 py-0.5 rounded-full uppercase tracking-wider shadow">
+              <span className="bg-gradient-to-r from-[#F97316] to-[#F43F5E] text-white text-[10px] font-black px-2.5 py-0.5 rounded-full uppercase tracking-wider shadow">
                 Peta Detail Real • Bebas Input Manual
               </span>
             </div>
@@ -192,16 +192,16 @@ export default function PassingGradeCalculator() {
       </div>
 
       {gpsStatus && (
-        <div className="bg-blue-50 border-b border-blue-200 px-6 py-2 text-xs font-semibold text-blue-900 flex items-center gap-2">
-          <Info className="w-4 h-4 text-blue-600" />
+        <div className="bg-orange-500/10 border-b border-orange-500/30 px-6 py-2 text-xs font-semibold text-[#F97316] flex items-center gap-2">
+          <Info className="w-4 h-4 text-[#F97316]" />
           <span>{gpsStatus}</span>
         </div>
       )}
 
       {/* Preset Cepat Pemukiman Warga */}
-      <div className="p-4 bg-slate-50 border-b border-slate-200 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2">
-        <div className="flex items-center gap-1.5 text-xs font-extrabold text-slate-700 uppercase tracking-wider shrink-0">
-          <MapPin className="w-4 h-4 text-[#2563EB]" />
+      <div className="p-4 bg-[#222227] border-b border-white/10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2">
+        <div className="flex items-center gap-1.5 text-xs font-extrabold text-slate-300 uppercase tracking-wider shrink-0">
+          <MapPin className="w-4 h-4 text-[#F97316]" />
           <span>Pilih Preset Wilayah Rumah:</span>
         </div>
         <div className="flex items-center gap-1.5 overflow-x-auto w-full sm:w-auto pb-1 sm:pb-0 scrollbar-thin">
@@ -213,8 +213,8 @@ export default function PassingGradeCalculator() {
                 onClick={() => setStudentHouse({ lat: preset.lat, lng: preset.lng, label: `${preset.label} (${preset.desc})` })}
                 className={`px-3 py-1.5 rounded-xl text-[11px] font-bold whitespace-nowrap transition ${
                   isCurrent
-                    ? 'bg-[#1E3A8A] text-white shadow-md'
-                    : 'bg-white hover:bg-slate-200 text-slate-700 border border-slate-200'
+                    ? 'bg-[#F97316] text-white shadow-md'
+                    : 'bg-[#1A1A1E] hover:bg-white/15 text-slate-300 border border-white/10'
                 }`}
                 title={preset.desc}
               >
@@ -226,7 +226,7 @@ export default function PassingGradeCalculator() {
       </div>
 
       {/* Main Grid: Peta di Kiri (7 cols) dan Komparasi Seluruh SMAN di Kanan (5 cols) */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 divide-y lg:divide-y-0 lg:divide-x divide-slate-200">
+      <div className="grid grid-cols-1 lg:grid-cols-12 divide-y lg:divide-y-0 lg:divide-x divide-white/10">
         
         {/* ============================================================== */}
         {/* SISI KIRI: PETA DETAIL GMAPS / LEAFLET (7 COLS) */}
@@ -241,7 +241,7 @@ export default function PassingGradeCalculator() {
                 Peta Spasial Real-Time (Jalan, Bangunan & Radius SMAN)
               </span>
             </div>
-            <span className="text-[10px] font-mono text-cyan-300 bg-cyan-950/80 px-2.5 py-1 rounded-full border border-cyan-800">
+            <span className="text-[10px] font-mono text-[#F97316] bg-orange-500/15 px-2.5 py-1 rounded-full border border-orange-500/30">
               ● Klik di peta atau geser pin 🏠
             </span>
           </div>
@@ -257,9 +257,9 @@ export default function PassingGradeCalculator() {
           />
 
           {/* Kotak Info Koordinat Rumah Aktif */}
-          <div className="mt-3 p-3 rounded-2xl bg-slate-900/90 border border-slate-800 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 text-xs">
+          <div className="mt-3 p-3 rounded-2xl bg-[#141417] border border-white/10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 text-xs">
             <div className="space-y-0.5">
-              <span className="text-[10px] font-bold text-pink-400 uppercase tracking-wider block">
+              <span className="text-[10px] font-bold text-[#F43F5E] uppercase tracking-wider block">
                 Lokasi Rumah Aktif:
               </span>
               <p className="font-extrabold text-white text-xs">
@@ -283,18 +283,18 @@ export default function PassingGradeCalculator() {
         {/* ============================================================== */}
         {/* SISI KANAN: HASIL KOMPARASI SELURUH 6 SMAN (5 COLS) */}
         {/* ============================================================== */}
-        <div className="lg:col-span-5 p-4 sm:p-6 bg-white space-y-4 flex flex-col justify-between">
+        <div className="lg:col-span-5 p-4 sm:p-6 bg-[#1A1A1E] space-y-4 flex flex-col justify-between">
           <div>
-            <div className="flex items-center justify-between pb-3 border-b border-slate-200">
+            <div className="flex items-center justify-between pb-3 border-b border-white/10">
               <div>
-                <h4 className="font-black text-slate-900 text-sm tracking-tight">
+                <h4 className="font-black text-white text-sm tracking-tight">
                   Peringkat Komparasi Seluruh SMAN
                 </h4>
-                <p className="text-[11px] text-slate-500">
+                <p className="text-[11px] text-slate-400">
                   Dihitung real-time dari titik rumah siswa ({comparisonResults.length} Sekolah):
                 </p>
               </div>
-              <span className="text-[10px] font-bold bg-blue-100 text-[#1E3A8A] px-2 py-0.5 rounded-full border border-blue-200">
+              <span className="text-[10px] font-bold bg-orange-500/15 text-[#F97316] px-2 py-0.5 rounded-full border border-orange-500/30">
                 Zonasi Domisili
               </span>
             </div>
@@ -305,22 +305,22 @@ export default function PassingGradeCalculator() {
                 const isBest = index === 0;
                 const isSelected = selectedSchoolId === item.school.id || hoveredSchoolId === item.school.id;
 
-                let badgeColor = 'bg-emerald-100 text-emerald-800 border-emerald-300';
+                let badgeColor = 'bg-emerald-500/15 text-emerald-400 border-emerald-500/30';
                 let barColor = 'bg-emerald-500';
-                let rankBadge = 'bg-slate-200 text-slate-700';
+                let rankBadge = 'bg-[#2A2A32] text-slate-300';
 
                 if (isBest) {
                   rankBadge = 'bg-emerald-600 text-white';
                 } else if (index === 1) {
-                  rankBadge = 'bg-blue-600 text-white';
+                  rankBadge = 'bg-[#F97316] text-white';
                 }
 
                 if (item.statusTheme === 'warning') {
-                  badgeColor = 'bg-amber-100 text-amber-800 border-amber-300';
+                  badgeColor = 'bg-amber-500/15 text-amber-400 border-amber-500/30';
                   barColor = 'bg-amber-500';
                 } else if (item.statusTheme === 'danger') {
-                  badgeColor = 'bg-pink-100 text-[#DB2777] border-pink-300';
-                  barColor = 'bg-[#EC4899]';
+                  badgeColor = 'bg-rose-500/15 text-[#F43F5E] border-rose-500/30';
+                  barColor = 'bg-gradient-to-r from-[#F97316] to-[#F43F5E]';
                 }
 
                 return (
@@ -331,10 +331,10 @@ export default function PassingGradeCalculator() {
                     onMouseLeave={() => setHoveredSchoolId(null)}
                     className={`p-3.5 rounded-2xl border transition-all cursor-pointer ${
                       isSelected
-                        ? 'bg-blue-50/80 border-[#2563EB] shadow-md ring-1 ring-[#2563EB]/40'
+                        ? 'bg-orange-500/10 border-[#F97316] shadow-md ring-1 ring-[#F97316]/40'
                         : isBest
-                        ? 'bg-emerald-50/40 border-emerald-300 hover:border-emerald-400'
-                        : 'bg-white hover:bg-slate-50 border-slate-200'
+                        ? 'bg-emerald-500/10 border-emerald-500/30 hover:border-emerald-500/30'
+                        : 'bg-[#1A1A1E] hover:bg-white/5 border-white/10'
                     }`}
                   >
                     <div className="flex items-start justify-between gap-2">
@@ -343,10 +343,10 @@ export default function PassingGradeCalculator() {
                           #{index + 1}
                         </span>
                         <div>
-                          <h5 className="font-black text-xs text-slate-900 leading-tight">
+                          <h5 className="font-black text-xs text-white leading-tight">
                             {item.school.nama_sekolah}
                           </h5>
-                          <p className="text-[10px] text-slate-500 mt-0.5">
+                          <p className="text-[10px] text-slate-400 mt-0.5">
                             {item.school.kecamatan}, {item.school.kota}
                           </p>
                         </div>
@@ -354,7 +354,7 @@ export default function PassingGradeCalculator() {
 
                       {/* Jarak Riil */}
                       <div className="text-right shrink-0">
-                        <span className="font-mono font-black text-xs text-[#1E3A8A]">
+                        <span className="font-mono font-black text-xs text-[#F97316]">
                           {formatDistance(item.distanceMeters)}
                         </span>
                         <span className={`block text-[9px] font-extrabold px-1.5 py-0.2 rounded border mt-0.5 ${badgeColor}`}>
@@ -364,33 +364,33 @@ export default function PassingGradeCalculator() {
                     </div>
 
                     {/* Progress Bar Probabilitas */}
-                    <div className="mt-2.5 pt-2 border-t border-slate-100 flex items-center justify-between text-xs">
-                      <span className="text-[11px] text-slate-600 font-semibold">
+                    <div className="mt-2.5 pt-2 border-t border-white/10 flex items-center justify-between text-xs">
+                      <span className="text-[11px] text-slate-400 font-semibold">
                         Peluang Zonasi:
                       </span>
                       <div className="flex items-center gap-2">
-                        <div className="w-24 h-2 bg-slate-200 rounded-full overflow-hidden">
+                        <div className="w-24 h-2 bg-[#2A2A32] rounded-full overflow-hidden">
                           <div
                             className={`h-full rounded-full transition-all duration-500 ${barColor}`}
                             style={{ width: `${item.probability}%` }}
                           ></div>
                         </div>
-                        <span className="font-mono font-black text-xs text-slate-900 w-8 text-right">
+                        <span className="font-mono font-black text-xs text-white w-8 text-right">
                           {item.probability}%
                         </span>
                       </div>
                     </div>
 
                     {/* Info Kuota & Estimasi Ranking */}
-                    <div className="mt-2 flex items-center justify-between text-[10px] text-slate-500 font-medium">
-                      <span>Daya Tampung Zonasi: <strong className="text-slate-800">{item.quotaZonasi} kursi</strong></span>
-                      <span>Est. Peringkat: <strong className="font-mono text-slate-800">#{item.estimatedRank}</strong></span>
+                    <div className="mt-2 flex items-center justify-between text-[10px] text-slate-400 font-medium">
+                      <span>Daya Tampung Zonasi: <strong className="text-[#E2E8F0]">{item.quotaZonasi} kursi</strong></span>
+                      <span>Est. Peringkat: <strong className="font-mono text-[#E2E8F0]">#{item.estimatedRank}</strong></span>
                     </div>
 
                     {/* Rekomendasi Khusus */}
                     {isBest && (
-                      <div className="mt-2 p-1.5 rounded-lg bg-emerald-100/70 text-emerald-900 text-[10px] font-bold flex items-center gap-1">
-                        <Sparkles className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
+                      <div className="mt-2 p-1.5 rounded-lg bg-emerald-500/15 text-emerald-400 text-[10px] font-bold flex items-center gap-1">
+                        <Sparkles className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
                         <span>Sekolah Terdekat & Peluang Paling Maksimal untuk Rumah Anda!</span>
                       </div>
                     )}
@@ -401,10 +401,10 @@ export default function PassingGradeCalculator() {
           </div>
 
           {/* Tombol Aksi Lanjut Daftar */}
-          <div className="pt-3 border-t border-slate-200">
+          <div className="pt-3 border-t border-white/10">
             <Link
               href="/daftar"
-              className="w-full py-3 px-4 rounded-2xl bg-[#EC4899] hover:bg-[#DB2777] text-white font-black text-xs transition-all shadow-md shadow-pink-500/20 flex items-center justify-center gap-2"
+              className="w-full py-3 px-4 rounded-2xl bg-gradient-to-r from-[#F97316] to-[#F43F5E] hover:opacity-90 text-white font-black text-xs transition-all shadow-md shadow-orange-500/25 flex items-center justify-center gap-2"
             >
               <span>Daftarkan Siswa ke SMAN Pilihan ({bestSchool?.school.nama_sekolah.split('(')[0] || 'SMAN Terdekat'})</span>
               <ArrowRight className="w-4 h-4" />

@@ -183,17 +183,17 @@ export default function KuotaPage({ initialKuota }) {
       <div className="mb-6 flex flex-col md:flex-row items-start md:items-center justify-between gap-3">
         <div>
           <div className="flex items-center gap-2 mb-1">
-            <span className="p-1 rounded bg-[#1E3A8A] text-white">
+            <span className="p-1 rounded bg-[#F97316] text-white">
               <Flame className="w-3.5 h-3.5" />
             </span>
-            <span className="text-xs font-bold uppercase tracking-wider text-[#1E3A8A]">
+            <span className="text-xs font-bold uppercase tracking-wider text-[#F97316]">
               Open Government Data • Real-Time Capacity
             </span>
           </div>
-          <h1 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">
+          <h1 className="text-2xl sm:text-3xl font-black text-white tracking-tight">
             Pantau Kuota Siswa Per-Sekolah
           </h1>
-          <p className="text-xs sm:text-sm text-slate-500 mt-0.5 max-w-xl">
+          <p className="text-xs sm:text-sm text-slate-400 mt-0.5 max-w-xl">
             Informasi keterisian kuota siswa ditampilkan per-sekolah dengan bar progres visual keseluruhan dan rincian per jalur pendaftaran.
           </p>
         </div>
@@ -202,14 +202,14 @@ export default function KuotaPage({ initialKuota }) {
           <button
             onClick={handleRefresh}
             disabled={isRefreshing}
-            className="flex-1 md:flex-none px-3.5 py-2 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 text-xs font-bold text-slate-700 transition flex items-center justify-center gap-1.5 shadow-sm"
+            className="flex-1 md:flex-none px-3.5 py-2 rounded-xl border border-white/10 bg-[#1A1A1E] hover:bg-white/5 text-xs font-bold text-slate-300 transition flex items-center justify-center gap-1.5 shadow-sm"
           >
             <RefreshCw className={`w-3.5 h-3.5 ${isRefreshing ? 'animate-spin' : ''}`} />
             <span>Perbarui Data</span>
           </button>
           <button
             onClick={exportDataJSON}
-            className="flex-1 md:flex-none px-3.5 py-2 rounded-xl bg-[#1E3A8A] hover:bg-[#2563EB] text-white text-xs font-bold transition flex items-center justify-center gap-1.5 shadow-sm"
+            className="flex-1 md:flex-none px-3.5 py-2 rounded-xl bg-[#F97316] hover:bg-[#EA580C] text-white text-xs font-bold transition flex items-center justify-center gap-1.5 shadow-sm"
           >
             <Download className="w-3.5 h-3.5" />
             <span>Unduh JSON</span>
@@ -221,57 +221,57 @@ export default function KuotaPage({ initialKuota }) {
       {/* 2. STATISTIK RINGKAS SELURUH SMAN */}
       {/* ============================================================== */}
       <section className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mb-6">
-        <div className="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm flex items-center gap-3">
-          <div className="p-2.5 rounded-xl bg-blue-50 text-[#1E3A8A] shrink-0">
+        <div className="bg-[#1A1A1E] p-4 rounded-2xl border border-white/10 shadow-sm flex items-center gap-3">
+          <div className="p-2.5 rounded-xl bg-orange-500/10 text-[#F97316] shrink-0">
             <School className="w-5 h-5" />
           </div>
           <div>
-            <p className="text-[11px] text-slate-500 font-semibold">Total SMAN</p>
-            <h4 className="text-lg sm:text-xl font-black text-slate-900">
+            <p className="text-[11px] text-slate-400 font-semibold">Total SMAN</p>
+            <h4 className="text-lg sm:text-xl font-black text-white">
               {schoolsData.length} Sekolah
             </h4>
-            <span className="text-[10px] text-blue-600 font-bold">DKI Jakarta</span>
+            <span className="text-[10px] text-[#F97316] font-bold">DKI Jakarta</span>
           </div>
         </div>
 
-        <div className="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm flex items-center gap-3">
-          <div className="p-2.5 rounded-xl bg-pink-50 text-pink-600 shrink-0">
+        <div className="bg-[#1A1A1E] p-4 rounded-2xl border border-white/10 shadow-sm flex items-center gap-3">
+          <div className="p-2.5 rounded-xl bg-rose-500/10 text-[#F43F5E] shrink-0">
             <BarChart3 className="w-5 h-5" />
           </div>
           <div>
-            <p className="text-[11px] text-slate-500 font-semibold">Total Kuota Terisi</p>
-            <h4 className="text-lg sm:text-xl font-black text-slate-900">
+            <p className="text-[11px] text-slate-400 font-semibold">Total Kuota Terisi</p>
+            <h4 className="text-lg sm:text-xl font-black text-white">
               {aggregateMetrics.totalFilled} / {aggregateMetrics.totalCap}
             </h4>
-            <span className="text-[10px] text-pink-600 font-bold">
+            <span className="text-[10px] text-[#F43F5E] font-bold">
               {formatPercentage(aggregateMetrics.avgSaturation)} Terisi
             </span>
           </div>
         </div>
 
-        <div className="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm flex items-center gap-3">
-          <div className="p-2.5 rounded-xl bg-emerald-50 text-emerald-600 shrink-0">
+        <div className="bg-[#1A1A1E] p-4 rounded-2xl border border-white/10 shadow-sm flex items-center gap-3">
+          <div className="p-2.5 rounded-xl bg-emerald-500/10 text-emerald-400 shrink-0">
             <CheckCircle2 className="w-5 h-5" />
           </div>
           <div>
-            <p className="text-[11px] text-slate-500 font-semibold">Sisa Bangku Terbuka</p>
-            <h4 className="text-lg sm:text-xl font-black text-emerald-600">
+            <p className="text-[11px] text-slate-400 font-semibold">Sisa Bangku Terbuka</p>
+            <h4 className="text-lg sm:text-xl font-black text-emerald-400">
               {aggregateMetrics.totalCap - aggregateMetrics.totalFilled} Kursi
             </h4>
-            <span className="text-[10px] text-emerald-700 font-bold">Tersedia untuk Siswa</span>
+            <span className="text-[10px] text-emerald-400 font-bold">Tersedia untuk Siswa</span>
           </div>
         </div>
 
-        <div className="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm flex items-center gap-3">
-          <div className="p-2.5 rounded-xl bg-amber-50 text-amber-600 shrink-0">
+        <div className="bg-[#1A1A1E] p-4 rounded-2xl border border-white/10 shadow-sm flex items-center gap-3">
+          <div className="p-2.5 rounded-xl bg-amber-500/10 text-amber-400 shrink-0">
             <Users className="w-5 h-5" />
           </div>
           <div>
-            <p className="text-[11px] text-slate-500 font-semibold">Total Berkas Masuk</p>
-            <h4 className="text-lg sm:text-xl font-black text-slate-900">
+            <p className="text-[11px] text-slate-400 font-semibold">Total Berkas Masuk</p>
+            <h4 className="text-lg sm:text-xl font-black text-white">
               {aggregateMetrics.totalApplicants} Siswa
             </h4>
-            <span className="text-[10px] text-amber-600 font-bold">Seluruh Jalur</span>
+            <span className="text-[10px] text-amber-400 font-bold">Seluruh Jalur</span>
           </div>
         </div>
       </section>
@@ -279,7 +279,7 @@ export default function KuotaPage({ initialKuota }) {
       {/* ============================================================== */}
       {/* 3. TOOLBAR PENCARIAN & FILTER PER-SEKOLAH */}
       {/* ============================================================== */}
-      <div className="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm mb-6 flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-3 text-xs">
+      <div className="bg-[#1A1A1E] p-4 rounded-2xl border border-white/10 shadow-sm mb-6 flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-3 text-xs">
         {/* Input Pencarian */}
         <div className="relative flex-1">
           <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
@@ -288,7 +288,7 @@ export default function KuotaPage({ initialKuota }) {
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Cari SMAN, kecamatan (contoh: SMAN 1, Tebet, Bulungan)..."
-            className="w-full pl-9 pr-4 py-2 rounded-xl border border-slate-300 bg-slate-50/50 text-slate-800 font-medium focus:bg-white focus:ring-2 focus:ring-[#2563EB] outline-none transition"
+            className="w-full pl-9 pr-4 py-2 rounded-xl border border-white/10 bg-[#222227] text-[#E2E8F0] font-medium focus:bg-[#1A1A1E] focus:ring-2 focus:ring-[#F97316] outline-none transition"
           />
         </div>
 
@@ -296,11 +296,11 @@ export default function KuotaPage({ initialKuota }) {
         <div className="flex items-center gap-2 flex-wrap sm:flex-nowrap">
           {/* Filter Kota */}
           <div className="flex items-center gap-1.5 w-full sm:w-auto">
-            <span className="font-bold text-slate-600 shrink-0">Wilayah:</span>
+            <span className="font-bold text-slate-400 shrink-0">Wilayah:</span>
             <select
               value={selectedKota}
               onChange={(e) => setSelectedKota(e.target.value)}
-              className="px-3 py-2 rounded-xl border border-slate-300 bg-white text-slate-800 font-bold focus:ring-2 focus:ring-[#2563EB] outline-none w-full sm:w-auto"
+              className="px-3 py-2 rounded-xl border border-white/10 bg-[#1A1A1E] text-[#E2E8F0] font-bold focus:ring-2 focus:ring-[#F97316] outline-none w-full sm:w-auto"
             >
               <option value="all">Semua Wilayah</option>
               <option value="Jakarta Pusat">Jakarta Pusat</option>
@@ -310,11 +310,11 @@ export default function KuotaPage({ initialKuota }) {
 
           {/* Filter Status Keterisian */}
           <div className="flex items-center gap-1.5 w-full sm:w-auto">
-            <span className="font-bold text-slate-600 shrink-0">Status:</span>
+            <span className="font-bold text-slate-400 shrink-0">Status:</span>
             <select
               value={selectedStatus}
               onChange={(e) => setSelectedStatus(e.target.value)}
-              className="px-3 py-2 rounded-xl border border-slate-300 bg-white text-slate-800 font-bold focus:ring-2 focus:ring-[#2563EB] outline-none w-full sm:w-auto"
+              className="px-3 py-2 rounded-xl border border-white/10 bg-[#1A1A1E] text-[#E2E8F0] font-bold focus:ring-2 focus:ring-[#F97316] outline-none w-full sm:w-auto"
             >
               <option value="all">Semua Status</option>
               <option value="tersedia">Tersedia (&lt;65%)</option>
@@ -330,7 +330,7 @@ export default function KuotaPage({ initialKuota }) {
             <select
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value)}
-              className="px-3 py-2 rounded-xl border border-slate-300 bg-white text-slate-800 font-bold focus:ring-2 focus:ring-[#2563EB] outline-none w-full sm:w-auto"
+              className="px-3 py-2 rounded-xl border border-white/10 bg-[#1A1A1E] text-[#E2E8F0] font-bold focus:ring-2 focus:ring-[#F97316] outline-none w-full sm:w-auto"
             >
               <option value="default">Urutkan SMAN (Default)</option>
               <option value="terisi_desc">Paling Banyak Terisi (%)</option>
@@ -355,10 +355,10 @@ export default function KuotaPage({ initialKuota }) {
           ))}
         </div>
       ) : (
-        <div className="bg-white rounded-3xl border border-slate-200 p-10 text-center mb-16">
+        <div className="bg-[#1A1A1E] rounded-3xl border border-white/10 p-10 text-center mb-16">
           <School className="w-10 h-10 text-slate-300 mx-auto mb-3" />
-          <h3 className="font-black text-slate-800 text-base">Tidak ada sekolah yang cocok</h3>
-          <p className="text-xs text-slate-500 mt-1 max-w-sm mx-auto">
+          <h3 className="font-black text-[#E2E8F0] text-base">Tidak ada sekolah yang cocok</h3>
+          <p className="text-xs text-slate-400 mt-1 max-w-sm mx-auto">
             Coba sesuaikan kata kunci pencarian atau reset filter wilayah dan status.
           </p>
           <button
@@ -368,7 +368,7 @@ export default function KuotaPage({ initialKuota }) {
               setSelectedStatus('all');
               setSortBy('default');
             }}
-            className="mt-4 px-4 py-2 rounded-xl bg-blue-50 text-[#1E3A8A] font-bold text-xs hover:bg-blue-100 transition"
+            className="mt-4 px-4 py-2 rounded-xl bg-orange-500/10 text-[#F97316] font-bold text-xs hover:bg-orange-500/15 transition"
           >
             Reset Semua Filter
           </button>
@@ -384,14 +384,14 @@ export default function KuotaPage({ initialKuota }) {
             <span className="p-1 rounded bg-[#10B981] text-white">
               <Layers className="w-3.5 h-3.5" />
             </span>
-            <span className="text-xs font-bold uppercase tracking-wider text-emerald-800">
+            <span className="text-xs font-bold uppercase tracking-wider text-emerald-400">
               Analisis Spasial Zonasi
             </span>
           </div>
-          <h2 className="text-xl sm:text-2xl font-black text-slate-900 tracking-tight">
+          <h2 className="text-xl sm:text-2xl font-black text-white tracking-tight">
             Peta Lokasi SMAN & Deteksi Blank-Spot Zonasi
           </h2>
-          <p className="text-xs sm:text-sm text-slate-500 mt-0.5">
+          <p className="text-xs sm:text-sm text-slate-400 mt-0.5">
             Menganalisis sebaran sekolah percontohan terhadap wilayah kepadatan lulusan SMP agar seluruh anak memiliki hak akses pendidikan yang adil.
           </p>
         </div>

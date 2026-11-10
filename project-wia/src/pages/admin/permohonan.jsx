@@ -120,31 +120,31 @@ export default function AdminPermohonanPage({ initialList, initialSchools }) {
   };
 
   return (
-    <div className="min-h-screen bg-slate-100 flex flex-col md:flex-row font-sans">
+    <div className="min-h-screen bg-[#222227] flex flex-col md:flex-row font-sans">
       <AdminSidebar />
       <main className="flex-1 p-6 sm:p-10 max-w-7xl">
         {/* Header Halaman GovTech */}
         <div className="mb-6 flex flex-col md:flex-row md:items-center justify-between gap-3">
           <div>
             <div className="flex items-center gap-2 mb-1">
-              <span className="p-1 rounded bg-[#1E3A8A] text-white">
+              <span className="p-1 rounded bg-[#F97316] text-white">
                 <FileCheck className="w-3.5 h-3.5" />
               </span>
-              <span className="text-xs font-bold uppercase tracking-wider text-[#1E3A8A]">
+              <span className="text-xs font-bold uppercase tracking-wider text-[#F97316]">
                 SAP Fiori Worklist • Verifikasi Berkas Terpadu
               </span>
             </div>
-            <h1 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">
+            <h1 className="text-2xl sm:text-3xl font-black text-white tracking-tight">
               Kelola Seluruh Berkas Pendaftaran Siswa SMAN
             </h1>
-            <p className="text-xs text-slate-500 mt-0.5">
+            <p className="text-xs text-slate-400 mt-0.5">
               Klik baris calon siswa untuk membuka <strong>SAP Fiori Object Page Sheet</strong> guna memeriksa kecocokan data KK, jarak Haversine, dan rantai audit kriptografis.
             </p>
           </div>
 
           <div className="flex items-center gap-2 self-stretch md:self-auto">
-            <span className="text-xs text-slate-500 font-semibold bg-white border border-slate-200 px-3 py-1.5 rounded-xl shadow-xs">
-              Total Berkas: <strong className="text-slate-900 font-mono">{stats.total}</strong>
+            <span className="text-xs text-slate-400 font-semibold bg-[#1A1A1E] border border-white/10 px-3 py-1.5 rounded-xl shadow-xs">
+              Total Berkas: <strong className="text-white font-mono">{stats.total}</strong>
             </span>
           </div>
         </div>
@@ -153,38 +153,38 @@ export default function AdminPermohonanPage({ initialList, initialSchools }) {
         {/* 1. METRONIC KPI SUMMARY CHIPS */}
         {/* ============================================================== */}
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-6">
-          <div className="bg-white p-3.5 rounded-2xl border border-slate-200 shadow-xs flex items-center justify-between">
+          <div className="bg-[#1A1A1E] p-3.5 rounded-2xl border border-white/10 shadow-xs flex items-center justify-between">
             <div>
               <span className="text-[10px] font-bold uppercase text-slate-400 block">Menunggu Antrean</span>
-              <span className="text-xl font-black text-amber-700 font-mono mt-0.5 block">{stats.pending}</span>
-              <span className="text-[10px] text-amber-600 font-medium">Perlu Validasi</span>
+              <span className="text-xl font-black text-amber-400 font-mono mt-0.5 block">{stats.pending}</span>
+              <span className="text-[10px] text-amber-400 font-medium">Perlu Validasi</span>
             </div>
             <Clock className="w-5 h-5 text-amber-500" />
           </div>
 
-          <div className="bg-white p-3.5 rounded-2xl border border-slate-200 shadow-xs flex items-center justify-between">
+          <div className="bg-[#1A1A1E] p-3.5 rounded-2xl border border-white/10 shadow-xs flex items-center justify-between">
             <div>
               <span className="text-[10px] font-bold uppercase text-slate-400 block">Lolos Seleksi</span>
-              <span className="text-xl font-black text-emerald-700 font-mono mt-0.5 block">{stats.lolos}</span>
-              <span className="text-[10px] text-emerald-600 font-medium">Alokasi Kursi Sah</span>
+              <span className="text-xl font-black text-emerald-400 font-mono mt-0.5 block">{stats.lolos}</span>
+              <span className="text-[10px] text-emerald-400 font-medium">Alokasi Kursi Sah</span>
             </div>
             <CheckCircle2 className="w-5 h-5 text-emerald-500" />
           </div>
 
-          <div className="bg-white p-3.5 rounded-2xl border border-slate-200 shadow-xs flex items-center justify-between">
+          <div className="bg-[#1A1A1E] p-3.5 rounded-2xl border border-white/10 shadow-xs flex items-center justify-between">
             <div>
               <span className="text-[10px] font-bold uppercase text-slate-400 block">Tinjauan Lapangan</span>
-              <span className="text-xl font-black text-purple-700 font-mono mt-0.5 block">{stats.review}</span>
-              <span className="text-[10px] text-purple-600 font-medium">Faktual Domisili</span>
+              <span className="text-xl font-black text-rose-300 font-mono mt-0.5 block">{stats.review}</span>
+              <span className="text-[10px] text-rose-300 font-medium">Faktual Domisili</span>
             </div>
             <Eye className="w-5 h-5 text-purple-500" />
           </div>
 
-          <div className="bg-white p-3.5 rounded-2xl border border-slate-200 shadow-xs flex items-center justify-between">
+          <div className="bg-[#1A1A1E] p-3.5 rounded-2xl border border-white/10 shadow-xs flex items-center justify-between">
             <div>
               <span className="text-[10px] font-bold uppercase text-slate-400 block">Berkas Ditolak</span>
-              <span className="text-xl font-black text-rose-700 font-mono mt-0.5 block">{stats.rejected}</span>
-              <span className="text-[10px] text-rose-600 font-medium">Syarat Tidak Terpenuhi</span>
+              <span className="text-xl font-black text-[#FB7185] font-mono mt-0.5 block">{stats.rejected}</span>
+              <span className="text-[10px] text-[#FB7185] font-medium">Syarat Tidak Terpenuhi</span>
             </div>
             <XCircle className="w-5 h-5 text-rose-500" />
           </div>
@@ -193,7 +193,7 @@ export default function AdminPermohonanPage({ initialList, initialSchools }) {
         {/* ============================================================== */}
         {/* 2. METRONIC ADVANCED FILTER TOOLBAR */}
         {/* ============================================================== */}
-        <div className="bg-white p-4 rounded-2xl border border-slate-200 shadow-xs mb-6 space-y-3">
+        <div className="bg-[#1A1A1E] p-4 rounded-2xl border border-white/10 shadow-xs mb-6 space-y-3">
           <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 text-xs">
             {/* Input Pencarian */}
             <div className="relative flex-1">
@@ -203,7 +203,7 @@ export default function AdminPermohonanPage({ initialList, initialSchools }) {
                 placeholder="Cari nama siswa, NIK, nomor tiket, atau SMP asal..."
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
-                className="w-full pl-9 pr-4 py-2 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-[#2563EB] text-slate-800 font-medium"
+                className="w-full pl-9 pr-4 py-2 rounded-xl border border-white/10 focus:outline-none focus:ring-2 focus:ring-[#F97316] text-[#E2E8F0] font-medium"
               />
             </div>
 
@@ -212,7 +212,7 @@ export default function AdminPermohonanPage({ initialList, initialSchools }) {
               <select
                 value={schoolFilter}
                 onChange={(e) => setSchoolFilter(e.target.value)}
-                className="px-3 py-2 rounded-xl border border-slate-300 font-semibold text-slate-800 bg-white focus:ring-2 focus:ring-[#2563EB]"
+                className="px-3 py-2 rounded-xl border border-white/10 font-semibold text-[#E2E8F0] bg-[#1A1A1E] focus:ring-2 focus:ring-[#F97316]"
               >
                 <option value="all">Semua SMAN</option>
                 {INITIAL_SEKOLAH.map((s) => (
@@ -224,7 +224,7 @@ export default function AdminPermohonanPage({ initialList, initialSchools }) {
               <select
                 value={trackFilter}
                 onChange={(e) => setTrackFilter(e.target.value)}
-                className="px-3 py-2 rounded-xl border border-slate-300 font-semibold text-slate-800 bg-white focus:ring-2 focus:ring-[#2563EB]"
+                className="px-3 py-2 rounded-xl border border-white/10 font-semibold text-[#E2E8F0] bg-[#1A1A1E] focus:ring-2 focus:ring-[#F97316]"
               >
                 <option value="all">Semua Jalur</option>
                 <option value="zonasi">Zonasi (50%)</option>
@@ -236,7 +236,7 @@ export default function AdminPermohonanPage({ initialList, initialSchools }) {
           </div>
 
           {/* Sub-Tabs Status Pills */}
-          <div className="pt-2 border-t border-slate-100 flex items-center justify-between flex-wrap gap-2 text-xs">
+          <div className="pt-2 border-t border-white/10 flex items-center justify-between flex-wrap gap-2 text-xs">
             <div className="flex items-center gap-1.5 overflow-x-auto pb-1 sm:pb-0">
               {[
                 { id: 'all', label: `Semua (${stats.total})` },
@@ -251,8 +251,8 @@ export default function AdminPermohonanPage({ initialList, initialSchools }) {
                   onClick={() => setStatusFilter(tab.id)}
                   className={`px-3 py-1 rounded-xl font-bold whitespace-nowrap transition ${
                     statusFilter === tab.id
-                      ? 'bg-[#1E3A8A] text-white shadow-xs'
-                      : 'bg-slate-50 text-slate-600 hover:bg-slate-100 border border-slate-200'
+                      ? 'bg-[#F97316] text-white shadow-xs'
+                      : 'bg-[#222227] text-slate-400 hover:bg-white/10 border border-white/10'
                   }`}
                 >
                   {tab.label}
@@ -287,33 +287,33 @@ export default function AdminPermohonanPage({ initialList, initialSchools }) {
                 <TableRow
                   key={item.id}
                   onClick={() => handleOpenFioriSheet(item)}
-                  className="cursor-pointer hover:bg-blue-50/40 transition group"
+                  className="cursor-pointer hover:bg-orange-500/15 transition group"
                 >
-                  <TableCell className="font-mono font-bold text-slate-900 whitespace-nowrap">
-                    <span className="group-hover:text-[#2563EB] transition">
+                  <TableCell className="font-mono font-bold text-white whitespace-nowrap">
+                    <span className="group-hover:text-[#F97316] transition">
                       {item.nomor_tiket}
                     </span>
                   </TableCell>
 
                   <TableCell className="whitespace-nowrap">
-                    <p className="font-bold text-slate-900 group-hover:text-[#1E3A8A] transition">{item.nama_siswa}</p>
+                    <p className="font-bold text-white group-hover:text-[#F97316] transition">{item.nama_siswa}</p>
                     <p className="text-[10px] text-slate-400 font-mono">NIK: {item.nik}</p>
                   </TableCell>
 
                   <TableCell className="whitespace-nowrap">
-                    <p className="font-semibold text-slate-800">{item.sekolah_nama}</p>
-                    <span className="text-[10px] font-bold uppercase text-blue-700 bg-blue-50 px-1.5 py-0.5 rounded border border-blue-200">
+                    <p className="font-semibold text-[#E2E8F0]">{item.sekolah_nama}</p>
+                    <span className="text-[10px] font-bold uppercase text-[#F97316] bg-orange-500/10 px-1.5 py-0.5 rounded border border-orange-500/30">
                       {item.jalur?.replace('_', ' ')}
                     </span>
                   </TableCell>
 
                   <TableCell className="font-mono whitespace-nowrap">
-                    <span className="font-bold text-slate-800">
+                    <span className="font-bold text-[#E2E8F0]">
                       {formatDistance(item.klaim_jarak_meter || item.jarak_klaim_meter || 1200)}
                     </span>
                   </TableCell>
 
-                  <TableCell className="font-mono font-bold whitespace-nowrap text-emerald-700">
+                  <TableCell className="font-mono font-bold whitespace-nowrap text-emerald-400">
                     {item.klaim_nilai_rapor || 85.0}
                   </TableCell>
 
@@ -327,9 +327,9 @@ export default function AdminPermohonanPage({ initialList, initialSchools }) {
                         variant="outline"
                         size="sm"
                         onClick={() => handleOpenFioriSheet(item)}
-                        className="text-[11px] flex items-center gap-1 group-hover:border-blue-400 group-hover:bg-blue-50"
+                        className="text-[11px] flex items-center gap-1 group-hover:border-orange-500/40 group-hover:bg-orange-500/15"
                       >
-                        <Eye className="w-3.5 h-3.5 text-[#2563EB]" />
+                        <Eye className="w-3.5 h-3.5 text-[#F97316]" />
                         <span>Fiori Sheet</span>
                         <ChevronRight className="w-3 h-3 text-slate-400 group-hover:translate-x-0.5 transition" />
                       </Button>

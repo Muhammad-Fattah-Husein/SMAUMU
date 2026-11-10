@@ -134,10 +134,10 @@ export default function Home({ initialKuota, initialPendaftaran }) {
       {/* ============================================================== */}
       {/* 1. HERO SECTION DENGAN HOOK KUAT & RADAR INTERAKTIF */}
       {/* ============================================================== */}
-      <section className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-slate-950 via-[#0F172A] to-[#1E3A8A] text-white p-6 sm:p-10 lg:p-12 mb-10 shadow-2xl border border-blue-800/40">
+      <section className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-[#121212] via-[#1C1414] to-[#261512] text-white p-6 sm:p-10 lg:p-12 mb-10 shadow-2xl border border-orange-500/30">
         {/* Glow ambient background effects */}
-        <div className="absolute -top-32 -right-32 w-96 h-96 bg-blue-500/20 rounded-full blur-3xl pointer-events-none"></div>
-        <div className="absolute -bottom-32 -left-32 w-96 h-96 bg-pink-500/15 rounded-full blur-3xl pointer-events-none"></div>
+        <div className="absolute -top-32 -right-32 w-96 h-96 bg-orange-500/20 rounded-full blur-3xl pointer-events-none"></div>
+        <div className="absolute -bottom-32 -left-32 w-96 h-96 bg-rose-500/15 rounded-full blur-3xl pointer-events-none"></div>
 
         {/* Live System Broadcast Ticker Bar */}
         <div className="relative z-10 mb-6 flex flex-wrap items-center justify-between gap-3 p-2.5 sm:px-4 rounded-2xl bg-white/10 backdrop-blur-md border border-white/15 text-xs">
@@ -148,10 +148,10 @@ export default function Home({ initialKuota, initialPendaftaran }) {
             <span className="text-slate-200 hidden sm:inline">1.920 Kursi Terbuka di 6 SMAN DKI Jakarta</span>
           </div>
           <div className="flex items-center gap-2 text-[11px] font-bold text-slate-300">
-            <span className="px-2 py-0.5 rounded-md bg-blue-500/30 text-blue-200 border border-blue-400/40 flex items-center gap-1">
-              <Zap className="w-3 h-3 text-cyan-300" /> Bebas Server Down
+            <span className="px-2 py-0.5 rounded-md bg-orange-500/30 text-orange-300 border border-orange-500/30 flex items-center gap-1">
+              <Zap className="w-3 h-3 text-[#F97316]" /> Bebas Server Down
             </span>
-            <span className="px-2 py-0.5 rounded-md bg-emerald-500/30 text-emerald-200 border border-emerald-400/40 flex items-center gap-1">
+            <span className="px-2 py-0.5 rounded-md bg-emerald-500/30 text-emerald-200 border border-emerald-500/30 flex items-center gap-1">
               <Lock className="w-3 h-3 text-emerald-300" /> Audit SHA-256
             </span>
           </div>
@@ -161,14 +161,14 @@ export default function Home({ initialKuota, initialPendaftaran }) {
         <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
           {/* Sisi Kiri: Hook Emosional, Janji Kuat, & CTA */}
           <div className="lg:col-span-7 space-y-4">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/20 border border-blue-400/30 text-xs font-black text-cyan-300">
-              <ShieldCheck className="w-3.5 h-3.5 text-cyan-400" />
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-orange-500/20 border border-orange-500/30 text-xs font-black text-[#F97316]">
+              <ShieldCheck className="w-3.5 h-3.5 text-[#F97316]" />
               <span>Gerakan Transparansi PPDB SMAN • WIA 2026</span>
             </div>
 
             <h1 className="text-3xl sm:text-5xl font-black tracking-tight leading-[1.15]">
               Kawal Hak Kursi SMAN Anak Anda.{' '}
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-300 via-blue-200 to-pink-300">
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#F97316] via-[#FB7185] to-[#F43F5E]">
                 Tanpa Calo, Tanpa Numpang KK, Tanpa Server Down.
               </span>
             </h1>
@@ -188,7 +188,7 @@ export default function Home({ initialKuota, initialPendaftaran }) {
                 <span className="text-slate-100">Live Quota Burn-Rate Per Jam</span>
               </div>
               <div className="flex items-center gap-2 p-2.5 rounded-xl bg-white/5 border border-white/10">
-                <Lock className="w-4 h-4 text-cyan-400 shrink-0" />
+                <Lock className="w-4 h-4 text-[#F97316] shrink-0" />
                 <span className="text-slate-100">Buku Audit Berantai SHA-256</span>
               </div>
             </div>
@@ -197,7 +197,7 @@ export default function Home({ initialKuota, initialPendaftaran }) {
             <div className="pt-2 flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
               <Link
                 href="/daftar"
-                className="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-2xl font-black text-xs sm:text-sm bg-[#EC4899] hover:bg-[#DB2777] text-white shadow-xl shadow-pink-500/30 hover:scale-[1.02] transition-all"
+                className="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-2xl font-black text-xs sm:text-sm bg-gradient-to-r from-[#F97316] to-[#F43F5E] hover:opacity-90 text-white shadow-xl shadow-orange-500/25 hover:scale-[1.02] transition-all"
               >
                 <span>Daftar Siswa Baru (4 Langkah)</span>
                 <ArrowRight className="w-4 h-4" />
@@ -207,7 +207,7 @@ export default function Home({ initialKuota, initialPendaftaran }) {
                 href="/simulator"
                 className="inline-flex items-center justify-center gap-2 px-4 py-3.5 rounded-2xl font-bold text-xs bg-white/10 hover:bg-white/20 text-white backdrop-blur border border-white/20 transition-all"
               >
-                <Compass className="w-4 h-4 text-cyan-300" />
+                <Compass className="w-4 h-4 text-[#F97316]" />
                 <span>Simulator Peluang Lolos</span>
               </Link>
             </div>
@@ -227,14 +227,14 @@ export default function Home({ initialKuota, initialPendaftaran }) {
                   placeholder="Lacak tiket berkas (contoh: TIKET-SMU-2026-098214)..."
                   value={searchTicket}
                   onChange={(e) => setSearchTicket(e.target.value)}
-                  className="w-full pl-10 pr-3 py-2 rounded-xl bg-slate-900/90 border border-slate-700 text-white placeholder-slate-400 text-xs focus:outline-none focus:ring-2 focus:ring-blue-400"
+                  className="w-full pl-10 pr-3 py-2 rounded-xl bg-[#141417] border border-white/10 text-white placeholder-slate-400 text-xs focus:outline-none focus:ring-2 focus:ring-[#F97316]"
                 />
               </div>
               <button
                 type="submit"
-                className="w-full sm:w-auto px-4 py-2 rounded-xl font-bold text-xs bg-[#1E3A8A] hover:bg-[#2563EB] text-white transition flex items-center justify-center gap-1.5 shrink-0 shadow"
+                className="w-full sm:w-auto px-4 py-2 rounded-xl font-bold text-xs bg-[#F97316] hover:bg-[#EA580C] text-white transition flex items-center justify-center gap-1.5 shrink-0 shadow"
               >
-                <FileCheck2 className="w-4 h-4 text-cyan-300" />
+                <FileCheck2 className="w-4 h-4 text-white" />
                 <span>Lacak</span>
               </button>
             </form>
@@ -242,11 +242,11 @@ export default function Home({ initialKuota, initialPendaftaran }) {
 
           {/* Sisi Kanan: Radar Peluang Cepat Interaktif (Interactive Hero Hook Card) */}
           <div className="lg:col-span-5">
-            <div className="bg-slate-900/85 backdrop-blur-xl border border-white/20 rounded-3xl p-5 shadow-2xl relative overflow-hidden">
+            <div className="bg-[#141417] backdrop-blur-xl border border-white/20 rounded-3xl p-5 shadow-2xl relative overflow-hidden">
               <div className="flex items-center justify-between pb-3 mb-3 border-b border-white/10">
                 <div className="flex items-center gap-2">
-                  <span className="w-2 h-2 rounded-full bg-cyan-400 animate-ping"></span>
-                  <span className="text-xs font-black uppercase tracking-wider text-cyan-300">
+                  <span className="w-2 h-2 rounded-full bg-[#F97316] animate-ping"></span>
+                  <span className="text-xs font-black uppercase tracking-wider text-[#F97316]">
                     Radar Keterisian Cepat
                   </span>
                 </div>
@@ -261,7 +261,7 @@ export default function Home({ initialKuota, initialPendaftaran }) {
                 <select
                   value={heroSchoolId}
                   onChange={(e) => setHeroSchoolId(parseInt(e.target.value))}
-                  className="w-full px-3 py-2 rounded-xl bg-slate-800 border border-slate-700 text-white text-xs font-bold focus:ring-2 focus:ring-blue-400 outline-none"
+                  className="w-full px-3 py-2 rounded-xl bg-[#222227] border border-white/10 text-white text-xs font-bold focus:ring-2 focus:ring-[#F97316] outline-none"
                 >
                   {INITIAL_SEKOLAH.map((s) => (
                     <option key={s.id} value={s.id}>
@@ -288,11 +288,11 @@ export default function Home({ initialKuota, initialPendaftaran }) {
                     <div className="space-y-1">
                       <div className="flex justify-between text-[11px] text-slate-300">
                         <span>Terisi: {heroSchoolData.totalTerisi} / {heroSchoolData.totalKuota}</span>
-                        <strong className="text-cyan-300 font-mono">{heroSchoolData.remainingSeats} Sisa Kursi</strong>
+                        <strong className="text-[#F97316] font-mono">{heroSchoolData.remainingSeats} Sisa Kursi</strong>
                       </div>
-                      <div className="w-full h-2.5 bg-slate-800 rounded-full overflow-hidden p-0.5 border border-slate-700">
+                      <div className="w-full h-2.5 bg-[#222227] rounded-full overflow-hidden p-0.5 border border-white/10">
                         <div
-                          className="h-full rounded-full bg-gradient-to-r from-blue-500 via-indigo-500 to-pink-500 transition-all duration-700"
+                          className="h-full rounded-full bg-gradient-to-r from-[#F97316] via-[#FB7185] to-[#F43F5E] transition-all duration-700"
                           style={{ width: `${Math.min(100, heroSchoolData.saturationPct)}%` }}
                         ></div>
                       </div>
@@ -306,10 +306,10 @@ export default function Home({ initialKuota, initialPendaftaran }) {
                       const p = heroSchoolData.jalurList.find((j) => j.jalur === 'prestasi_akademik');
                       const rem = p ? Math.max(0, p.total_kuota - p.kuota_terisi) : 0;
                       return (
-                        <div className="p-2.5 rounded-xl bg-purple-950/60 border border-purple-700/50">
-                          <span className="text-[10px] font-bold text-purple-300 block">Jalur Prestasi:</span>
+                        <div className="p-2.5 rounded-xl bg-rose-500/15 border border-rose-500/30">
+                          <span className="text-[10px] font-bold text-rose-300 block">Jalur Prestasi:</span>
                           <span className="text-base font-black text-white font-mono">{rem} Kursi</span>
-                          <span className="text-[10px] text-purple-200 block mt-0.5">Nilai Rapor & Piagam</span>
+                          <span className="text-[10px] text-rose-200 block mt-0.5">Nilai Rapor & Piagam</span>
                         </div>
                       );
                     })()}
@@ -319,10 +319,10 @@ export default function Home({ initialKuota, initialPendaftaran }) {
                       const z = heroSchoolData.jalurList.find((j) => j.jalur === 'zonasi');
                       const rem = z ? Math.max(0, z.total_kuota - z.kuota_terisi) : 0;
                       return (
-                        <div className="p-2.5 rounded-xl bg-blue-950/60 border border-blue-700/50">
-                          <span className="text-[10px] font-bold text-blue-300 block">Jalur Zonasi:</span>
+                        <div className="p-2.5 rounded-xl bg-orange-500/15 border border-orange-500/30">
+                          <span className="text-[10px] font-bold text-orange-300 block">Jalur Zonasi:</span>
                           <span className="text-base font-black text-white font-mono">{rem} Kursi</span>
-                          <span className="text-[10px] text-blue-200 block mt-0.5">Maks. {heroSchoolData.school.radius_max / 1000} km</span>
+                          <span className="text-[10px] text-orange-300 block mt-0.5">Maks. {heroSchoolData.school.radius_max / 1000} km</span>
                         </div>
                       );
                     })()}
@@ -335,11 +335,11 @@ export default function Home({ initialKuota, initialPendaftaran }) {
                       className="py-2.5 px-3 rounded-xl bg-white/10 hover:bg-white/20 text-white font-bold text-xs text-center border border-white/20 transition flex items-center justify-center gap-1"
                     >
                       <span>Uji Peluang</span>
-                      <ChevronRight className="w-3.5 h-3.5 text-cyan-300" />
+                      <ChevronRight className="w-3.5 h-3.5 text-[#F97316]" />
                     </Link>
                     <Link
                       href="/daftar"
-                      className="py-2.5 px-3 rounded-xl bg-[#EC4899] hover:bg-[#DB2777] text-white font-black text-xs text-center transition flex items-center justify-center gap-1 shadow-md shadow-pink-500/20"
+                      className="py-2.5 px-3 rounded-xl bg-gradient-to-r from-[#F97316] to-[#F43F5E] hover:opacity-90 text-white font-black text-xs text-center transition flex items-center justify-center gap-1 shadow-md shadow-orange-500/25"
                     >
                       <span>Daftar SMAN</span>
                       <ArrowRight className="w-3.5 h-3.5" />
@@ -356,47 +356,47 @@ export default function Home({ initialKuota, initialPendaftaran }) {
       {/* 2. STATISTIK RINGKAS */}
       {/* ============================================================== */}
       <section className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mb-10">
-        <div className="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm flex items-center gap-3">
-          <div className="p-2.5 rounded-xl bg-blue-50 text-blue-600 shrink-0">
+        <div className="bg-[#1A1A1E] p-4 rounded-2xl border border-white/10 shadow-sm flex items-center gap-3">
+          <div className="p-2.5 rounded-xl bg-orange-500/10 text-[#F97316] shrink-0">
             <Layers className="w-5 h-5" />
           </div>
           <div>
-            <p className="text-[11px] text-slate-500 font-semibold">Sekolah Terdaftar</p>
-            <h4 className="text-lg sm:text-xl font-black text-slate-900">6 SMAN</h4>
-            <span className="text-[10px] text-emerald-600 font-bold">DKI Jakarta</span>
+            <p className="text-[11px] text-slate-400 font-semibold">Sekolah Terdaftar</p>
+            <h4 className="text-lg sm:text-xl font-black text-white">6 SMAN</h4>
+            <span className="text-[10px] text-emerald-400 font-bold">DKI Jakarta</span>
           </div>
         </div>
 
-        <div className="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm flex items-center gap-3">
-          <div className="p-2.5 rounded-xl bg-amber-50 text-amber-600 shrink-0">
+        <div className="bg-[#1A1A1E] p-4 rounded-2xl border border-white/10 shadow-sm flex items-center gap-3">
+          <div className="p-2.5 rounded-xl bg-amber-500/10 text-amber-400 shrink-0">
             <Flame className="w-5 h-5" />
           </div>
           <div>
-            <p className="text-[11px] text-slate-500 font-semibold">Total Kursi</p>
-            <h4 className="text-lg sm:text-xl font-black text-slate-900">1.920</h4>
-            <span className="text-[10px] text-slate-500 font-medium">Semua Jalur</span>
+            <p className="text-[11px] text-slate-400 font-semibold">Total Kursi</p>
+            <h4 className="text-lg sm:text-xl font-black text-white">1.920</h4>
+            <span className="text-[10px] text-slate-400 font-medium">Semua Jalur</span>
           </div>
         </div>
 
-        <div className="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm flex items-center gap-3">
-          <div className="p-2.5 rounded-xl bg-rose-50 text-rose-600 shrink-0">
+        <div className="bg-[#1A1A1E] p-4 rounded-2xl border border-white/10 shadow-sm flex items-center gap-3">
+          <div className="p-2.5 rounded-xl bg-rose-500/10 text-[#FB7185] shrink-0">
             <TrendingUp className="w-5 h-5" />
           </div>
           <div>
-            <p className="text-[11px] text-slate-500 font-semibold">Laju Pendaftaran</p>
-            <h4 className="text-lg sm:text-xl font-black text-slate-900">8,9 / jam</h4>
-            <span className="text-[10px] text-amber-600 font-bold">Rata-rata</span>
+            <p className="text-[11px] text-slate-400 font-semibold">Laju Pendaftaran</p>
+            <h4 className="text-lg sm:text-xl font-black text-white">8,9 / jam</h4>
+            <span className="text-[10px] text-amber-400 font-bold">Rata-rata</span>
           </div>
         </div>
 
-        <div className="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm flex items-center gap-3">
-          <div className="p-2.5 rounded-xl bg-emerald-50 text-emerald-600 shrink-0">
+        <div className="bg-[#1A1A1E] p-4 rounded-2xl border border-white/10 shadow-sm flex items-center gap-3">
+          <div className="p-2.5 rounded-xl bg-emerald-500/10 text-emerald-400 shrink-0">
             <Lock className="w-5 h-5" />
           </div>
           <div>
-            <p className="text-[11px] text-slate-500 font-semibold">Audit SHA-256</p>
-            <h4 className="text-lg sm:text-xl font-black text-emerald-600">100%</h4>
-            <span className="text-[10px] text-emerald-700 font-bold">Terverifikasi</span>
+            <p className="text-[11px] text-slate-400 font-semibold">Audit SHA-256</p>
+            <h4 className="text-lg sm:text-xl font-black text-emerald-400">100%</h4>
+            <span className="text-[10px] text-emerald-400 font-bold">Terverifikasi</span>
           </div>
         </div>
       </section>
@@ -406,118 +406,118 @@ export default function Home({ initialKuota, initialPendaftaran }) {
       {/* ============================================================== */}
       <section className="mb-12">
         <div className="text-center max-w-2xl mx-auto mb-6">
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-blue-50 border border-blue-200 text-blue-900 text-xs font-black mb-2">
-            <Sparkles className="w-3.5 h-3.5 text-blue-600" />
+          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-orange-500/10 border border-orange-500/30 text-[#F97316] text-xs font-black mb-2">
+            <Sparkles className="w-3.5 h-3.5 text-[#F97316]" />
             <span>Mengapa SMAUMU Berbeda?</span>
           </div>
-          <h2 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">
+          <h2 className="text-2xl sm:text-3xl font-black text-white tracking-tight">
             Menjawab 4 Masalah Klasik PPDB yang Kerap Merugikan Siswa
           </h2>
-          <p className="text-xs sm:text-sm text-slate-500 mt-1">
+          <p className="text-xs sm:text-sm text-slate-400 mt-1">
             SMAUMU dirancang untuk mengembalikan rasa keadilan, kepastian data, dan ketenangan bagi keluarga calon siswa.
           </p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
           {/* Card 1 */}
-          <div className="bg-white rounded-3xl p-5 border border-slate-200 shadow-sm flex flex-col justify-between hover:border-blue-400 transition">
+          <div className="bg-[#1A1A1E] rounded-3xl p-5 border border-white/10 shadow-sm flex flex-col justify-between hover:border-orange-500/40 transition">
             <div>
               <div className="flex items-center justify-between mb-3">
-                <span className="p-2 rounded-xl bg-rose-50 text-rose-600">
+                <span className="p-2 rounded-xl bg-rose-500/10 text-[#FB7185]">
                   <X className="w-4 h-4 stroke-[3]" />
                 </span>
-                <span className="text-[10px] font-black uppercase tracking-wider text-rose-600 bg-rose-50 px-2 py-0.5 rounded-full">
+                <span className="text-[10px] font-black uppercase tracking-wider text-[#FB7185] bg-rose-500/10 px-2 py-0.5 rounded-full">
                   Masalah Lama
                 </span>
               </div>
-              <h4 className="font-extrabold text-sm text-slate-900 mb-1">Kuota Gelap & Tak Real-Time</h4>
-              <p className="text-xs text-slate-500 leading-relaxed mb-4">
+              <h4 className="font-extrabold text-sm text-white mb-1">Kuota Gelap & Tak Real-Time</h4>
+              <p className="text-xs text-slate-400 leading-relaxed mb-4">
                 Sisa bangku baru diketahui setelah seleksi tutup. Orang tua tidak tahu berapa kuota yang tersisa sebenarnya.
               </p>
             </div>
-            <div className="p-3 rounded-2xl bg-blue-50/80 border border-blue-100 text-xs text-blue-900">
-              <span className="font-bold flex items-center gap-1 text-blue-700 text-[11px] mb-0.5">
-                <Check className="w-3.5 h-3.5 text-emerald-600 stroke-[3]" /> Solusi SMAUMU:
+            <div className="p-3 rounded-2xl bg-orange-500/10 border border-orange-500/30 text-xs text-[#F97316]">
+              <span className="font-bold flex items-center gap-1 text-[#F97316] text-[11px] mb-0.5">
+                <Check className="w-3.5 h-3.5 text-emerald-400 stroke-[3]" /> Solusi SMAUMU:
               </span>
-              <p className="text-[11px] text-slate-700">
+              <p className="text-[11px] text-slate-300">
                 <strong>Live Burn-Rate Engine</strong> yang menampilkan sisa kursi per detik per jalur seleksi.
               </p>
             </div>
           </div>
 
           {/* Card 2 */}
-          <div className="bg-white rounded-3xl p-5 border border-slate-200 shadow-sm flex flex-col justify-between hover:border-blue-400 transition">
+          <div className="bg-[#1A1A1E] rounded-3xl p-5 border border-white/10 shadow-sm flex flex-col justify-between hover:border-orange-500/40 transition">
             <div>
               <div className="flex items-center justify-between mb-3">
-                <span className="p-2 rounded-xl bg-rose-50 text-rose-600">
+                <span className="p-2 rounded-xl bg-rose-500/10 text-[#FB7185]">
                   <X className="w-4 h-4 stroke-[3]" />
                 </span>
-                <span className="text-[10px] font-black uppercase tracking-wider text-rose-600 bg-rose-50 px-2 py-0.5 rounded-full">
+                <span className="text-[10px] font-black uppercase tracking-wider text-[#FB7185] bg-rose-500/10 px-2 py-0.5 rounded-full">
                   Masalah Lama
                 </span>
               </div>
-              <h4 className="font-extrabold text-sm text-slate-900 mb-1">Numpang KK & Titik Rumah Palsu</h4>
-              <p className="text-xs text-slate-500 leading-relaxed mb-4">
+              <h4 className="font-extrabold text-sm text-white mb-1">Numpang KK & Titik Rumah Palsu</h4>
+              <p className="text-xs text-slate-400 leading-relaxed mb-4">
                 Pendaftar menggeser pin GPS ke dekat gerbang SMAN atau meminjam KK kerabat kurang dari 1 tahun.
               </p>
             </div>
-            <div className="p-3 rounded-2xl bg-blue-50/80 border border-blue-100 text-xs text-blue-900">
-              <span className="font-bold flex items-center gap-1 text-blue-700 text-[11px] mb-0.5">
-                <Check className="w-3.5 h-3.5 text-emerald-600 stroke-[3]" /> Solusi SMAUMU:
+            <div className="p-3 rounded-2xl bg-orange-500/10 border border-orange-500/30 text-xs text-[#F97316]">
+              <span className="font-bold flex items-center gap-1 text-[#F97316] text-[11px] mb-0.5">
+                <Check className="w-3.5 h-3.5 text-emerald-400 stroke-[3]" /> Solusi SMAUMU:
               </span>
-              <p className="text-[11px] text-slate-700">
+              <p className="text-[11px] text-slate-300">
                 <strong>Auto-Snap Centroid Dukcapil</strong> dengan rumus Haversine & verifikasi masa tinggal KK resmi.
               </p>
             </div>
           </div>
 
           {/* Card 3 */}
-          <div className="bg-white rounded-3xl p-5 border border-slate-200 shadow-sm flex flex-col justify-between hover:border-blue-400 transition">
+          <div className="bg-[#1A1A1E] rounded-3xl p-5 border border-white/10 shadow-sm flex flex-col justify-between hover:border-orange-500/40 transition">
             <div>
               <div className="flex items-center justify-between mb-3">
-                <span className="p-2 rounded-xl bg-rose-50 text-rose-600">
+                <span className="p-2 rounded-xl bg-rose-500/10 text-[#FB7185]">
                   <X className="w-4 h-4 stroke-[3]" />
                 </span>
-                <span className="text-[10px] font-black uppercase tracking-wider text-rose-600 bg-rose-50 px-2 py-0.5 rounded-full">
+                <span className="text-[10px] font-black uppercase tracking-wider text-[#FB7185] bg-rose-500/10 px-2 py-0.5 rounded-full">
                   Masalah Lama
                 </span>
               </div>
-              <h4 className="font-extrabold text-sm text-slate-900 mb-1">Website Down Saat Jam Sibuk</h4>
-              <p className="text-xs text-slate-500 leading-relaxed mb-4">
+              <h4 className="font-extrabold text-sm text-white mb-1">Website Down Saat Jam Sibuk</h4>
+              <p className="text-xs text-slate-400 leading-relaxed mb-4">
                 Server overload saat ribuan orang tua submit serentak, menimbulkan kepanikan dan kegagalan input.
               </p>
             </div>
-            <div className="p-3 rounded-2xl bg-blue-50/80 border border-blue-100 text-xs text-blue-900">
-              <span className="font-bold flex items-center gap-1 text-blue-700 text-[11px] mb-0.5">
-                <Check className="w-3.5 h-3.5 text-emerald-600 stroke-[3]" /> Solusi SMAUMU:
+            <div className="p-3 rounded-2xl bg-orange-500/10 border border-orange-500/30 text-xs text-[#F97316]">
+              <span className="font-bold flex items-center gap-1 text-[#F97316] text-[11px] mb-0.5">
+                <Check className="w-3.5 h-3.5 text-emerald-400 stroke-[3]" /> Solusi SMAUMU:
               </span>
-              <p className="text-[11px] text-slate-700">
+              <p className="text-[11px] text-slate-300">
                 <strong>High-Concurrency Locks</strong> dengan indeks B-Tree yang lolos simulasi ribuan user tanpa jeda.
               </p>
             </div>
           </div>
 
           {/* Card 4 */}
-          <div className="bg-white rounded-3xl p-5 border border-slate-200 shadow-sm flex flex-col justify-between hover:border-blue-400 transition">
+          <div className="bg-[#1A1A1E] rounded-3xl p-5 border border-white/10 shadow-sm flex flex-col justify-between hover:border-orange-500/40 transition">
             <div>
               <div className="flex items-center justify-between mb-3">
-                <span className="p-2 rounded-xl bg-rose-50 text-rose-600">
+                <span className="p-2 rounded-xl bg-rose-500/10 text-[#FB7185]">
                   <X className="w-4 h-4 stroke-[3]" />
                 </span>
-                <span className="text-[10px] font-black uppercase tracking-wider text-rose-600 bg-rose-50 px-2 py-0.5 rounded-full">
+                <span className="text-[10px] font-black uppercase tracking-wider text-[#FB7185] bg-rose-500/10 px-2 py-0.5 rounded-full">
                   Masalah Lama
                 </span>
               </div>
-              <h4 className="font-extrabold text-sm text-slate-900 mb-1">Pengaduan Warga Menguap</h4>
-              <p className="text-xs text-slate-500 leading-relaxed mb-4">
+              <h4 className="font-extrabold text-sm text-white mb-1">Pengaduan Warga Menguap</h4>
+              <p className="text-xs text-slate-400 leading-relaxed mb-4">
                 Laporan kecurangan sering diabaikan atau pelapor merasa takut identitasnya bocor ke oknum sekolah.
               </p>
             </div>
-            <div className="p-3 rounded-2xl bg-blue-50/80 border border-blue-100 text-xs text-blue-900">
-              <span className="font-bold flex items-center gap-1 text-blue-700 text-[11px] mb-0.5">
-                <Check className="w-3.5 h-3.5 text-emerald-600 stroke-[3]" /> Solusi SMAUMU:
+            <div className="p-3 rounded-2xl bg-orange-500/10 border border-orange-500/30 text-xs text-[#F97316]">
+              <span className="font-bold flex items-center gap-1 text-[#F97316] text-[11px] mb-0.5">
+                <Check className="w-3.5 h-3.5 text-emerald-400 stroke-[3]" /> Solusi SMAUMU:
               </span>
-              <p className="text-[11px] text-slate-700">
+              <p className="text-[11px] text-slate-300">
                 <strong>Whistleblower Zero-Trace</strong> dengan token rahasia & Log Audit berantai SHA-256.
               </p>
             </div>
@@ -535,20 +535,20 @@ export default function Home({ initialKuota, initialPendaftaran }) {
               <span className="p-1 rounded-md bg-amber-500 text-white">
                 <Flame className="w-3.5 h-3.5" />
               </span>
-              <span className="text-xs font-bold uppercase tracking-wider text-amber-700">
+              <span className="text-xs font-bold uppercase tracking-wider text-amber-400">
                 Open Government Data • Real-Time Per Sekolah
               </span>
             </div>
-            <h2 className="text-xl sm:text-2xl font-black text-slate-900 mt-1">
+            <h2 className="text-xl sm:text-2xl font-black text-white mt-1">
               Pantau Sisa Kursi Sekolah
             </h2>
-            <p className="text-xs sm:text-sm text-slate-500 mt-0.5">
+            <p className="text-xs sm:text-sm text-slate-400 mt-0.5">
               Rincian sisa kuota kursi per SMA Negeri dengan rincian jalur Zonasi, Prestasi Akademik, Afirmasi, dan Mutasi.
             </p>
           </div>
           <Link
             href="/kuota"
-            className="text-xs font-bold text-cyan-700 hover:text-cyan-800 flex items-center gap-1 group"
+            className="text-xs font-bold text-[#F97316] hover:text-[#F43F5E] flex items-center gap-1 group"
           >
             Lihat Semua SMA Negeri <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
           </Link>
@@ -562,8 +562,8 @@ export default function Home({ initialKuota, initialPendaftaran }) {
               onClick={() => setSelectedSchoolFilter('all')}
               className={`px-3.5 py-2 rounded-2xl text-xs font-black transition-all shrink-0 ${
                 selectedSchoolFilter === 'all'
-                  ? 'bg-[#1E3A8A] text-white shadow-md'
-                  : 'bg-white hover:bg-slate-100 text-slate-700 border border-slate-200'
+                  ? 'bg-[#F97316] text-white shadow-md'
+                  : 'bg-[#1A1A1E] hover:bg-white/10 text-slate-300 border border-white/10'
               }`}
             >
               Semua SMAN ({schoolsData.length})
@@ -576,11 +576,11 @@ export default function Home({ initialKuota, initialPendaftaran }) {
                   onClick={() => setSelectedSchoolFilter(String(sch.id))}
                   className={`px-3.5 py-2 rounded-2xl text-xs font-bold transition-all shrink-0 flex items-center gap-1.5 ${
                     isSelected
-                      ? 'bg-[#1E3A8A] text-white shadow-md'
-                      : 'bg-white hover:bg-slate-100 text-slate-700 border border-slate-200'
+                      ? 'bg-[#F97316] text-white shadow-md'
+                      : 'bg-[#1A1A1E] hover:bg-white/10 text-slate-300 border border-white/10'
                   }`}
                 >
-                  <School className="w-3.5 h-3.5 text-blue-500" />
+                  <School className={`w-3.5 h-3.5 ${isSelected ? 'text-white' : 'text-[#F97316]'}`} />
                   <span>{sch.nama_sekolah.split(' ')[0]} {sch.nama_sekolah.split(' ')[1]}</span>
                 </button>
               );
@@ -588,16 +588,16 @@ export default function Home({ initialKuota, initialPendaftaran }) {
           </div>
 
           {/* Banner Rangkuman Kuota Prestasi Cepat */}
-          <div className="bg-gradient-to-r from-purple-950 via-indigo-900 to-slate-900 rounded-2xl p-4 text-white shadow-md flex flex-col md:flex-row items-start md:items-center justify-between gap-3">
+          <div className="bg-gradient-to-r from-[#221417] via-[#2A1816] to-[#1A1A1E] border border-orange-500/25 rounded-2xl p-4 text-white shadow-md flex flex-col md:flex-row items-start md:items-center justify-between gap-3">
             <div className="flex items-center gap-2.5">
-              <span className="p-2 rounded-xl bg-purple-500/30 border border-purple-400/40 text-purple-200">
+              <span className="p-2 rounded-xl bg-rose-500/20 border border-rose-500/30 text-rose-200">
                 <Award className="w-5 h-5" />
               </span>
               <div>
                 <h4 className="font-extrabold text-xs sm:text-sm text-white">
                   Rangkuman Sisa Kursi Jalur Prestasi Akademik
                 </h4>
-                <p className="text-[11px] text-purple-200">
+                <p className="text-[11px] text-rose-200">
                   Pantau ketersediaan kursi tanpa zonasi jarak berdasarkan nilai rapor & sertifikat prestasi.
                 </p>
               </div>
@@ -615,9 +615,9 @@ export default function Home({ initialKuota, initialPendaftaran }) {
                     onClick={() => setSelectedSchoolFilter(String(s.school.id))}
                     className={`px-2.5 py-1 rounded-xl text-[11px] font-bold transition flex items-center gap-1.5 border ${
                       rem >= 20
-                        ? 'bg-emerald-500/20 text-emerald-300 border-emerald-400/50'
+                        ? 'bg-emerald-500/20 text-emerald-300 border-emerald-500/30'
                         : rem <= 5
-                        ? 'bg-rose-500/20 text-rose-300 border-rose-400/50'
+                        ? 'bg-rose-500/20 text-rose-300 border-rose-500/30'
                         : 'bg-white/10 text-slate-200 border-white/20 hover:bg-white/20'
                     } ${isSelected ? 'ring-2 ring-white' : ''}`}
                     title={`Klik untuk melihat detail ${s.school.nama_sekolah}`}
@@ -646,9 +646,9 @@ export default function Home({ initialKuota, initialPendaftaran }) {
       {/* ============================================================== */}
       {/* 4. BAGIAN 2: ALUR PENDAFTARAN 4 LANGKAH */}
       {/* ============================================================== */}
-      <section className="mb-12 bg-gradient-to-r from-slate-950 via-[#1E3A8A] to-slate-950 rounded-3xl p-6 sm:p-8 text-white shadow-xl border border-blue-900/40">
+      <section className="mb-12 bg-gradient-to-r from-[#141417] via-[#221614] to-[#141417] rounded-3xl p-6 sm:p-8 text-white shadow-xl border border-orange-500/30">
         <div className="text-center max-w-xl mx-auto mb-6">
-          <span className="text-xs font-bold uppercase tracking-widest text-blue-200">
+          <span className="text-xs font-bold uppercase tracking-widest text-orange-300">
             Public Service Tracking
           </span>
           <h2 className="text-xl sm:text-2xl font-black mt-1">
@@ -661,7 +661,7 @@ export default function Home({ initialKuota, initialPendaftaran }) {
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           <div className="bg-white/10 backdrop-blur rounded-2xl p-4 border border-white/15">
-            <span className="w-7 h-7 rounded-full bg-blue-600 text-white font-black flex items-center justify-center text-xs mb-2.5 shadow">
+            <span className="w-7 h-7 rounded-full bg-[#F97316] text-white font-black flex items-center justify-center text-xs mb-2.5 shadow">
               01
             </span>
             <h4 className="font-bold text-xs text-white">Pilih Jalur & SMAN</h4>
@@ -671,7 +671,7 @@ export default function Home({ initialKuota, initialPendaftaran }) {
           </div>
 
           <div className="bg-white/10 backdrop-blur rounded-2xl p-4 border border-white/15">
-            <span className="w-7 h-7 rounded-full bg-blue-600 text-white font-black flex items-center justify-center text-xs mb-2.5 shadow">
+            <span className="w-7 h-7 rounded-full bg-[#F97316] text-white font-black flex items-center justify-center text-xs mb-2.5 shadow">
               02
             </span>
             <h4 className="font-bold text-xs text-white">Isi Formulir & Titik Rumah</h4>
@@ -681,7 +681,7 @@ export default function Home({ initialKuota, initialPendaftaran }) {
           </div>
 
           <div className="bg-white/10 backdrop-blur rounded-2xl p-4 border border-white/15">
-            <span className="w-7 h-7 rounded-full bg-blue-600 text-white font-black flex items-center justify-center text-xs mb-2.5 shadow">
+            <span className="w-7 h-7 rounded-full bg-[#F97316] text-white font-black flex items-center justify-center text-xs mb-2.5 shadow">
               03
             </span>
             <h4 className="font-bold text-xs text-white">Pantau Status Berkas</h4>
@@ -704,7 +704,7 @@ export default function Home({ initialKuota, initialPendaftaran }) {
         <div className="mt-6 text-center">
           <Link
             href="/daftar"
-            className="inline-flex items-center gap-2 px-6 py-3 rounded-2xl bg-[#EC4899] hover:bg-[#DB2777] text-white font-black text-xs hover:scale-[1.01] transition shadow-lg shadow-pink-500/25"
+            className="inline-flex items-center gap-2 px-6 py-3 rounded-2xl bg-gradient-to-r from-[#F97316] to-[#F43F5E] hover:opacity-90 text-white font-black text-xs hover:scale-[1.01] transition shadow-lg shadow-orange-500/25"
           >
             <span>Mulai Pendaftaran</span>
             <ArrowRight className="w-4 h-4" />
@@ -729,10 +729,10 @@ export default function Home({ initialKuota, initialPendaftaran }) {
       {/* ============================================================== */}
       {/* 8. BAGIAN 6: LAPOR KECURANGAN RAHASIA (WHISTLEBLOWER) */}
       {/* ============================================================== */}
-      <section className="bg-gradient-to-r from-slate-950 via-[#1E3A8A] to-slate-950 rounded-3xl p-6 sm:p-8 text-white border border-blue-900/40 relative overflow-hidden shadow-xl">
+      <section className="bg-gradient-to-r from-[#141417] via-[#221614] to-[#141417] rounded-3xl p-6 sm:p-8 text-white border border-orange-500/30 relative overflow-hidden shadow-xl">
         <div className="max-w-2xl relative z-10">
-          <div className="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full bg-pink-500/20 text-pink-300 border border-pink-500/30 text-xs font-bold mb-3">
-            <AlertCircle className="w-3.5 h-3.5 text-pink-400" />
+          <div className="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full bg-rose-500/20 text-rose-300 border border-rose-500/30 text-xs font-bold mb-3">
+            <AlertCircle className="w-3.5 h-3.5 text-[#F43F5E]" />
             Pengaduan Warga Anonim
           </div>
           <h3 className="text-xl sm:text-2xl font-black tracking-tight">
@@ -744,7 +744,7 @@ export default function Home({ initialKuota, initialPendaftaran }) {
           <div className="mt-5 flex flex-wrap gap-2.5">
             <Link
               href="/whistleblower"
-              className="px-5 py-2.5 rounded-2xl bg-[#EC4899] hover:bg-[#DB2777] text-white font-bold text-xs shadow-lg shadow-pink-500/25 transition flex items-center gap-2"
+              className="px-5 py-2.5 rounded-2xl bg-gradient-to-r from-[#F97316] to-[#F43F5E] hover:opacity-90 text-white font-bold text-xs shadow-lg shadow-orange-500/25 transition flex items-center gap-2"
             >
               <span>Kirim Laporan Anonim</span>
               <ArrowRight className="w-4 h-4" />

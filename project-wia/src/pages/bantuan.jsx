@@ -32,17 +32,17 @@ export default function BantuanPage() {
     <Layout>
       <div className="max-w-4xl mx-auto mb-6">
         <div className="flex items-center gap-2 mb-1">
-          <span className="p-1 rounded bg-[#1E3A8A] text-white">
+          <span className="p-1 rounded bg-[#F97316] text-white">
             <HelpCircle className="w-3.5 h-3.5" />
           </span>
-          <span className="text-xs font-bold uppercase tracking-wider text-[#1E3A8A]">
+          <span className="text-xs font-bold uppercase tracking-wider text-[#F97316]">
             Pusat Bantuan
           </span>
         </div>
-        <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
+        <h1 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
           Pertanyaan Umum (FAQ)
         </h1>
-        <p className="text-xs sm:text-sm text-slate-500 mt-0.5 max-w-xl">
+        <p className="text-xs sm:text-sm text-slate-400 mt-0.5 max-w-xl">
           Jawaban ringkas seputar kuota, validasi zonasi, simulasi, dan pelaporan warga.
         </p>
       </div>
@@ -53,17 +53,17 @@ export default function BantuanPage() {
           return (
             <div
               key={idx}
-              className="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm transition"
+              className="bg-[#1A1A1E] rounded-2xl border border-white/10 overflow-hidden shadow-sm transition"
             >
               <button
                 onClick={() => setOpenIndex(isOpen ? -1 : idx)}
-                className="w-full p-5 text-left flex items-center justify-between gap-4 font-bold text-sm text-slate-900 hover:text-[#1E3A8A] transition"
+                className="w-full p-5 text-left flex items-center justify-between gap-4 font-bold text-sm text-white hover:text-[#F97316] transition"
               >
                 <span>{faq.q}</span>
                 {isOpen ? <ChevronUp className="w-5 h-5 text-slate-400 shrink-0" /> : <ChevronDown className="w-5 h-5 text-slate-400 shrink-0" />}
               </button>
               {isOpen && (
-                <div className="px-5 pb-5 text-xs text-slate-600 leading-relaxed border-t border-slate-100 pt-3">
+                <div className="px-5 pb-5 text-xs text-slate-400 leading-relaxed border-t border-white/10 pt-3">
                   {faq.a}
                 </div>
               )}
@@ -73,7 +73,7 @@ export default function BantuanPage() {
       </div>
 
       {/* Help Desk Contact Options */}
-      <div className="max-w-4xl mx-auto bg-gradient-to-r from-[#0F172A] via-[#1E3A8A] to-[#0F172A] rounded-3xl p-8 text-white">
+      <div className="max-w-4xl mx-auto bg-gradient-to-r from-[#141417] via-[#221614] to-[#141417] rounded-3xl p-8 text-white">
         <h3 className="font-bold text-base mb-2">Butuh Bantuan Langsung dari Helpdesk Dinas?</h3>
         <p className="text-xs text-slate-300 mb-6 max-w-xl">
           Tim Posko Layanan Pengaduan PPDB SMAUMU siap membantu kendala teknis verifikasi data kependudukan dan tiket pendaftaran Anda.
@@ -94,7 +94,7 @@ export default function BantuanPage() {
             </div>
           </div>
           <div className="p-3.5 rounded-xl bg-white/10 backdrop-blur border border-white/10 flex items-center gap-3">
-            <MessageSquare className="w-5 h-5 text-cyan-300" />
+            <MessageSquare className="w-5 h-5 text-[#F97316]" />
             <div>
               <p className="text-slate-400 text-[10px]">WhatsApp Pengaduan</p>
               <p className="font-bold text-white">+62 812-9988-2026</p>

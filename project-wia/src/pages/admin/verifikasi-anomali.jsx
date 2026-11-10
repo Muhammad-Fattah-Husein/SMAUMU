@@ -78,18 +78,18 @@ export default function AdminVerifikasiAnomaliPage({ initialAnomalies, initialRe
   });
 
   return (
-    <div className="min-h-screen bg-slate-100 flex flex-col md:flex-row font-sans">
+    <div className="min-h-screen bg-[#222227] flex flex-col md:flex-row font-sans">
       <AdminSidebar />
       <main className="flex-1 p-6 sm:p-10 max-w-7xl">
         <div className="mb-8">
           <div className="flex items-center gap-2 mb-1">
-            <span className="p-1 rounded bg-[#EC4899] text-white"><ShieldAlert className="w-3.5 h-3.5" /></span>
-            <span className="text-xs font-bold uppercase tracking-wider text-[#EC4899]">Audit Forensik Data</span>
+            <span className="p-1 rounded bg-gradient-to-r from-[#F97316] to-[#F43F5E] text-white"><ShieldAlert className="w-3.5 h-3.5" /></span>
+            <span className="text-xs font-bold uppercase tracking-wider text-[#F43F5E]">Audit Forensik Data</span>
           </div>
-          <h1 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">
+          <h1 className="text-2xl sm:text-3xl font-black text-white tracking-tight">
             Verifikasi Anomali Geospasial & Laporan Warga
           </h1>
-          <p className="text-xs text-slate-500 mt-1">
+          <p className="text-xs text-slate-400 mt-1">
             Investigasi indikasi kecurangan zonasi, numpang KK fiktif, serta penanganan aduan anonim masyarakat.
           </p>
 
@@ -97,7 +97,7 @@ export default function AdminVerifikasiAnomaliPage({ initialAnomalies, initialRe
             <button
               onClick={() => setActiveTab('anomali')}
               className={`px-4 py-2 rounded-xl text-xs font-bold transition ${
-                activeTab === 'anomali' ? 'bg-[#EC4899] text-white shadow-md' : 'bg-white text-slate-700 border border-slate-200'
+                activeTab === 'anomali' ? 'bg-gradient-to-r from-[#F97316] to-[#F43F5E] text-white shadow-md' : 'bg-[#1A1A1E] text-slate-300 border border-white/10'
               }`}
             >
               Anomali Geospasial ({anomalies.length} Kasus)
@@ -105,7 +105,7 @@ export default function AdminVerifikasiAnomaliPage({ initialAnomalies, initialRe
             <button
               onClick={() => setActiveTab('whistleblower')}
               className={`px-4 py-2 rounded-xl text-xs font-bold transition ${
-                activeTab === 'whistleblower' ? 'bg-[#1E3A8A] text-white shadow-md' : 'bg-white text-slate-700 border border-slate-200'
+                activeTab === 'whistleblower' ? 'bg-[#F97316] text-white shadow-md' : 'bg-[#1A1A1E] text-slate-300 border border-white/10'
               }`}
             >
               Laporan Whistleblower ({reports.length} Aduan)
@@ -116,60 +116,60 @@ export default function AdminVerifikasiAnomaliPage({ initialAnomalies, initialRe
         {activeTab === 'anomali' && (
           <div className="space-y-4">
             {anomalies.map((item) => (
-              <div key={item.id} className="bg-white rounded-3xl border border-rose-200 p-6 shadow-sm space-y-4">
-                <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 border-b border-slate-100 pb-4">
+              <div key={item.id} className="bg-[#1A1A1E] rounded-3xl border border-rose-500/30 p-6 shadow-sm space-y-4">
+                <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 border-b border-white/10 pb-4">
                   <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-xl bg-rose-100 text-rose-600 flex items-center justify-center font-bold">
+                    <div className="w-10 h-10 rounded-xl bg-rose-500/15 text-[#FB7185] flex items-center justify-center font-bold">
                       <ShieldAlert className="w-6 h-6" />
                     </div>
                     <div>
                       <div className="flex items-center gap-2">
-                        <h3 className="font-extrabold text-slate-900 text-base">{item.nama_siswa}</h3>
-                        <span className="font-mono text-xs font-bold text-slate-500 bg-slate-100 px-2 py-0.5 rounded">
+                        <h3 className="font-extrabold text-white text-base">{item.nama_siswa}</h3>
+                        <span className="font-mono text-xs font-bold text-slate-400 bg-[#222227] px-2 py-0.5 rounded">
                           {item.nomor_tiket}
                         </span>
                       </div>
-                      <p className="text-xs text-slate-500">{item.sekolah_nama} • NIK: {item.nik}</p>
+                      <p className="text-xs text-slate-400">{item.sekolah_nama} • NIK: {item.nik}</p>
                     </div>
                   </div>
 
-                  <span className="px-3 py-1 rounded-full text-xs font-bold bg-rose-100 text-rose-800 border border-rose-300">
+                  <span className="px-3 py-1 rounded-full text-xs font-bold bg-rose-500/15 text-[#FB7185] border border-rose-500/30">
                     ANOMALI KRITIS GEOSPASIAL
                   </span>
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-xs">
-                  <div className="p-3.5 rounded-xl bg-slate-50">
+                  <div className="p-3.5 rounded-xl bg-[#222227]">
                     <span className="text-slate-400 block text-[10px]">Alamat Klaim (Pendaftar):</span>
-                    <p className="font-medium text-slate-800 mt-0.5">{item.alamat_domisili}</p>
+                    <p className="font-medium text-[#E2E8F0] mt-0.5">{item.alamat_domisili}</p>
                     <p className="font-mono text-brand-700 font-bold mt-1">Jarak Klaim: {formatDistance(item.jarak_klaim_meter)}</p>
                   </div>
 
-                  <div className="p-3.5 rounded-xl bg-slate-50">
+                  <div className="p-3.5 rounded-xl bg-[#222227]">
                     <span className="text-slate-400 block text-[10px]">Alamat Resmi (Centroid Dukcapil):</span>
-                    <p className="font-medium text-slate-800 mt-0.5">Rawamangun / Pulo Gadung, Jakarta Timur</p>
-                    <p className="font-mono text-rose-600 font-bold mt-1">Jarak Sebenarnya: {formatDistance(item.jarak_resmi_meter)}</p>
+                    <p className="font-medium text-[#E2E8F0] mt-0.5">Rawamangun / Pulo Gadung, Jakarta Timur</p>
+                    <p className="font-mono text-[#FB7185] font-bold mt-1">Jarak Sebenarnya: {formatDistance(item.jarak_resmi_meter)}</p>
                   </div>
 
-                  <div className="p-3.5 rounded-xl bg-rose-50 border border-rose-200">
-                    <span className="text-rose-800 font-bold block text-[10px]">Selisih Deviasi (Manipulasi):</span>
-                    <p className="font-mono font-black text-rose-700 text-lg mt-0.5">+{formatDistance(item.selisih_jarak_meter)}</p>
-                    <p className="text-[11px] text-rose-700 mt-1">Masa tinggal KK: <strong>{item.lama_tinggal_bulan} Bulan (&lt;1 thn)</strong></p>
+                  <div className="p-3.5 rounded-xl bg-rose-500/10 border border-rose-500/30">
+                    <span className="text-[#FB7185] font-bold block text-[10px]">Selisih Deviasi (Manipulasi):</span>
+                    <p className="font-mono font-black text-[#FB7185] text-lg mt-0.5">+{formatDistance(item.selisih_jarak_meter)}</p>
+                    <p className="text-[11px] text-[#FB7185] mt-1">Masa tinggal KK: <strong>{item.lama_tinggal_bulan} Bulan (&lt;1 thn)</strong></p>
                   </div>
                 </div>
 
                 <div className="flex items-center justify-between pt-2">
-                  <span className="text-xs text-slate-500">Status Tindakan: <strong className="text-amber-600">Berkas Ditangguhkan (Tinjauan Manual)</strong></span>
+                  <span className="text-xs text-slate-400">Status Tindakan: <strong className="text-amber-400">Berkas Ditangguhkan (Tinjauan Manual)</strong></span>
                   <div className="flex gap-2">
                     <button
                       onClick={() => alert(`Surat Panggilan Klarifikasi Lapangan diterbitkan untuk ${item.nama_siswa}.`)}
-                      className="px-4 py-2 rounded-xl bg-[#1E3A8A] hover:bg-[#2563EB] text-white font-bold text-xs transition"
+                      className="px-4 py-2 rounded-xl bg-[#F97316] hover:bg-[#EA580C] text-white font-bold text-xs transition"
                     >
                       Kirim Panggilan Lapangan
                     </button>
                     <button
                       onClick={() => alert(`Tiket ${item.nomor_tiket} telah dibatalkan dari Jalur Zonasi.`)}
-                      className="px-4 py-2 rounded-xl bg-[#EC4899] hover:bg-[#DB2777] text-white font-bold text-xs transition"
+                      className="px-4 py-2 rounded-xl bg-gradient-to-r from-[#F97316] to-[#F43F5E] hover:opacity-90 text-white font-bold text-xs transition"
                     >
                       Batalkan Tiket (Diskualifikasi)
                     </button>
@@ -184,34 +184,34 @@ export default function AdminVerifikasiAnomaliPage({ initialAnomalies, initialRe
           <div className="space-y-6">
             {/* KPI Cards Ringkasan Mitigasi Aduan */}
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs">
-              <div className="p-4 rounded-2xl bg-white border border-slate-200 shadow-sm">
+              <div className="p-4 rounded-2xl bg-[#1A1A1E] border border-white/10 shadow-sm">
                 <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400 block">Total Masuk</span>
-                <span className="text-xl font-black text-slate-900 mt-1 block">{reports.length}</span>
-                <span className="text-[10px] text-slate-500">Laporan warga anonim</span>
+                <span className="text-xl font-black text-white mt-1 block">{reports.length}</span>
+                <span className="text-[10px] text-slate-400">Laporan warga anonim</span>
               </div>
 
-              <div className="p-4 rounded-2xl bg-amber-50 border border-amber-200 shadow-sm">
-                <span className="text-[10px] font-bold uppercase tracking-wider text-amber-700 block">Investigasi Aktif</span>
-                <span className="text-xl font-black text-amber-800 mt-1 block">
+              <div className="p-4 rounded-2xl bg-amber-500/10 border border-amber-500/30 shadow-sm">
+                <span className="text-[10px] font-bold uppercase tracking-wider text-amber-400 block">Investigasi Aktif</span>
+                <span className="text-xl font-black text-amber-400 mt-1 block">
                   {reports.filter(r => r.status === 'dalam_investigasi' || r.status === 'diterima').length}
                 </span>
-                <span className="text-[10px] text-amber-600">Dalam telaah lapangan</span>
+                <span className="text-[10px] text-amber-400">Dalam telaah lapangan</span>
               </div>
 
-              <div className="p-4 rounded-2xl bg-emerald-50 border border-emerald-200 shadow-sm">
-                <span className="text-[10px] font-bold uppercase tracking-wider text-emerald-700 block">Terbukti Valid</span>
-                <span className="text-xl font-black text-emerald-800 mt-1 block">
+              <div className="p-4 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 shadow-sm">
+                <span className="text-[10px] font-bold uppercase tracking-wider text-emerald-400 block">Terbukti Valid</span>
+                <span className="text-xl font-black text-emerald-400 mt-1 block">
                   {reports.filter(r => r.status === 'bukti_valid_terverifikasi').length}
                 </span>
-                <span className="text-[10px] text-emerald-600">Sanksi & dibekukan</span>
+                <span className="text-[10px] text-emerald-400">Sanksi & dibekukan</span>
               </div>
 
-              <div className="p-4 rounded-2xl bg-rose-50 border border-rose-200 shadow-sm">
-                <span className="text-[10px] font-bold uppercase tracking-wider text-rose-700 block">Termitigasi Spam</span>
-                <span className="text-xl font-black text-rose-800 mt-1 block">
+              <div className="p-4 rounded-2xl bg-rose-500/10 border border-rose-500/30 shadow-sm">
+                <span className="text-[10px] font-bold uppercase tracking-wider text-[#FB7185] block">Termitigasi Spam</span>
+                <span className="text-xl font-black text-[#FB7185] mt-1 block">
                   {reports.filter(r => r.status === 'termitigasi_spam').length}
                 </span>
-                <span className="text-[10px] text-rose-600">Aduan hoax disaring</span>
+                <span className="text-[10px] text-[#FB7185]">Aduan hoax disaring</span>
               </div>
             </div>
 
@@ -228,8 +228,8 @@ export default function AdminVerifikasiAnomaliPage({ initialAnomalies, initialRe
                   onClick={() => setReportFilter(f.id)}
                   className={`px-3 py-1.5 rounded-xl font-bold whitespace-nowrap transition ${
                     reportFilter === f.id
-                      ? 'bg-[#1E3A8A] text-white shadow-sm'
-                      : 'bg-white text-slate-600 border border-slate-200 hover:bg-slate-50'
+                      ? 'bg-[#F97316] text-white shadow-sm'
+                      : 'bg-[#1A1A1E] text-slate-400 border border-white/10 hover:bg-white/5'
                   }`}
                 >
                   {f.label}
@@ -247,30 +247,30 @@ export default function AdminVerifikasiAnomaliPage({ initialAnomalies, initialRe
                 return (
                   <div
                     key={r.id}
-                    className={`bg-white rounded-3xl border p-6 shadow-sm space-y-4 transition-all ${
+                    className={`bg-[#1A1A1E] rounded-3xl border p-6 shadow-sm space-y-4 transition-all ${
                       isSpam 
-                        ? 'border-slate-300 opacity-80 bg-slate-50/50' 
+                        ? 'border-white/10 opacity-80 bg-[#222227]' 
                         : isValid 
-                        ? 'border-emerald-300 ring-2 ring-emerald-50' 
-                        : 'border-slate-200'
+                        ? 'border-emerald-500/30 ring-2 ring-emerald-50' 
+                        : 'border-white/10'
                     }`}
                   >
-                    <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-2 border-b border-slate-100 pb-3">
+                    <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-2 border-b border-white/10 pb-3">
                       <div>
                         <div className="flex items-center gap-2 flex-wrap">
-                          <span className="font-mono text-xs font-bold text-rose-600 bg-rose-50 px-2 py-0.5 rounded border border-rose-200">
+                          <span className="font-mono text-xs font-bold text-[#FB7185] bg-rose-500/10 px-2 py-0.5 rounded border border-rose-500/30">
                             {r.kode_laporan}
                           </span>
-                          <span className="font-mono text-[11px] text-slate-500 bg-slate-100 px-2 py-0.5 rounded">
+                          <span className="font-mono text-[11px] text-slate-400 bg-[#222227] px-2 py-0.5 rounded">
                             Token: {r.token_investigasi}
                           </span>
-                          <span className="text-[11px] font-bold text-blue-700 bg-blue-50 px-2 py-0.5 rounded border border-blue-200 uppercase">
+                          <span className="text-[11px] font-bold text-[#F97316] bg-orange-500/10 px-2 py-0.5 rounded border border-orange-500/30 uppercase">
                             Kategori: {r.kategori.replace('_', ' ')}
                           </span>
                         </div>
-                        <h3 className="font-extrabold text-base text-slate-900 mt-2">{r.judul}</h3>
+                        <h3 className="font-extrabold text-base text-white mt-2">{r.judul}</h3>
                         <p className="text-xs text-slate-400 mt-0.5">
-                          Pelapor: <strong className="text-slate-700">{r.nama_samaran}</strong> • Tiket Terkait: <strong className="text-slate-700">{r.tiket_terkait || '-'}</strong> • {formatDateIndo(r.created_at)}
+                          Pelapor: <strong className="text-slate-300">{r.nama_samaran}</strong> • Tiket Terkait: <strong className="text-slate-300">{r.tiket_terkait || '-'}</strong> • {formatDateIndo(r.created_at)}
                         </p>
                       </div>
 
@@ -278,10 +278,10 @@ export default function AdminVerifikasiAnomaliPage({ initialAnomalies, initialRe
                       <div className="flex flex-col items-end gap-1.5 shrink-0">
                         <span className={`px-3 py-1 rounded-full text-xs font-bold ${
                           isValid 
-                            ? 'bg-emerald-100 text-emerald-800 border border-emerald-300'
+                            ? 'bg-emerald-500/15 text-emerald-400 border border-emerald-500/30'
                             : isSpam
-                            ? 'bg-rose-100 text-rose-800 border border-rose-300'
-                            : 'bg-amber-100 text-amber-800 border border-amber-300'
+                            ? 'bg-rose-500/15 text-[#FB7185] border border-rose-500/30'
+                            : 'bg-amber-500/15 text-amber-400 border border-amber-500/30'
                         }`}>
                           {isValid 
                             ? '✓ BUKTI VALID TERVERIFIKASI'
@@ -293,8 +293,8 @@ export default function AdminVerifikasiAnomaliPage({ initialAnomalies, initialRe
                         {r.skor_spam !== undefined && (
                           <span className={`text-[10px] font-bold px-2 py-0.5 rounded ${
                             r.skor_spam >= 70
-                              ? 'bg-rose-50 text-rose-700 border border-rose-200'
-                              : 'bg-emerald-50 text-emerald-700 border border-emerald-200'
+                              ? 'bg-rose-500/10 text-[#FB7185] border border-rose-500/30'
+                              : 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/30'
                           }`}>
                             Skor Risiko Spam: {r.skor_spam}% {r.skor_spam >= 70 ? '(Potensi Palsu)' : '(Kredibel)'}
                           </span>
@@ -303,40 +303,40 @@ export default function AdminVerifikasiAnomaliPage({ initialAnomalies, initialRe
                     </div>
 
                     {/* Deskripsi Laporan */}
-                    <div className="p-4 rounded-2xl bg-slate-50 border border-slate-100 text-xs text-slate-700 leading-relaxed space-y-2">
+                    <div className="p-4 rounded-2xl bg-[#222227] border border-white/10 text-xs text-slate-300 leading-relaxed space-y-2">
                       <p>{r.deskripsi}</p>
                       {r.lampiran_bukti_url && (
-                        <div className="pt-2 border-t border-slate-200 flex items-center gap-2">
-                          <FileText className="w-4 h-4 text-[#2563EB]" />
-                          <span className="font-semibold text-[11px] text-[#1E3A8A]">Lampiran Dokumen Bukti:</span>
-                          <span className="font-mono text-[11px] text-slate-600 underline cursor-pointer">
+                        <div className="pt-2 border-t border-white/10 flex items-center gap-2">
+                          <FileText className="w-4 h-4 text-[#F97316]" />
+                          <span className="font-semibold text-[11px] text-[#F97316]">Lampiran Dokumen Bukti:</span>
+                          <span className="font-mono text-[11px] text-slate-400 underline cursor-pointer">
                             {r.lampiran_bukti_url}
                           </span>
                         </div>
                       )}
                       {r.alasan_spam && (
-                        <p className="text-[11px] text-rose-700 font-semibold bg-rose-50 p-2 rounded-lg border border-rose-200">
+                        <p className="text-[11px] text-[#FB7185] font-semibold bg-rose-500/10 p-2 rounded-lg border border-rose-500/30">
                           Catatan Filter Spam: {r.alasan_spam}
                         </p>
                       )}
                     </div>
 
                     {/* Respon Petugas & Tindak Lanjut */}
-                    <div className="p-3.5 rounded-xl bg-blue-50/70 border border-blue-200 text-xs text-blue-900 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+                    <div className="p-3.5 rounded-xl bg-orange-500/10 border border-orange-500/30 text-xs text-[#F97316] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
                       <div>
-                        <span className="font-bold text-[10px] uppercase text-[#1E3A8A] block">Tindak Lanjut & Respon Resmi Dinas:</span>
-                        <span className="text-slate-800">{r.respon_petugas || 'Menunggu verifikasi tim inspektorat.'}</span>
+                        <span className="font-bold text-[10px] uppercase text-[#F97316] block">Tindak Lanjut & Respon Resmi Dinas:</span>
+                        <span className="text-[#E2E8F0]">{r.respon_petugas || 'Menunggu verifikasi tim inspektorat.'}</span>
                       </div>
                       <button
                         onClick={() => { setResponseModal(r); setResponseText(r.respon_petugas || ''); }}
-                        className="px-3 py-1.5 rounded-lg bg-[#1E3A8A] text-white font-bold text-xs hover:bg-[#2563EB] transition shrink-0"
+                        className="px-3 py-1.5 rounded-lg bg-[#F97316] text-white font-bold text-xs hover:bg-[#EA580C] transition shrink-0"
                       >
                         Sunting Tanggapan Token
                       </button>
                     </div>
 
                     {/* Tombol Aksi Verifikator Instansi */}
-                    <div className="flex flex-wrap items-center justify-end gap-2 pt-1 border-t border-slate-100">
+                    <div className="flex flex-wrap items-center justify-end gap-2 pt-1 border-t border-white/10">
                       {!isValid && (
                         <button
                           onClick={() => handleConfirmValid(r.id)}
@@ -360,7 +360,7 @@ export default function AdminVerifikasiAnomaliPage({ initialAnomalies, initialRe
                       {!isSpam && (
                         <button
                           onClick={() => handleMarkAsSpam(r.id)}
-                          className="px-3.5 py-1.5 rounded-xl bg-slate-200 hover:bg-rose-100 text-slate-700 hover:text-rose-700 font-bold text-xs transition flex items-center gap-1.5"
+                          className="px-3.5 py-1.5 rounded-xl bg-[#2A2A32] hover:bg-rose-500/15 text-slate-300 hover:text-[#FB7185] font-bold text-xs transition flex items-center gap-1.5"
                         >
                           <ShieldOff className="w-3.5 h-3.5" />
                           <span>Mitigasi Laporan Palsu / Spam</span>
@@ -377,11 +377,11 @@ export default function AdminVerifikasiAnomaliPage({ initialAnomalies, initialRe
         {/* Modal Respon Petugas */}
         {responseModal && (
           <div className="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4">
-            <div className="bg-white rounded-3xl max-w-lg w-full p-6 space-y-4 shadow-2xl animate-fade-in">
-              <h3 className="font-bold text-base text-slate-900">
+            <div className="bg-[#1A1A1E] rounded-3xl max-w-lg w-full p-6 space-y-4 shadow-2xl animate-fade-in">
+              <h3 className="font-bold text-base text-white">
                 Tanggapi Laporan: {responseModal.kode_laporan}
               </h3>
-              <p className="text-xs text-slate-500">
+              <p className="text-xs text-slate-400">
                 Tanggapan ini akan dapat dibaca oleh pelapor anonim menggunakan Token Investigasi mereka.
               </p>
               <textarea
@@ -389,12 +389,12 @@ export default function AdminVerifikasiAnomaliPage({ initialAnomalies, initialRe
                 value={responseText}
                 onChange={(e) => setResponseText(e.target.value)}
                 placeholder="Tuliskan hasil investigasi lapangan atau tindak lanjut dinas..."
-                className="w-full p-3 rounded-xl border border-slate-300 text-xs focus:ring-2 focus:ring-brand-500"
+                className="w-full p-3 rounded-xl border border-white/10 text-xs focus:ring-2 focus:ring-brand-500"
               ></textarea>
               <div className="flex justify-end gap-2 pt-2">
                 <button
                   onClick={() => setResponseModal(null)}
-                  className="px-4 py-2 rounded-xl text-xs font-semibold text-slate-600 hover:bg-slate-100"
+                  className="px-4 py-2 rounded-xl text-xs font-semibold text-slate-400 hover:bg-white/10"
                 >
                   Batal
                 </button>

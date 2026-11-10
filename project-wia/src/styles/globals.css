@@ -8,73 +8,106 @@
 :root {
   --font-sans: 'Plus Jakarta Sans', sans-serif;
   --font-mono: 'JetBrains Mono', monospace;
-  --color-primary: #1E3A8A;
-  --color-primary-light: #2563EB;
-  --color-accent: #EC4899;
-  --color-background: #F8FAFC;
-  --color-surface: #FFFFFF;
-  --color-muted: #64748B;
+  --color-primary: #F97316;
+  --color-primary-light: #FB923C;
+  --color-accent: #F43F5E;
+  --color-background: #121212;
+  --color-surface: #1A1A1E;
+  --color-text: #E2E8F0;
+  --color-muted: #94A3B8;
+  color-scheme: dark;
 }
 
 @layer base {
   :root {
-    --background: 210 40% 98%;
-    --foreground: 222 47% 11%;
-    --card: 0 0% 100%;
-    --card-foreground: 222 47% 11%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 222 47% 11%;
-    --primary: 224 64% 33%;
-    --primary-foreground: 210 40% 98%;
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222 47% 11%;
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222 47% 11%;
-    --destructive: 346.8 77.2% 49.8%;
-    --destructive-foreground: 210 40% 98%;
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 221.2 83.2% 53.3%;
+    --background: 0 0% 7%;
+    --foreground: 214 32% 91%;
+    --card: 240 6% 11%;
+    --card-foreground: 214 32% 91%;
+    --popover: 240 6% 12%;
+    --popover-foreground: 214 32% 91%;
+    --primary: 24.6 95% 53.1%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 240 5% 16%;
+    --secondary-foreground: 214 32% 91%;
+    --muted: 240 5% 15%;
+    --muted-foreground: 215 20% 65%;
+    --accent: 349.7 89.2% 60.2%;
+    --accent-foreground: 0 0% 100%;
+    --destructive: 349.7 89.2% 60.2%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 240 6% 19%;
+    --input: 240 6% 19%;
+    --ring: 24.6 95% 53.1%;
     --radius: 0.75rem;
   }
 
   * {
     @apply border-border;
   }
+
+  input:not([type="checkbox"]):not([type="radio"]),
+  select,
+  textarea {
+    background-color: #141417;
+    color: #E2E8F0;
+  }
+
+  select option {
+    background-color: #1A1A1E;
+    color: #E2E8F0;
+  }
+}
+
+html {
+  color-scheme: dark;
+  background-color: #121212;
+  color: #E2E8F0;
 }
 
 body {
   font-family: var(--font-sans);
-  background-color: var(--color-background);
-  color: var(--color-primary);
+  background-color: #121212;
+  color: #E2E8F0;
   -webkit-font-smoothing: antialiased;
 }
 
-/* Custom styled scrollbars */
+/* Custom styled scrollbars for Sunset Obsidian */
 ::-webkit-scrollbar {
   width: 8px;
   height: 8px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #f1f5f9;
+  background: #121212;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #cbd5e1;
+  background: #2E2E36;
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--color-muted);
+  background: #F97316;
 }
 
-/* Map container fixes */
+/* Map container & dark popup overrides */
 .leaflet-container {
   width: 100%;
   height: 100%;
   border-radius: 0.75rem;
   z-index: 10;
+  background-color: #18181B;
+}
+
+.leaflet-popup-content-wrapper,
+.leaflet-popup-tip {
+  background-color: #1A1A1E !important;
+  color: #E2E8F0 !important;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.5) !important;
+}
+
+.leaflet-popup-close-button {
+  color: #94A3B8 !important;
 }

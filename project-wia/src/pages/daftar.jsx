@@ -38,8 +38,8 @@ const ApplicantCoordinateMapView = dynamic(
   {
     ssr: false,
     loading: () => (
-      <div className="w-full h-[360px] rounded-2xl bg-slate-900 border border-slate-700 flex flex-col items-center justify-center text-slate-300 gap-3">
-        <div className="w-8 h-8 border-3 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+      <div className="w-full h-[360px] rounded-2xl bg-[#141417] border border-white/10 flex flex-col items-center justify-center text-slate-300 gap-3">
+        <div className="w-8 h-8 border-3 border-orange-500/30 border-t-transparent rounded-full animate-spin"></div>
         <span className="text-xs font-semibold">Memuat Peta Spasial Auto-Snap Dukcapil...</span>
       </div>
     )
@@ -231,20 +231,20 @@ export default function DaftarPage() {
   if (loading || !isAuthenticated) {
     return (
       <Layout>
-        <div className="max-w-md mx-auto my-16 bg-white rounded-3xl border border-slate-200 p-8 text-center shadow-sm space-y-4">
-          <div className="w-14 h-14 rounded-3xl bg-blue-50 border border-blue-200 text-[#1E3A8A] flex items-center justify-center mx-auto shadow-sm animate-pulse">
-            <ShieldCheck className="w-7 h-7 text-blue-600" />
+        <div className="max-w-md mx-auto my-16 bg-[#1A1A1E] rounded-3xl border border-white/10 p-8 text-center shadow-sm space-y-4">
+          <div className="w-14 h-14 rounded-3xl bg-orange-500/10 border border-orange-500/30 text-[#F97316] flex items-center justify-center mx-auto shadow-sm animate-pulse">
+            <ShieldCheck className="w-7 h-7 text-[#F97316]" />
           </div>
-          <h2 className="text-lg font-black text-slate-900">
+          <h2 className="text-lg font-black text-white">
             Memeriksa Autentikasi Pengguna...
           </h2>
-          <p className="text-xs text-slate-500 leading-relaxed">
+          <p className="text-xs text-slate-400 leading-relaxed">
             Halaman pendaftaran sekolah mewajibkan Anda untuk masuk atau mendaftarkan akun terlebih dahulu. Mengalihkan ke halaman login...
           </p>
           <div className="pt-2">
             <Link
               href="/login?pesan=wajib_login&redirect=/daftar"
-              className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-[#1E3A8A] text-white text-xs font-bold hover:bg-[#2563EB] transition"
+              className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-[#F97316] text-white text-xs font-bold hover:bg-[#EA580C] transition"
             >
               <span>Masuk Sekarang</span>
               <ArrowRight className="w-3.5 h-3.5" />
@@ -260,39 +260,39 @@ export default function DaftarPage() {
       {/* Header Ringkas */}
       <div className="max-w-4xl mx-auto mb-6 text-center sm:text-left">
         <div className="flex items-center gap-2 mb-1 justify-center sm:justify-start">
-          <span className="p-1 rounded bg-[#1E3A8A] text-white">
+          <span className="p-1 rounded bg-[#F97316] text-white">
             <Layers className="w-3.5 h-3.5" />
           </span>
-          <span className="text-xs font-bold uppercase tracking-wider text-[#1E3A8A]">
+          <span className="text-xs font-bold uppercase tracking-wider text-[#F97316]">
             Public Service Tracking
           </span>
         </div>
-        <h1 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">
+        <h1 className="text-2xl sm:text-3xl font-black text-white tracking-tight">
           Pendaftaran Siswa Baru SMAN
         </h1>
-        <p className="text-xs sm:text-sm text-slate-500 mt-0.5">
+        <p className="text-xs sm:text-sm text-slate-400 mt-0.5">
           Alur 4 langkah pendaftaran mandiri dengan nomor tiket berenkripsi dan tanda terima QR.
         </p>
 
         {/* Sync Profile Banner */}
         {isAuthenticated ? (
-          <div className="mt-3 p-3 rounded-2xl bg-emerald-50 border border-emerald-200 text-xs text-emerald-900 flex items-center gap-2.5">
+          <div className="mt-3 p-3 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 text-xs text-emerald-400 flex items-center gap-2.5">
             <UserCheck className="w-4 h-4 text-[#10B981] shrink-0" />
             <span>
               <strong>Profil Tersinkron:</strong> Masuk sebagai <strong>{user.nama}</strong> ({user.email}). Data formulir telah otomatis terisi dari akun Supabase Anda.
             </span>
           </div>
         ) : (
-          <div className="mt-3 p-3 rounded-2xl bg-blue-50 border border-blue-200 text-xs text-[#1E3A8A] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2">
+          <div className="mt-3 p-3 rounded-2xl bg-orange-500/10 border border-orange-500/30 text-xs text-[#F97316] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2">
             <span>
               Ingin data pendaftaran tersimpan permanen di cloud?
             </span>
             <div className="flex items-center gap-2">
-              <Link href="/login" className="font-bold underline text-[#1E3A8A]">
+              <Link href="/login" className="font-bold underline text-[#F97316]">
                 Masuk
               </Link>
               <span>atau</span>
-              <Link href="/register" className="font-black px-2.5 py-1 rounded-xl bg-[#EC4899] text-white hover:bg-[#DB2777] transition shadow-sm">
+              <Link href="/register" className="font-black px-2.5 py-1 rounded-xl bg-gradient-to-r from-[#F97316] to-[#F43F5E] text-white hover:opacity-90 transition shadow-sm">
                 Daftar Calon Siswa
               </Link>
             </div>
@@ -318,14 +318,14 @@ export default function DaftarPage() {
                     isCompleted
                       ? 'bg-[#10B981] text-white shadow-md'
                       : isCurrent
-                      ? 'bg-[#1E3A8A] text-white shadow-lg ring-4 ring-blue-100'
-                      : 'bg-slate-200 text-slate-500'
+                      ? 'bg-[#F97316] text-white shadow-lg ring-4 ring-orange-500/20'
+                      : 'bg-[#2A2A32] text-slate-400'
                   }`}
                 >
                   {isCompleted ? <CheckCircle2 className="w-5 h-5" /> : item.step}
                 </div>
                 <span className={`text-[11px] sm:text-xs font-bold mt-2 truncate w-full ${
-                  isCurrent ? 'text-[#1E3A8A]' : isCompleted ? 'text-[#10B981]' : 'text-slate-400'
+                  isCurrent ? 'text-[#F97316]' : isCompleted ? 'text-[#10B981]' : 'text-slate-400'
                 }`}>
                   {item.title}
                 </span>
@@ -333,9 +333,9 @@ export default function DaftarPage() {
             );
           })}
         </div>
-        <div className="w-full bg-slate-200 h-2 rounded-full mt-4 overflow-hidden">
+        <div className="w-full bg-[#2A2A32] h-2 rounded-full mt-4 overflow-hidden">
           <div
-            className="bg-gradient-to-r from-[#2563EB] to-[#EC4899] h-full transition-all duration-500 ease-out"
+            className="bg-gradient-to-r from-[#F97316] to-[#F43F5E] h-full transition-all duration-500 ease-out"
             style={{ width: `${(currentStep / 4) * 100}%` }}
           ></div>
         </div>
@@ -345,18 +345,18 @@ export default function DaftarPage() {
       <div className="max-w-4xl mx-auto">
         {/* LANGKAH 1 */}
         {currentStep === 1 && (
-          <form onSubmit={handleNextStep2} className="bg-white rounded-3xl border border-slate-200 p-6 sm:p-8 shadow-sm space-y-6">
+          <form onSubmit={handleNextStep2} className="bg-[#1A1A1E] rounded-3xl border border-white/10 p-6 sm:p-8 shadow-sm space-y-6">
             <div>
-              <h2 className="text-xl font-black text-slate-900">
+              <h2 className="text-xl font-black text-white">
                 Langkah 1: Pilih Jalur Pendaftaran & Sekolah Tujuan
               </h2>
-              <p className="text-xs text-slate-500 mt-1">
+              <p className="text-xs text-slate-400 mt-1">
                 Pilih jalur yang sesuai dengan kondisi keluarga, jarak rumah, atau nilai prestasi anak Anda:
               </p>
             </div>
 
             <div className="space-y-3">
-              <label className="text-xs font-bold text-slate-700 uppercase tracking-wider block">
+              <label className="text-xs font-bold text-slate-300 uppercase tracking-wider block">
                 Pilihan Jalur Masuk:
               </label>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
@@ -370,14 +370,14 @@ export default function DaftarPage() {
                     key={item.id}
                     className={`p-4 rounded-2xl border-2 cursor-pointer transition-all flex flex-col justify-between ${
                       formData.jalur === item.id
-                        ? 'border-[#EC4899] bg-pink-50/40 ring-2 ring-pink-500/20 shadow-sm'
-                        : 'border-slate-200 hover:border-slate-300 bg-white'
+                        ? 'border-[#F43F5E] bg-rose-500/10 ring-2 ring-rose-500/20 shadow-sm'
+                        : 'border-white/10 hover:border-white/10 bg-[#1A1A1E]'
                     }`}
                   >
                     <div className="flex items-start justify-between">
                       <div>
-                        <span className="font-extrabold text-sm text-slate-900 block">{item.title}</span>
-                        <span className="text-[10px] font-mono text-[#1E3A8A] font-bold bg-blue-100 px-2 py-0.5 rounded">
+                        <span className="font-extrabold text-sm text-white block">{item.title}</span>
+                        <span className="text-[10px] font-mono text-[#F97316] font-bold bg-orange-500/15 px-2 py-0.5 rounded">
                           {item.kuota}
                         </span>
                       </div>
@@ -386,54 +386,54 @@ export default function DaftarPage() {
                         name="jalur"
                         checked={formData.jalur === item.id}
                         onChange={() => handleChange('jalur', item.id)}
-                        className="w-4 h-4 text-[#EC4899] focus:ring-[#EC4899] mt-1"
+                        className="w-4 h-4 text-[#F43F5E] focus:ring-[#F43F5E] mt-1"
                       />
                     </div>
-                    <p className="text-slate-500 text-xs mt-2 leading-relaxed">{item.desc}</p>
+                    <p className="text-slate-400 text-xs mt-2 leading-relaxed">{item.desc}</p>
                   </label>
                 ))}
               </div>
             </div>
 
             {/* Pilihan Sekolah */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-4 border-t border-slate-100">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-4 border-t border-white/10">
               <div>
-                <label className="text-xs font-bold text-slate-700 block mb-1.5">
+                <label className="text-xs font-bold text-slate-300 block mb-1.5">
                   SMA Negeri Pilihan Pertama (Prioritas Utama):
                 </label>
                 <select
                   value={formData.sekolah_id}
                   onChange={(e) => handleChange('sekolah_id', parseInt(e.target.value))}
-                  className="w-full p-3 rounded-xl border border-slate-300 text-xs font-bold text-slate-800 bg-white focus:ring-2 focus:ring-[#2563EB]"
+                  className="w-full p-3 rounded-xl border border-white/10 text-xs font-bold text-[#E2E8F0] bg-[#1A1A1E] focus:ring-2 focus:ring-[#F97316]"
                 >
                   {INITIAL_SEKOLAH.map((s) => (
                     <option key={s.id} value={s.id}>{s.nama_sekolah} ({s.kota})</option>
                   ))}
                 </select>
-                <p className="text-[11px] text-slate-500 mt-1">Daya tampung: {selectedSchool.kuota_total} siswa</p>
+                <p className="text-[11px] text-slate-400 mt-1">Daya tampung: {selectedSchool.kuota_total} siswa</p>
               </div>
 
               <div>
-                <label className="text-xs font-bold text-slate-700 block mb-1.5">
+                <label className="text-xs font-bold text-slate-300 block mb-1.5">
                   SMA Negeri Pilihan Cadangan (Pilihan Kedua):
                 </label>
                 <select
                   value={formData.sekolah_cadangan_id}
                   onChange={(e) => handleChange('sekolah_cadangan_id', parseInt(e.target.value))}
-                  className="w-full p-3 rounded-xl border border-slate-300 text-xs font-bold text-slate-800 bg-white focus:ring-2 focus:ring-[#2563EB]"
+                  className="w-full p-3 rounded-xl border border-white/10 text-xs font-bold text-[#E2E8F0] bg-[#1A1A1E] focus:ring-2 focus:ring-[#F97316]"
                 >
                   {INITIAL_SEKOLAH.map((s) => (
                     <option key={s.id} value={s.id}>{s.nama_sekolah}</option>
                   ))}
                 </select>
-                <p className="text-[11px] text-slate-500 mt-1">Otomatis diproses jika tergeser di pilihan pertama</p>
+                <p className="text-[11px] text-slate-400 mt-1">Otomatis diproses jika tergeser di pilihan pertama</p>
               </div>
             </div>
 
             <div className="pt-4 flex justify-end">
               <button
                 type="submit"
-                className="px-6 py-3 rounded-2xl bg-[#EC4899] hover:bg-[#DB2777] text-white font-black text-xs shadow-md transition flex items-center gap-2"
+                className="px-6 py-3 rounded-2xl bg-gradient-to-r from-[#F97316] to-[#F43F5E] hover:opacity-90 text-white font-black text-xs shadow-md transition flex items-center gap-2"
               >
                 <span>Lanjut ke Pengisian Formulir</span>
                 <ArrowRight className="w-4 h-4" />
@@ -444,12 +444,12 @@ export default function DaftarPage() {
 
         {/* LANGKAH 2 */}
         {currentStep === 2 && (
-          <form onSubmit={handleNextStep3} className="bg-white rounded-3xl border border-slate-200 p-6 sm:p-8 shadow-sm space-y-6">
+          <form onSubmit={handleNextStep3} className="bg-[#1A1A1E] rounded-3xl border border-white/10 p-6 sm:p-8 shadow-sm space-y-6">
             <div>
-              <h2 className="text-xl font-black text-slate-900">
+              <h2 className="text-xl font-black text-white">
                 Langkah 2: Isi Biodata Siswa & Tandai Titik Rumah Anda
               </h2>
-              <p className="text-xs text-slate-500 mt-1">
+              <p className="text-xs text-slate-400 mt-1">
                 Pastikan nomor NIK dan alamat sesuai Kartu Keluarga asli agar berkas langsung lolos verifikasi tanpa ditahan petugas.
               </p>
             </div>
@@ -457,68 +457,68 @@ export default function DaftarPage() {
             {/* Biodata */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
-                <label className="text-xs font-bold text-slate-700 block mb-1">Nama Lengkap Siswa</label>
+                <label className="text-xs font-bold text-slate-300 block mb-1">Nama Lengkap Siswa</label>
                 <input
                   type="text"
                   required
                   value={formData.nama_siswa}
                   onChange={(e) => handleChange('nama_siswa', e.target.value)}
-                  className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-xs text-slate-800 font-bold focus:ring-2 focus:ring-[#2563EB]"
+                  className="w-full px-3.5 py-2.5 rounded-xl border border-white/10 text-xs text-[#E2E8F0] font-bold focus:ring-2 focus:ring-[#F97316]"
                 />
               </div>
 
               <div>
-                <label className="text-xs font-bold text-slate-700 block mb-1">Nomor Induk Kependudukan (NIK 16 Angka di KK)</label>
+                <label className="text-xs font-bold text-slate-300 block mb-1">Nomor Induk Kependudukan (NIK 16 Angka di KK)</label>
                 <input
                   type="text"
                   required
                   maxLength="16"
                   value={formData.nik}
                   onChange={(e) => handleChange('nik', e.target.value)}
-                  className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 font-mono text-xs text-slate-800 font-bold focus:ring-2 focus:ring-[#2563EB]"
+                  className="w-full px-3.5 py-2.5 rounded-xl border border-white/10 font-mono text-xs text-[#E2E8F0] font-bold focus:ring-2 focus:ring-[#F97316]"
                 />
               </div>
 
               <div>
-                <label className="text-xs font-bold text-slate-700 block mb-1">Nomor Induk Siswa Nasional (NISN dari SMP)</label>
+                <label className="text-xs font-bold text-slate-300 block mb-1">Nomor Induk Siswa Nasional (NISN dari SMP)</label>
                 <input
                   type="text"
                   required
                   maxLength="10"
                   value={formData.nisn}
                   onChange={(e) => handleChange('nisn', e.target.value)}
-                  className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 font-mono text-xs text-slate-800 font-bold focus:ring-2 focus:ring-[#2563EB]"
+                  className="w-full px-3.5 py-2.5 rounded-xl border border-white/10 font-mono text-xs text-[#E2E8F0] font-bold focus:ring-2 focus:ring-[#F97316]"
                 />
               </div>
 
               <div>
-                <label className="text-xs font-bold text-slate-700 block mb-1">Asal Sekolah SMP / MTs</label>
+                <label className="text-xs font-bold text-slate-300 block mb-1">Asal Sekolah SMP / MTs</label>
                 <input
                   type="text"
                   required
                   value={formData.asal_sekolah_smp}
                   onChange={(e) => handleChange('asal_sekolah_smp', e.target.value)}
-                  className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-xs text-slate-800 font-semibold focus:ring-2 focus:ring-[#2563EB]"
+                  className="w-full px-3.5 py-2.5 rounded-xl border border-white/10 text-xs text-[#E2E8F0] font-semibold focus:ring-2 focus:ring-[#F97316]"
                 />
               </div>
             </div>
 
             {/* Alamat & Masa Tinggal */}
-            <div className="space-y-4 pt-4 border-t border-slate-100">
+            <div className="space-y-4 pt-4 border-t border-white/10">
               <div>
-                <label className="text-xs font-bold text-slate-700 block mb-1">Alamat Tempat Tinggal Sesuai Kartu Keluarga</label>
+                <label className="text-xs font-bold text-slate-300 block mb-1">Alamat Tempat Tinggal Sesuai Kartu Keluarga</label>
                 <textarea
                   rows="2"
                   required
                   value={formData.alamat_domisili}
                   onChange={(e) => handleChange('alamat_domisili', e.target.value)}
-                  className="w-full px-3.5 py-2 rounded-xl border border-slate-300 text-xs text-slate-800 font-medium focus:ring-2 focus:ring-[#2563EB]"
+                  className="w-full px-3.5 py-2 rounded-xl border border-white/10 text-xs text-[#E2E8F0] font-medium focus:ring-2 focus:ring-[#F97316]"
                 ></textarea>
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <label className="text-xs font-bold text-slate-700 block mb-1">
+                  <label className="text-xs font-bold text-slate-300 block mb-1">
                     Berapa Lama Tinggal di Alamat Ini? (Bulan)
                   </label>
                   <input
@@ -527,13 +527,13 @@ export default function DaftarPage() {
                     max="240"
                     value={formData.lama_tinggal_bulan}
                     onChange={(e) => handleChange('lama_tinggal_bulan', parseInt(e.target.value))}
-                    className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-xs font-bold focus:ring-2 focus:ring-[#2563EB]"
+                    className="w-full px-3.5 py-2.5 rounded-xl border border-white/10 text-xs font-bold focus:ring-2 focus:ring-[#F97316]"
                   />
                   <p className="text-[11px] text-slate-400 mt-1">Aturan resmi: Minimal sudah tinggal 12 bulan (1 tahun) sebelum pendaftaran.</p>
                 </div>
 
                 <div>
-                  <label className="text-xs font-bold text-slate-700 block mb-1">
+                  <label className="text-xs font-bold text-slate-300 block mb-1">
                     Nilai Rata-rata Rapor (Semester 1 sampai 5)
                   </label>
                   <input
@@ -543,31 +543,31 @@ export default function DaftarPage() {
                     max="100"
                     value={formData.klaim_nilai_rapor}
                     onChange={(e) => handleChange('klaim_nilai_rapor', parseFloat(e.target.value))}
-                    className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-xs font-bold focus:ring-2 focus:ring-[#2563EB]"
+                    className="w-full px-3.5 py-2.5 rounded-xl border border-white/10 text-xs font-bold focus:ring-2 focus:ring-[#F97316]"
                   />
                 </div>
               </div>
             </div>
 
             {/* Titik Rumah & Auto-Snap Validasi Geospasial Dukcapil */}
-            <div className="p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-4">
+            <div className="p-5 rounded-2xl bg-[#222227] border border-white/10 space-y-4">
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
                 <div>
-                  <span className="text-xs font-bold text-slate-800 flex items-center gap-1.5">
-                    <MapPin className="w-4 h-4 text-[#2563EB]" />
+                  <span className="text-xs font-bold text-[#E2E8F0] flex items-center gap-1.5">
+                    <MapPin className="w-4 h-4 text-[#F97316]" />
                     Titik Koordinat Domisili & Validasi Spasial Haversine:
                   </span>
-                  <p className="text-[11px] text-slate-500 mt-0.5">
+                  <p className="text-[11px] text-slate-400 mt-0.5">
                     Gunakan Auto-Snap untuk mengunci titik ke basis data geospasial resmi Dukcapil guna mencegah celah manipulasi.
                   </p>
                 </div>
-                <span className="text-xs font-mono font-bold text-[#1E3A8A] bg-blue-50 px-3 py-1 rounded-xl border border-blue-200 shrink-0">
+                <span className="text-xs font-mono font-bold text-[#F97316] bg-orange-500/10 px-3 py-1 rounded-xl border border-orange-500/30 shrink-0">
                   Jarak ke {selectedSchool.nama_sekolah.split(' ')[0]}: {formatDistance(calculatedDistance)}
                 </span>
               </div>
 
               {/* Toolbar Auto-Snap Dukcapil */}
-              <div className="p-3.5 rounded-xl bg-white border border-slate-200 shadow-sm space-y-2.5">
+              <div className="p-3.5 rounded-xl bg-[#1A1A1E] border border-white/10 shadow-sm space-y-2.5">
                 <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400 block">
                   Pilihan Auto-Snap Centroid Resmi Wilayah DKI:
                 </span>
@@ -575,7 +575,7 @@ export default function DaftarPage() {
                   <select
                     value={selectedCentroidId}
                     onChange={(e) => setSelectedCentroidId(e.target.value)}
-                    className="flex-1 p-2.5 rounded-xl border border-slate-300 text-xs font-bold text-slate-800 bg-slate-50 focus:ring-2 focus:ring-[#2563EB]"
+                    className="flex-1 p-2.5 rounded-xl border border-white/10 text-xs font-bold text-[#E2E8F0] bg-[#222227] focus:ring-2 focus:ring-[#F97316]"
                   >
                     {OFFICIAL_DUKCAPIL_CENTROIDS.map((c) => (
                       <option key={c.id} value={c.id}>
@@ -586,7 +586,7 @@ export default function DaftarPage() {
                   <button
                     type="button"
                     onClick={() => handleApplyAutoSnap(selectedCentroidId)}
-                    className="px-3.5 py-2.5 rounded-xl bg-[#1E3A8A] hover:bg-[#2563EB] text-white text-xs font-bold transition flex items-center justify-center gap-1.5 shrink-0 shadow-sm"
+                    className="px-3.5 py-2.5 rounded-xl bg-[#F97316] hover:bg-[#EA580C] text-white text-xs font-bold transition flex items-center justify-center gap-1.5 shrink-0 shadow-sm"
                   >
                     <Zap className="w-3.5 h-3.5 text-amber-300" />
                     <span>Auto-Snap Dukcapil</span>
@@ -594,9 +594,9 @@ export default function DaftarPage() {
                   <button
                     type="button"
                     onClick={handleDetectGps}
-                    className="px-3.5 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition flex items-center justify-center gap-1.5 shrink-0 border border-slate-200"
+                    className="px-3.5 py-2.5 rounded-xl bg-[#222227] hover:bg-white/15 text-slate-300 text-xs font-bold transition flex items-center justify-center gap-1.5 shrink-0 border border-white/10"
                   >
-                    <LocateFixed className="w-3.5 h-3.5 text-[#2563EB]" />
+                    <LocateFixed className="w-3.5 h-3.5 text-[#F97316]" />
                     <span>Deteksi GPS</span>
                   </button>
                 </div>
@@ -604,8 +604,8 @@ export default function DaftarPage() {
                 {/* Status Validasi Spasial */}
                 <div className="pt-1">
                   {isInsideDkiJakarta(formData.klaim_lat, formData.klaim_lng) ? (
-                    <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-[11px] font-semibold bg-emerald-50 text-emerald-800 border border-emerald-200">
-                      <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
+                    <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-[11px] font-semibold bg-emerald-500/10 text-emerald-400 border border-emerald-500/30">
+                      <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
                       <span>
                         {isAutoSnapped
                           ? '✓ Koordinat Terkunci Resmi (Auto-Snapped Dukcapil - 100% Aman dari Anomali Jarak)'
@@ -613,8 +613,8 @@ export default function DaftarPage() {
                       </span>
                     </div>
                   ) : (
-                    <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-[11px] font-semibold bg-rose-50 text-rose-800 border border-rose-200">
-                      <AlertTriangle className="w-3.5 h-3.5 text-rose-600 shrink-0" />
+                    <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-[11px] font-semibold bg-rose-500/10 text-[#FB7185] border border-rose-500/30">
+                      <AlertTriangle className="w-3.5 h-3.5 text-[#FB7185] shrink-0" />
                       <span>
                         ⚠️ Titik koordinat terdeteksi di luar batas administratif DKI Jakarta! Silakan gunakan tombol Auto-Snap.
                       </span>
@@ -626,8 +626,8 @@ export default function DaftarPage() {
               {/* Peta Interaktif Auto-Snap Dukcapil & Jarak Haversine */}
               <div className="pt-2">
                 <div className="flex items-center justify-between mb-2">
-                  <span className="text-xs font-bold text-slate-800 flex items-center gap-1.5">
-                    <Compass className="w-4 h-4 text-[#2563EB]" />
+                  <span className="text-xs font-bold text-[#E2E8F0] flex items-center gap-1.5">
+                    <Compass className="w-4 h-4 text-[#F97316]" />
                     Peta Visual Auto-Snap Dukcapil & Garis Jarak Zonasi SMAN:
                   </span>
                   <span className="text-[11px] text-slate-400 hidden sm:inline">
@@ -647,30 +647,30 @@ export default function DaftarPage() {
               {/* Nilai Angka Koordinat */}
               <div className="grid grid-cols-2 gap-3 text-xs font-mono">
                 <div>
-                  <label className="text-[10px] text-slate-500 font-sans block mb-1">Garis Lintang (Latitude)</label>
+                  <label className="text-[10px] text-slate-400 font-sans block mb-1">Garis Lintang (Latitude)</label>
                   <input
                     type="number"
                     step="0.000001"
                     value={formData.klaim_lat}
                     onChange={(e) => handleChange('klaim_lat', parseFloat(e.target.value))}
-                    className="w-full p-2.5 rounded-xl border border-slate-300 bg-white font-bold text-slate-800 focus:ring-2 focus:ring-[#2563EB]"
+                    className="w-full p-2.5 rounded-xl border border-white/10 bg-[#1A1A1E] font-bold text-[#E2E8F0] focus:ring-2 focus:ring-[#F97316]"
                   />
                 </div>
                 <div>
-                  <label className="text-[10px] text-slate-500 font-sans block mb-1">Garis Bujur (Longitude)</label>
+                  <label className="text-[10px] text-slate-400 font-sans block mb-1">Garis Bujur (Longitude)</label>
                   <input
                     type="number"
                     step="0.000001"
                     value={formData.klaim_lng}
                     onChange={(e) => handleChange('klaim_lng', parseFloat(e.target.value))}
-                    className="w-full p-2.5 rounded-xl border border-slate-300 bg-white font-bold text-slate-800 focus:ring-2 focus:ring-[#2563EB]"
+                    className="w-full p-2.5 rounded-xl border border-white/10 bg-[#1A1A1E] font-bold text-[#E2E8F0] focus:ring-2 focus:ring-[#F97316]"
                   />
                 </div>
               </div>
 
-              <div className="p-3 rounded-xl bg-blue-50/70 border border-blue-100 text-[11px] text-[#1E3A8A] flex items-center justify-between">
+              <div className="p-3 rounded-xl bg-orange-500/10 border border-orange-500/30 text-[11px] text-[#F97316] flex items-center justify-between">
                 <span>Radius Maksimal Zonasi Sekolah: <strong>{formatDistance(selectedSchool.radius_max)}</strong></span>
-                <span className={`font-bold ${calculatedDistance <= selectedSchool.radius_max ? 'text-emerald-700' : 'text-amber-700'}`}>
+                <span className={`font-bold ${calculatedDistance <= selectedSchool.radius_max ? 'text-emerald-400' : 'text-amber-400'}`}>
                   {calculatedDistance <= selectedSchool.radius_max ? '● Dalam Zona Prioritas' : '● Di Luar Radius Utama'}
                 </span>
               </div>
@@ -678,32 +678,32 @@ export default function DaftarPage() {
 
             {/* Dokumen Unggah */}
             <div>
-              <label className="text-xs font-bold text-slate-700 block mb-2">
+              <label className="text-xs font-bold text-slate-300 block mb-2">
                 Lampiran Berkas (Sudah Terhubung Otomatis):
               </label>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
-                <div className="p-3 rounded-2xl border border-slate-200 bg-slate-50 flex items-center gap-3">
+                <div className="p-3 rounded-2xl border border-white/10 bg-[#222227] flex items-center gap-3">
                   <Upload className="w-5 h-5 text-slate-400" />
                   <div>
-                    <p className="font-bold text-slate-800">Kartu Keluarga (KK) Asli</p>
-                    <p className="text-[10px] text-emerald-600 font-semibold">✓ kk_terverifikasi.pdf (Tersinkron)</p>
+                    <p className="font-bold text-[#E2E8F0]">Kartu Keluarga (KK) Asli</p>
+                    <p className="text-[10px] text-emerald-400 font-semibold">✓ kk_terverifikasi.pdf (Tersinkron)</p>
                   </div>
                 </div>
-                <div className="p-3 rounded-2xl border border-slate-200 bg-slate-50 flex items-center gap-3">
+                <div className="p-3 rounded-2xl border border-white/10 bg-[#222227] flex items-center gap-3">
                   <Upload className="w-5 h-5 text-slate-400" />
                   <div>
-                    <p className="font-bold text-slate-800">Buku Rapor Semester 1-5</p>
-                    <p className="text-[10px] text-emerald-600 font-semibold">✓ rapor_semester_1_5.pdf</p>
+                    <p className="font-bold text-[#E2E8F0]">Buku Rapor Semester 1-5</p>
+                    <p className="text-[10px] text-emerald-400 font-semibold">✓ rapor_semester_1_5.pdf</p>
                   </div>
                 </div>
               </div>
             </div>
 
-            <div className="pt-4 flex items-center justify-between border-t border-slate-100">
+            <div className="pt-4 flex items-center justify-between border-t border-white/10">
               <button
                 type="button"
                 onClick={() => setCurrentStep(1)}
-                className="px-5 py-2.5 rounded-xl border border-slate-200 text-xs font-bold text-slate-600 hover:bg-slate-50 flex items-center gap-1.5"
+                className="px-5 py-2.5 rounded-xl border border-white/10 text-xs font-bold text-slate-400 hover:bg-white/5 flex items-center gap-1.5"
               >
                 <ArrowLeft className="w-4 h-4" />
                 <span>Kembali</span>
@@ -712,7 +712,7 @@ export default function DaftarPage() {
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="px-6 py-3 rounded-2xl bg-[#EC4899] hover:bg-[#DB2777] text-white font-black text-xs shadow-md transition flex items-center gap-2 disabled:opacity-50"
+                className="px-6 py-3 rounded-2xl bg-gradient-to-r from-[#F97316] to-[#F43F5E] hover:opacity-90 text-white font-black text-xs shadow-md transition flex items-center gap-2 disabled:opacity-50"
               >
                 <span>{isSubmitting ? 'Mengirim Data...' : 'Kirim Berkas & Buat Nomor Tiket'}</span>
                 <ArrowRight className="w-4 h-4" />
@@ -723,27 +723,27 @@ export default function DaftarPage() {
 
         {/* LANGKAH 3 */}
         {currentStep === 3 && generatedTicket && (
-          <div className="bg-white rounded-3xl border border-slate-200 p-6 sm:p-8 shadow-sm space-y-6">
-            <div className="p-4 rounded-2xl bg-emerald-50 border border-emerald-200 flex items-center gap-3 text-emerald-900">
-              <CheckCircle2 className="w-7 h-7 text-emerald-600 shrink-0" />
+          <div className="bg-[#1A1A1E] rounded-3xl border border-white/10 p-6 sm:p-8 shadow-sm space-y-6">
+            <div className="p-4 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 flex items-center gap-3 text-emerald-400">
+              <CheckCircle2 className="w-7 h-7 text-emerald-400 shrink-0" />
               <div>
                 <h3 className="font-black text-sm">Alhamdulillah, Berkas Berhasil Terkirim ke Sistem!</h3>
-                <p className="text-xs text-emerald-700">Simpan nomor tiket ini untuk mengecek kemajuan seleksi anak Anda sewaktu-waktu.</p>
+                <p className="text-xs text-emerald-400">Simpan nomor tiket ini untuk mengecek kemajuan seleksi anak Anda sewaktu-waktu.</p>
               </div>
             </div>
 
             {/* Kartu Tiket */}
-            <div className="p-6 rounded-3xl bg-slate-900 text-white shadow-xl space-y-4">
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-800 pb-4">
+            <div className="p-6 rounded-3xl bg-[#141417] text-white shadow-xl space-y-4">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-white/10 pb-4">
                 <div>
-                  <span className="text-[10px] font-mono font-bold text-pink-300 uppercase tracking-widest">
+                  <span className="text-[10px] font-mono font-bold text-rose-300 uppercase tracking-widest">
                     Nomor Tiket Berkas Anda:
                   </span>
                   <h2 className="text-2xl font-black font-mono text-emerald-400 tracking-wider">
                     {generatedTicket.nomor_tiket}
                   </h2>
                 </div>
-                <span className="text-xs bg-slate-800 text-slate-300 px-3 py-1 rounded-xl font-bold w-fit">
+                <span className="text-xs bg-[#222227] text-slate-300 px-3 py-1 rounded-xl font-bold w-fit">
                   ✓ Sah & Terdaftar
                 </span>
               </div>
@@ -759,7 +759,7 @@ export default function DaftarPage() {
                 </div>
                 <div>
                   <span className="text-slate-400 text-[10px]">Jalur Seleksi:</span>
-                  <p className="font-bold text-pink-300 uppercase">{generatedTicket.jalur}</p>
+                  <p className="font-bold text-rose-300 uppercase">{generatedTicket.jalur}</p>
                 </div>
                 <div>
                   <span className="text-slate-400 text-[10px]">Jarak Rumah:</span>
@@ -771,7 +771,7 @@ export default function DaftarPage() {
             <div className="pt-2 flex items-center justify-between">
               <Link
                 href="/kuota"
-                className="px-5 py-2.5 rounded-xl border border-slate-200 text-xs font-bold text-slate-700 hover:bg-slate-50 transition"
+                className="px-5 py-2.5 rounded-xl border border-white/10 text-xs font-bold text-slate-300 hover:bg-white/5 transition"
               >
                 Pantau Sisa Kuota SMAN
               </Link>
@@ -779,7 +779,7 @@ export default function DaftarPage() {
               <button
                 type="button"
                 onClick={() => setCurrentStep(4)}
-                className="px-6 py-3 rounded-2xl bg-[#EC4899] hover:bg-[#DB2777] text-white font-black text-xs shadow-md transition flex items-center gap-2"
+                className="px-6 py-3 rounded-2xl bg-gradient-to-r from-[#F97316] to-[#F43F5E] hover:opacity-90 text-white font-black text-xs shadow-md transition flex items-center gap-2"
               >
                 <span>Lihat Surat Tanda Terima Resmi (Langkah 4)</span>
                 <ArrowRight className="w-4 h-4" />
@@ -790,77 +790,77 @@ export default function DaftarPage() {
 
         {/* LANGKAH 4 */}
         {currentStep === 4 && (
-          <div className="bg-white rounded-3xl border border-slate-200 p-6 sm:p-10 shadow-sm space-y-6">
+          <div className="bg-[#1A1A1E] rounded-3xl border border-white/10 p-6 sm:p-10 shadow-sm space-y-6">
             <div className="text-center max-w-xl mx-auto space-y-2">
-              <div className="w-12 h-12 rounded-2xl bg-emerald-100 text-emerald-700 flex items-center justify-center mx-auto mb-2 shadow-sm">
+              <div className="w-12 h-12 rounded-2xl bg-emerald-500/15 text-emerald-400 flex items-center justify-center mx-auto mb-2 shadow-sm">
                 <ShieldCheck className="w-7 h-7" />
               </div>
-              <h2 className="text-2xl font-black text-slate-900">
+              <h2 className="text-2xl font-black text-white">
                 Surat Tanda Terima Pendaftaran Resmi
               </h2>
-              <p className="text-xs text-slate-500">
+              <p className="text-xs text-slate-400">
                 Surat ini adalah bukti sah bahwa berkas pendaftaran Anda telah tercatat resmi di sistem PPDB SMA Negeri 2026.
               </p>
             </div>
 
             {/* Kertas Tanda Terima */}
-            <div className="p-6 sm:p-8 rounded-3xl bg-slate-50 border-2 border-dashed border-slate-300 space-y-6">
-              <div className="flex items-center justify-between border-b border-slate-200 pb-4">
+            <div className="p-6 sm:p-8 rounded-3xl bg-[#222227] border-2 border-dashed border-white/10 space-y-6">
+              <div className="flex items-center justify-between border-b border-white/10 pb-4">
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-xl bg-[#1E3A8A] text-white flex items-center justify-center font-black">
+                  <div className="w-10 h-10 rounded-xl bg-[#F97316] text-white flex items-center justify-center font-black">
                     SMA
                   </div>
                   <div>
-                    <h4 className="font-extrabold text-sm text-slate-900">DINAS PENDIDIKAN • SMAUMU</h4>
-                    <p className="text-[10px] text-slate-500">Bukti Pengajuan Berkas Siswa Baru SMAN</p>
+                    <h4 className="font-extrabold text-sm text-white">DINAS PENDIDIKAN • SMAUMU</h4>
+                    <p className="text-[10px] text-slate-400">Bukti Pengajuan Berkas Siswa Baru SMAN</p>
                   </div>
                 </div>
                 <div className="text-right">
                   <span className="text-[10px] text-slate-400 block font-semibold">Tanggal Daftar:</span>
-                  <span className="font-mono text-xs font-bold text-slate-800">{formatDateIndo(new Date().toISOString())}</span>
+                  <span className="font-mono text-xs font-bold text-[#E2E8F0]">{formatDateIndo(new Date().toISOString())}</span>
                 </div>
               </div>
 
               <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 text-xs">
                 <div>
                   <span className="text-slate-400 block text-[10px]">Nomor Tiket Anda:</span>
-                  <span className="font-mono font-bold text-[#1E3A8A]">{generatedTicket?.nomor_tiket || 'TIKET-SMU-2026-098214'}</span>
+                  <span className="font-mono font-bold text-[#F97316]">{generatedTicket?.nomor_tiket || 'TIKET-SMU-2026-098214'}</span>
                 </div>
                 <div>
                   <span className="text-slate-400 block text-[10px]">Nama Calon Siswa:</span>
-                  <span className="font-bold text-slate-900">{formData.nama_siswa}</span>
+                  <span className="font-bold text-white">{formData.nama_siswa}</span>
                 </div>
                 <div>
                   <span className="text-slate-400 block text-[10px]">Nomor NIK Siswa:</span>
-                  <span className="font-mono text-slate-800">{formData.nik}</span>
+                  <span className="font-mono text-[#E2E8F0]">{formData.nik}</span>
                 </div>
                 <div>
                   <span className="text-slate-400 block text-[10px]">Sekolah Pilihan:</span>
-                  <span className="font-bold text-slate-900">{selectedSchool.nama_sekolah}</span>
+                  <span className="font-bold text-white">{selectedSchool.nama_sekolah}</span>
                 </div>
                 <div>
                   <span className="text-slate-400 block text-[10px]">Jalur Masuk:</span>
-                  <span className="font-bold uppercase text-slate-800">{formData.jalur}</span>
+                  <span className="font-bold uppercase text-[#E2E8F0]">{formData.jalur}</span>
                 </div>
                 <div>
                   <span className="text-slate-400 block text-[10px]">Jarak Rumah ke Sekolah:</span>
-                  <span className="font-mono font-bold text-emerald-700">{formatDistance(calculatedDistance)}</span>
+                  <span className="font-mono font-bold text-emerald-400">{formatDistance(calculatedDistance)}</span>
                 </div>
               </div>
 
-              <div className="pt-4 border-t border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-4">
+              <div className="pt-4 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-4">
                 <div className="flex items-center gap-3">
-                  <div className="w-16 h-16 bg-white border border-slate-200 rounded-2xl flex items-center justify-center p-2 shadow-sm">
-                    <QrCode className="w-full h-full text-slate-800" />
+                  <div className="w-16 h-16 bg-[#1A1A1E] border border-white/10 rounded-2xl flex items-center justify-center p-2 shadow-sm">
+                    <QrCode className="w-full h-full text-[#E2E8F0]" />
                   </div>
-                  <div className="text-[10px] text-slate-500">
-                    <p className="font-bold text-slate-800">Kode QR Bukti Sah</p>
+                  <div className="text-[10px] text-slate-400">
+                    <p className="font-bold text-[#E2E8F0]">Kode QR Bukti Sah</p>
                     <p>Kode Pengaman: {sha256(formData.nama_siswa + formData.nik).slice(0, 20)}...</p>
-                    <p className="text-emerald-600 font-bold mt-0.5">✓ Tanda Tangan Digital Resmi</p>
+                    <p className="text-emerald-400 font-bold mt-0.5">✓ Tanda Tangan Digital Resmi</p>
                   </div>
                 </div>
 
-                <span className="text-xs font-black text-emerald-800 bg-emerald-100 px-4 py-1.5 rounded-full border border-emerald-300">
+                <span className="text-xs font-black text-emerald-400 bg-emerald-500/15 px-4 py-1.5 rounded-full border border-emerald-500/30">
                   STATUS: BERKAS BERHASIL DIAJUKAN
                 </span>
               </div>
@@ -869,7 +869,7 @@ export default function DaftarPage() {
             <div className="pt-2 flex flex-col sm:flex-row items-center justify-between gap-3">
               <button
                 onClick={() => window.print()}
-                className="w-full sm:w-auto px-5 py-2.5 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 text-xs font-bold text-slate-700 transition flex items-center justify-center gap-2"
+                className="w-full sm:w-auto px-5 py-2.5 rounded-xl border border-white/10 bg-[#1A1A1E] hover:bg-white/5 text-xs font-bold text-slate-300 transition flex items-center justify-center gap-2"
               >
                 <Printer className="w-4 h-4" />
                 <span>Cetak / Simpan Sebagai PDF</span>
@@ -877,7 +877,7 @@ export default function DaftarPage() {
 
               <Link
                 href="/"
-                className="w-full sm:w-auto px-6 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold transition flex items-center justify-center gap-2"
+                className="w-full sm:w-auto px-6 py-2.5 rounded-xl bg-[#141417] hover:bg-[#222227] text-white text-xs font-bold transition flex items-center justify-center gap-2"
               >
                 <span>Kembali ke Beranda</span>
                 <ArrowRight className="w-4 h-4" />

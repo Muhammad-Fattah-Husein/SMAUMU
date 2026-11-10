@@ -43,22 +43,22 @@ export function getJalurLabel(jalurKey) {
 
 export function getStatusTahapanBadge(status) {
   const configs = {
-    pilih_jalur: { label: 'Pilih Jalur & Sekolah', bg: 'bg-slate-100 text-slate-700 border-slate-300' },
-    diajukan: { label: 'Berkas Diterima (Menunggu Cek)', bg: 'bg-blue-100 text-blue-800 border-blue-300' },
-    verifikasi_gis: { label: 'Sedang Dicek Titik Rumah', bg: 'bg-cyan-100 text-cyan-800 border-cyan-300' },
-    tinjauan_manual: { label: 'Perlu Dicek Petugas Lapangan', bg: 'bg-amber-100 text-amber-800 border-amber-300' },
-    lolos_sementara: { label: 'Aman Sementara (Masuk Kuota)', bg: 'bg-emerald-100 text-emerald-800 border-emerald-300' },
-    tergeser: { label: 'Kursi Tergeser Nilai/Jarak Lain', bg: 'bg-rose-100 text-rose-800 border-rose-300' },
-    diterima_resmi: { label: 'Selamat! Resmi Diterima', bg: 'bg-emerald-600 text-white border-emerald-700' },
+    pilih_jalur: { label: 'Pilih Jalur & Sekolah', bg: 'bg-white/10 text-[#E2E8F0] border-white/15' },
+    diajukan: { label: 'Berkas Diterima (Menunggu Cek)', bg: 'bg-orange-500/15 text-orange-300 border-orange-500/30' },
+    verifikasi_gis: { label: 'Sedang Dicek Titik Rumah', bg: 'bg-amber-500/15 text-amber-300 border-amber-500/30' },
+    tinjauan_manual: { label: 'Perlu Dicek Petugas Lapangan', bg: 'bg-rose-500/15 text-rose-300 border-rose-500/30' },
+    lolos_sementara: { label: 'Aman Sementara (Masuk Kuota)', bg: 'bg-emerald-500/15 text-emerald-300 border-emerald-500/30' },
+    tergeser: { label: 'Kursi Tergeser Nilai/Jarak Lain', bg: 'bg-rose-500/20 text-rose-300 border-rose-500/40' },
+    diterima_resmi: { label: 'Selamat! Resmi Diterima', bg: 'bg-emerald-600 text-white border-emerald-500' },
   };
-  return configs[status] || { label: status, bg: 'bg-slate-100 text-slate-700 border-slate-300' };
+  return configs[status] || { label: status, bg: 'bg-white/10 text-[#E2E8F0] border-white/15' };
 }
 
 export function getGeoAnomalyBadge(anomalyStatus) {
   if (anomalyStatus === 'aman') {
     return {
       label: 'Titik Rumah Pas & Sesuai Fakta',
-      bg: 'bg-emerald-50 text-emerald-700 border-emerald-200',
+      bg: 'bg-emerald-500/15 text-emerald-300 border-emerald-500/30',
       icon: 'check',
       desc: 'Titik rumah yang ditandai cocok dengan alamat asli Kartu Keluarga di Dukcapil.'
     };
@@ -66,14 +66,14 @@ export function getGeoAnomalyBadge(anomalyStatus) {
   if (anomalyStatus === 'peringatan_toleransi') {
     return {
       label: 'Ada Selisih Titik GPS Ringan (150 - 500 Meter)',
-      bg: 'bg-amber-50 text-amber-700 border-amber-200',
+      bg: 'bg-amber-500/15 text-amber-300 border-amber-500/30',
       icon: 'alert-triangle',
       desc: 'Ada sedikit perbedaan titik, petugas akan memastikan batas gang/RT domisili Anda.'
     };
   }
   return {
     label: 'Peringatan: Titik Rumah Beda Jauh (> 500 Meter)',
-    bg: 'bg-pink-50 text-[#DB2777] border-pink-200',
+    bg: 'bg-rose-500/15 text-rose-300 border-rose-500/30',
     icon: 'shield-alert',
     desc: 'Titik rumah yang dipilih berjarak terlalu jauh dari alamat KK asli. Berkas ditahan sementara untuk diperiksa.'
   };

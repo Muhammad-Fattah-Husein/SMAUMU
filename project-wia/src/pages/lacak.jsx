@@ -89,24 +89,24 @@ export default function LacakPage({ initialPendaftaranList = [] }) {
       {/* Header Ringkas */}
       <div className="max-w-4xl mx-auto mb-6 text-center sm:text-left">
         <div className="flex items-center gap-2 mb-1 justify-center sm:justify-start">
-          <span className="p-1 rounded bg-[#1E3A8A] text-white">
+          <span className="p-1 rounded bg-[#F97316] text-white">
             <FileCheck2 className="w-3.5 h-3.5" />
           </span>
-          <span className="text-xs font-bold uppercase tracking-wider text-[#1E3A8A]">
+          <span className="text-xs font-bold uppercase tracking-wider text-[#F97316]">
             Pelacakan Berkas
           </span>
         </div>
-        <h1 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">
+        <h1 className="text-2xl sm:text-3xl font-black text-white tracking-tight">
           Lacak Tiket Pendaftaran
         </h1>
-        <p className="text-xs sm:text-sm text-slate-500 mt-0.5">
+        <p className="text-xs sm:text-sm text-slate-400 mt-0.5">
           Pantau tahapan verifikasi berkas, validasi zonasi, dan status seleksi secara real-time.
         </p>
       </div>
 
       {/* Kotak Pencarian Nomor Tiket */}
       <div className="max-w-4xl mx-auto mb-8">
-        <div className="bg-white p-5 rounded-3xl border border-slate-200 shadow-sm space-y-4">
+        <div className="bg-[#1A1A1E] p-5 rounded-3xl border border-white/10 shadow-sm space-y-4">
           <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row items-center gap-3">
             <div className="relative flex-1 w-full">
               <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
@@ -115,13 +115,13 @@ export default function LacakPage({ initialPendaftaranList = [] }) {
                 placeholder="Ketik Nomor Tiket Anda (contoh: TIKET-SMU-2026-098214)"
                 value={ticketInput}
                 onChange={(e) => setTicketInput(e.target.value)}
-                className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-300 font-mono text-xs text-slate-800 focus:outline-none focus:ring-2 focus:ring-[#2563EB]"
+                className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-white/10 font-mono text-xs text-[#E2E8F0] focus:outline-none focus:ring-2 focus:ring-[#F97316]"
               />
             </div>
             <button
               type="submit"
               disabled={isLoading}
-              className="w-full sm:w-auto px-6 py-2.5 rounded-xl bg-[#EC4899] hover:bg-[#DB2777] text-white font-bold text-xs transition flex items-center justify-center gap-2 shrink-0 disabled:opacity-50 shadow-md"
+              className="w-full sm:w-auto px-6 py-2.5 rounded-xl bg-gradient-to-r from-[#F97316] to-[#F43F5E] hover:opacity-90 text-white font-bold text-xs transition flex items-center justify-center gap-2 shrink-0 disabled:opacity-50 shadow-md"
             >
               <FileCheck2 className="w-4 h-4 text-white" />
               <span>{isLoading ? 'Mencari...' : 'Cari Status Berkas'}</span>
@@ -129,7 +129,7 @@ export default function LacakPage({ initialPendaftaranList = [] }) {
           </form>
 
           {/* Contoh Klik Cepat */}
-          <div className="flex flex-wrap items-center gap-2 pt-2 border-t border-slate-100 text-xs">
+          <div className="flex flex-wrap items-center gap-2 pt-2 border-t border-white/10 text-xs">
             <span className="text-slate-400 font-medium">Contoh Berkas untuk Dicoba:</span>
             {initialPendaftaranList.map((p) => (
               <button
@@ -142,8 +142,8 @@ export default function LacakPage({ initialPendaftaranList = [] }) {
                 }}
                 className={`px-3 py-1 rounded-lg font-mono text-[11px] font-bold transition ${
                   currentRecord?.id === p.id
-                    ? 'bg-[#1E3A8A] text-white shadow-sm'
-                    : 'bg-slate-100 hover:bg-slate-200 text-slate-700'
+                    ? 'bg-[#F97316] text-white shadow-sm'
+                    : 'bg-[#222227] hover:bg-white/15 text-slate-300'
                 }`}
               >
                 {p.nomor_tiket} ({p.nama_siswa.split(' ')[0]})
@@ -153,8 +153,8 @@ export default function LacakPage({ initialPendaftaranList = [] }) {
         </div>
 
         {errorMsg && (
-          <div className="mt-4 p-4 rounded-2xl bg-rose-50 border border-rose-200 text-rose-800 text-xs flex items-center gap-2 animate-fade-in">
-            <AlertTriangle className="w-4 h-4 text-rose-600 shrink-0" />
+          <div className="mt-4 p-4 rounded-2xl bg-rose-500/10 border border-rose-500/30 text-[#FB7185] text-xs flex items-center gap-2 animate-fade-in">
+            <AlertTriangle className="w-4 h-4 text-[#FB7185] shrink-0" />
             <span>{errorMsg}</span>
           </div>
         )}
@@ -163,16 +163,16 @@ export default function LacakPage({ initialPendaftaranList = [] }) {
       {/* HASIL PELACAKAN TIKET */}
       {currentRecord && (
         <div className="max-w-4xl mx-auto space-y-6 animate-fade-in">
-          <div className="bg-white rounded-3xl border border-slate-200 p-6 sm:p-8 shadow-sm">
-            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pb-6 border-b border-slate-100">
+          <div className="bg-[#1A1A1E] rounded-3xl border border-white/10 p-6 sm:p-8 shadow-sm">
+            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pb-6 border-b border-white/10">
               <div>
                 <span className="text-[11px] font-mono font-bold text-slate-400 uppercase tracking-wider block">
                   Nomor Tiket Siswa:
                 </span>
-                <h2 className="text-2xl font-black font-mono text-slate-900 mt-0.5">
+                <h2 className="text-2xl font-black font-mono text-white mt-0.5">
                   {currentRecord.nomor_tiket}
                 </h2>
-                <p className="text-xs text-slate-500 mt-1">
+                <p className="text-xs text-slate-400 mt-1">
                   Diajukan pada {formatDateIndo(currentRecord.created_at)}
                 </p>
               </div>
@@ -189,7 +189,7 @@ export default function LacakPage({ initialPendaftaranList = [] }) {
             </div>
 
             {/* Garis Kemajuan Berkas */}
-            <div className="py-6 border-b border-slate-100">
+            <div className="py-6 border-b border-white/10">
               <h4 className="text-xs font-bold uppercase tracking-wider text-slate-400 mb-4">
                 Perjalanan Tahapan Berkas Anak Anda:
               </h4>
@@ -204,8 +204,8 @@ export default function LacakPage({ initialPendaftaranList = [] }) {
                     key={idx}
                     className={`p-3.5 rounded-2xl border ${
                       item.done
-                        ? 'bg-emerald-50 border-emerald-200 text-emerald-900'
-                        : 'bg-slate-50 border-slate-200 text-slate-400'
+                        ? 'bg-emerald-500/10 border-emerald-500/30 text-emerald-400'
+                        : 'bg-[#222227] border-white/10 text-slate-400'
                     }`}
                   >
                     <span className="text-[10px] font-mono font-bold block">{item.step}</span>
@@ -221,59 +221,59 @@ export default function LacakPage({ initialPendaftaranList = [] }) {
             {/* Rincian Berkas */}
             <div className="pt-6 grid grid-cols-1 sm:grid-cols-2 gap-6 text-xs">
               <div className="space-y-3">
-                <h4 className="font-extrabold text-slate-800 text-sm">Data Siswa & Pilihan Sekolah:</h4>
-                <div className="p-4 rounded-2xl bg-slate-50 space-y-2">
+                <h4 className="font-extrabold text-[#E2E8F0] text-sm">Data Siswa & Pilihan Sekolah:</h4>
+                <div className="p-4 rounded-2xl bg-[#222227] space-y-2">
                   <div className="flex justify-between">
-                    <span className="text-slate-500">Nama Calon Siswa:</span>
-                    <span className="font-bold text-slate-900">{currentRecord.nama_siswa}</span>
+                    <span className="text-slate-400">Nama Calon Siswa:</span>
+                    <span className="font-bold text-white">{currentRecord.nama_siswa}</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-slate-500">Nomor NIK:</span>
-                    <span className="font-mono text-slate-800">{currentRecord.nik}</span>
+                    <span className="text-slate-400">Nomor NIK:</span>
+                    <span className="font-mono text-[#E2E8F0]">{currentRecord.nik}</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-slate-500">Asal SMP:</span>
-                    <span className="font-semibold text-slate-800">{currentRecord.asal_sekolah_smp}</span>
+                    <span className="text-slate-400">Asal SMP:</span>
+                    <span className="font-semibold text-[#E2E8F0]">{currentRecord.asal_sekolah_smp}</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-slate-500">Sekolah Pilihan:</span>
-                    <span className="font-bold text-[#1E3A8A]">{currentRecord.sekolah_nama}</span>
+                    <span className="text-slate-400">Sekolah Pilihan:</span>
+                    <span className="font-bold text-[#F97316]">{currentRecord.sekolah_nama}</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-slate-500">Jalur Masuk:</span>
-                    <span className="font-semibold uppercase text-slate-800">{currentRecord.jalur}</span>
+                    <span className="text-slate-400">Jalur Masuk:</span>
+                    <span className="font-semibold uppercase text-[#E2E8F0]">{currentRecord.jalur}</span>
                   </div>
                 </div>
               </div>
 
               <div className="space-y-3">
-                <h4 className="font-extrabold text-slate-800 text-sm">Hasil Pemeriksaan Titik & Rapor:</h4>
-                <div className="p-4 rounded-2xl bg-slate-50 space-y-2">
+                <h4 className="font-extrabold text-[#E2E8F0] text-sm">Hasil Pemeriksaan Titik & Rapor:</h4>
+                <div className="p-4 rounded-2xl bg-[#222227] space-y-2">
                   <div className="flex justify-between">
-                    <span className="text-slate-500">Jarak Rumah ke Sekolah:</span>
-                    <span className="font-mono font-bold text-slate-900">{formatDistance(currentRecord.jarak_klaim_meter)}</span>
+                    <span className="text-slate-400">Jarak Rumah ke Sekolah:</span>
+                    <span className="font-mono font-bold text-white">{formatDistance(currentRecord.jarak_klaim_meter)}</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-slate-500">Kesesuaian Titik Rumah:</span>
+                    <span className="text-slate-400">Kesesuaian Titik Rumah:</span>
                     <span className={`font-bold px-2 py-0.5 rounded text-[10px] border ${anomalyBadge.bg}`}>
                       {anomalyBadge.label}
                     </span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-slate-500">Nilai Rapor Terverifikasi:</span>
-                    <span className="font-mono font-bold text-slate-900">{currentRecord.klaim_nilai_rapor}</span>
+                    <span className="text-slate-400">Nilai Rapor Terverifikasi:</span>
+                    <span className="font-mono font-bold text-white">{currentRecord.klaim_nilai_rapor}</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-slate-500">Lama Tinggal di KK:</span>
-                    <span className="font-semibold text-slate-800">{currentRecord.lama_tinggal_bulan} Bulan</span>
+                    <span className="text-slate-400">Lama Tinggal di KK:</span>
+                    <span className="font-semibold text-[#E2E8F0]">{currentRecord.lama_tinggal_bulan} Bulan</span>
                   </div>
                 </div>
               </div>
             </div>
 
             {/* Pesan Resmi Petugas */}
-            <div className="mt-6 p-4 rounded-2xl bg-blue-50 border border-blue-200 text-xs text-blue-900 leading-relaxed">
-              <span className="font-bold block mb-1 text-blue-950">Catatan Petugas Verifikasi Dinas:</span>
+            <div className="mt-6 p-4 rounded-2xl bg-orange-500/10 border border-orange-500/30 text-xs text-[#F97316] leading-relaxed">
+              <span className="font-bold block mb-1 text-[#F97316]">Catatan Petugas Verifikasi Dinas:</span>
               <p>{currentRecord.catatan_verifikator || 'Data isian pendaftar cocok dan sesuai dengan dokumen Kartu Keluarga sah.'}</p>
             </div>
           </div>

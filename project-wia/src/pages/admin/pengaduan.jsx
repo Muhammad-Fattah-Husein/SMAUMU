@@ -130,23 +130,23 @@ export default function AdminPengaduanPage({ initialReports, initialPendaftaran 
   };
 
   return (
-    <div className="min-h-screen bg-slate-100 flex flex-col md:flex-row font-sans">
+    <div className="min-h-screen bg-[#222227] flex flex-col md:flex-row font-sans">
       <AdminSidebar />
       <main className="flex-1 p-6 sm:p-10 max-w-7xl">
         {/* Header Halaman */}
         <div className="mb-6">
           <div className="flex items-center gap-2 mb-1">
-            <span className="p-1 rounded bg-[#EC4899] text-white">
+            <span className="p-1 rounded bg-gradient-to-r from-[#F97316] to-[#F43F5E] text-white">
               <ShieldAlert className="w-3.5 h-3.5" />
             </span>
-            <span className="text-xs font-bold uppercase tracking-wider text-[#EC4899]">
+            <span className="text-xs font-bold uppercase tracking-wider text-[#F43F5E]">
               Civic Reporting & Anti-Spam Oversight
             </span>
           </div>
-          <h1 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">
+          <h1 className="text-2xl sm:text-3xl font-black text-white tracking-tight">
             Posko Pengaduan Warga & Mitigasi Laporan Palsu
           </h1>
-          <p className="text-xs text-slate-500 mt-1 max-w-2xl">
+          <p className="text-xs text-slate-400 mt-1 max-w-2xl">
             Pusat kendali investigasi aduan anonim masyarakat PPDB. Dilengkapi algoritma multi-faktor untuk memitigasi aduan spam/hoax sehingga verifikator dinas fokus menindak kecurangan faktual.
           </p>
         </div>
@@ -155,46 +155,46 @@ export default function AdminPengaduanPage({ initialReports, initialPendaftaran 
         {/* 1. KARTU STATISTIK KPI AUDIT LAPORAN */}
         {/* ============================================================== */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mb-6">
-          <div className="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm flex items-center justify-between">
+          <div className="bg-[#1A1A1E] p-4 rounded-2xl border border-white/10 shadow-sm flex items-center justify-between">
             <div>
               <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400 block">Total Aduan Masuk</span>
-              <span className="text-2xl font-black text-slate-900 mt-0.5 block">{stats.total}</span>
-              <span className="text-[10px] text-blue-600 font-semibold">Semua Kategori</span>
+              <span className="text-2xl font-black text-white mt-0.5 block">{stats.total}</span>
+              <span className="text-[10px] text-[#F97316] font-semibold">Semua Kategori</span>
             </div>
-            <div className="w-10 h-10 rounded-xl bg-blue-50 text-[#1E3A8A] flex items-center justify-center">
+            <div className="w-10 h-10 rounded-xl bg-orange-500/10 text-[#F97316] flex items-center justify-center">
               <FileText className="w-5 h-5" />
             </div>
           </div>
 
-          <div className="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm flex items-center justify-between">
+          <div className="bg-[#1A1A1E] p-4 rounded-2xl border border-white/10 shadow-sm flex items-center justify-between">
             <div>
-              <span className="text-[10px] font-bold uppercase tracking-wider text-amber-600 block">Investigasi Lapangan</span>
-              <span className="text-2xl font-black text-amber-900 mt-0.5 block">{stats.investigasi}</span>
-              <span className="text-[10px] text-amber-600 font-semibold">Faktual di Lapangan</span>
+              <span className="text-[10px] font-bold uppercase tracking-wider text-amber-400 block">Investigasi Lapangan</span>
+              <span className="text-2xl font-black text-amber-400 mt-0.5 block">{stats.investigasi}</span>
+              <span className="text-[10px] text-amber-400 font-semibold">Faktual di Lapangan</span>
             </div>
-            <div className="w-10 h-10 rounded-xl bg-amber-50 text-amber-700 flex items-center justify-center">
+            <div className="w-10 h-10 rounded-xl bg-amber-500/10 text-amber-400 flex items-center justify-center">
               <Clock className="w-5 h-5" />
             </div>
           </div>
 
-          <div className="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm flex items-center justify-between">
+          <div className="bg-[#1A1A1E] p-4 rounded-2xl border border-white/10 shadow-sm flex items-center justify-between">
             <div>
-              <span className="text-[10px] font-bold uppercase tracking-wider text-emerald-600 block">Terbukti & Sanksi</span>
-              <span className="text-2xl font-black text-emerald-900 mt-0.5 block">{stats.valid}</span>
-              <span className="text-[10px] text-emerald-600 font-semibold">Berkas Dibekukan</span>
+              <span className="text-[10px] font-bold uppercase tracking-wider text-emerald-400 block">Terbukti & Sanksi</span>
+              <span className="text-2xl font-black text-emerald-400 mt-0.5 block">{stats.valid}</span>
+              <span className="text-[10px] text-emerald-400 font-semibold">Berkas Dibekukan</span>
             </div>
-            <div className="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-700 flex items-center justify-center">
+            <div className="w-10 h-10 rounded-xl bg-emerald-500/10 text-emerald-400 flex items-center justify-center">
               <CheckCircle2 className="w-5 h-5" />
             </div>
           </div>
 
-          <div className="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm flex items-center justify-between">
+          <div className="bg-[#1A1A1E] p-4 rounded-2xl border border-white/10 shadow-sm flex items-center justify-between">
             <div>
-              <span className="text-[10px] font-bold uppercase tracking-wider text-rose-600 block">Termitigasi Spam</span>
-              <span className="text-2xl font-black text-rose-900 mt-0.5 block">{stats.spam}</span>
-              <span className="text-[10px] text-rose-600 font-semibold">Aduan Hoax Disaring</span>
+              <span className="text-[10px] font-bold uppercase tracking-wider text-[#FB7185] block">Termitigasi Spam</span>
+              <span className="text-2xl font-black text-[#FB7185] mt-0.5 block">{stats.spam}</span>
+              <span className="text-[10px] text-[#FB7185] font-semibold">Aduan Hoax Disaring</span>
             </div>
-            <div className="w-10 h-10 rounded-xl bg-rose-50 text-rose-700 flex items-center justify-center">
+            <div className="w-10 h-10 rounded-xl bg-rose-500/10 text-[#FB7185] flex items-center justify-center">
               <ShieldOff className="w-5 h-5" />
             </div>
           </div>
@@ -203,7 +203,7 @@ export default function AdminPengaduanPage({ initialReports, initialPendaftaran 
         {/* ============================================================== */}
         {/* 2. TOOLBAR FILTER & PENCARIAN */}
         {/* ============================================================== */}
-        <div className="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm mb-6 space-y-3">
+        <div className="bg-[#1A1A1E] p-4 rounded-2xl border border-white/10 shadow-sm mb-6 space-y-3">
           <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3">
             {/* Filter Sub-Tab Status */}
             <div className="flex items-center gap-1.5 overflow-x-auto pb-1 sm:pb-0 text-xs">
@@ -220,8 +220,8 @@ export default function AdminPengaduanPage({ initialReports, initialPendaftaran 
                   onClick={() => setActiveFilter(f.id)}
                   className={`px-3 py-1.5 rounded-xl font-bold whitespace-nowrap transition ${
                     activeFilter === f.id
-                      ? 'bg-[#1E3A8A] text-white shadow-sm'
-                      : 'bg-slate-50 text-slate-600 hover:bg-slate-100 border border-slate-200'
+                      ? 'bg-[#F97316] text-white shadow-sm'
+                      : 'bg-[#222227] text-slate-400 hover:bg-white/10 border border-white/10'
                   }`}
                 >
                   {f.label}
@@ -237,15 +237,15 @@ export default function AdminPengaduanPage({ initialReports, initialPendaftaran 
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="Cari token / judul / tiket..."
-                className="w-full pl-9 pr-3 py-1.5 rounded-xl border border-slate-300 text-xs font-semibold text-slate-800 focus:ring-2 focus:ring-[#2563EB]"
+                className="w-full pl-9 pr-3 py-1.5 rounded-xl border border-white/10 text-xs font-semibold text-[#E2E8F0] focus:ring-2 focus:ring-[#F97316]"
               />
             </div>
           </div>
 
           {/* Kategori Filter */}
-          <div className="pt-2 border-t border-slate-100 flex items-center justify-between flex-wrap gap-2 text-xs">
+          <div className="pt-2 border-t border-white/10 flex items-center justify-between flex-wrap gap-2 text-xs">
             <div className="flex items-center gap-2 flex-wrap">
-              <span className="font-bold text-slate-500 text-[11px] flex items-center gap-1">
+              <span className="font-bold text-slate-400 text-[11px] flex items-center gap-1">
                 <Filter className="w-3.5 h-3.5" /> Kategori:
               </span>
               {[
@@ -261,8 +261,8 @@ export default function AdminPengaduanPage({ initialReports, initialPendaftaran 
                   onClick={() => setCategoryFilter(cat.id)}
                   className={`px-2.5 py-1 rounded-lg text-[11px] font-semibold transition ${
                     categoryFilter === cat.id
-                      ? 'bg-blue-100 text-[#1E3A8A] font-bold'
-                      : 'text-slate-600 hover:bg-slate-100'
+                      ? 'bg-orange-500/15 text-[#F97316] font-bold'
+                      : 'text-slate-400 hover:bg-white/10'
                   }`}
                 >
                   {cat.label}
@@ -290,43 +290,43 @@ export default function AdminPengaduanPage({ initialReports, initialPendaftaran 
               return (
                 <div
                   key={r.id}
-                  className={`bg-white rounded-3xl border p-5 sm:p-6 shadow-sm transition-all space-y-4 ${
+                  className={`bg-[#1A1A1E] rounded-3xl border p-5 sm:p-6 shadow-sm transition-all space-y-4 ${
                     isSpam
-                      ? 'border-rose-200 bg-rose-50/20 opacity-85'
+                      ? 'border-rose-500/30 bg-rose-500/10 opacity-85'
                       : isValid
-                      ? 'border-emerald-300 ring-2 ring-emerald-50'
-                      : 'border-slate-200 hover:border-slate-300'
+                      ? 'border-emerald-500/30 ring-2 ring-emerald-50'
+                      : 'border-white/10 hover:border-white/10'
                   }`}
                 >
                   {/* Card Header */}
-                  <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-3 border-b border-slate-100 pb-3.5">
+                  <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-3 border-b border-white/10 pb-3.5">
                     <div>
                       <div className="flex items-center gap-2 flex-wrap">
-                        <span className="font-mono text-xs font-bold text-rose-600 bg-rose-50 px-2 py-0.5 rounded border border-rose-200">
+                        <span className="font-mono text-xs font-bold text-[#FB7185] bg-rose-500/10 px-2 py-0.5 rounded border border-rose-500/30">
                           {r.kode_laporan}
                         </span>
-                        <span className="font-mono text-[11px] text-[#1E3A8A] bg-blue-50 px-2.5 py-0.5 rounded-md font-bold border border-blue-200">
+                        <span className="font-mono text-[11px] text-[#F97316] bg-orange-500/10 px-2.5 py-0.5 rounded-md font-bold border border-orange-500/30">
                           Token Anonim: {r.token_investigasi}
                         </span>
-                        <span className="text-[10px] font-bold uppercase tracking-wider text-slate-600 bg-slate-100 px-2 py-0.5 rounded">
+                        <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400 bg-[#222227] px-2 py-0.5 rounded">
                           {r.kategori?.replace('_', ' ')}
                         </span>
                       </div>
 
-                      <h3 className="font-black text-base text-slate-900 mt-2 leading-snug">
+                      <h3 className="font-black text-base text-white mt-2 leading-snug">
                         {r.judul}
                       </h3>
 
                       <p className="text-xs text-slate-400 mt-0.5">
-                        Pelapor Anonim: <strong className="text-slate-700">{r.nama_samaran || 'Warga'}</strong> • Tiket Terkait:{' '}
-                        <strong className="text-slate-700 font-mono">{r.tiket_terkait || '-'}</strong> • {formatDateIndo(r.created_at)}
+                        Pelapor Anonim: <strong className="text-slate-300">{r.nama_samaran || 'Warga'}</strong> • Tiket Terkait:{' '}
+                        <strong className="text-slate-300 font-mono">{r.tiket_terkait || '-'}</strong> • {formatDateIndo(r.created_at)}
                       </p>
                     </div>
 
                     {/* Spam Risk Score Gauge */}
                     <div className="flex flex-col items-end gap-1.5 shrink-0">
                       <div className="flex items-center gap-2">
-                        <span className="text-[10px] font-bold text-slate-500 uppercase">Skor Risiko Spam:</span>
+                        <span className="text-[10px] font-bold text-slate-400 uppercase">Skor Risiko Spam:</span>
                         <span className={`px-2.5 py-0.5 rounded-lg text-xs font-black font-mono border ${analysis.badgeColor}`}>
                           {analysis.score}% ({analysis.riskLevel})
                         </span>
@@ -334,10 +334,10 @@ export default function AdminPengaduanPage({ initialReports, initialPendaftaran 
 
                       <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full border ${
                         isValid
-                          ? 'bg-emerald-100 text-emerald-800 border-emerald-300'
+                          ? 'bg-emerald-500/15 text-emerald-400 border-emerald-500/30'
                           : isSpam
-                          ? 'bg-rose-100 text-rose-800 border-rose-300'
-                          : 'bg-amber-100 text-amber-800 border-amber-300'
+                          ? 'bg-rose-500/15 text-[#FB7185] border-rose-500/30'
+                          : 'bg-amber-500/15 text-amber-400 border-amber-500/30'
                       }`}>
                         {isValid 
                           ? '✓ BUKTI VALID & TERVERIFIKASI'
@@ -351,19 +351,19 @@ export default function AdminPengaduanPage({ initialReports, initialPendaftaran 
                   {/* Body Laporan */}
                   <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
                     {/* Narasi Aduan & Bukti */}
-                    <div className="lg:col-span-2 p-4 rounded-2xl bg-slate-50 border border-slate-100 space-y-3 text-xs leading-relaxed">
+                    <div className="lg:col-span-2 p-4 rounded-2xl bg-[#222227] border border-white/10 space-y-3 text-xs leading-relaxed">
                       <div>
                         <span className="font-bold text-[10px] uppercase text-slate-400 block mb-1">
                           Kronologi & Detail Laporan Warga:
                         </span>
-                        <p className="text-slate-700">{r.deskripsi}</p>
+                        <p className="text-slate-300">{r.deskripsi}</p>
                       </div>
 
                       {r.lampiran_bukti_url && (
-                        <div className="pt-2 border-t border-slate-200/80 flex items-center gap-2">
-                          <FileText className="w-4 h-4 text-[#2563EB]" />
-                          <span className="font-bold text-[11px] text-[#1E3A8A]">Lampiran Dokumen Bukti:</span>
-                          <span className="font-mono text-[11px] text-slate-600 underline cursor-pointer hover:text-blue-600">
+                        <div className="pt-2 border-t border-white/10 flex items-center gap-2">
+                          <FileText className="w-4 h-4 text-[#F97316]" />
+                          <span className="font-bold text-[11px] text-[#F97316]">Lampiran Dokumen Bukti:</span>
+                          <span className="font-mono text-[11px] text-slate-400 underline cursor-pointer hover:text-[#F97316]">
                             {r.lampiran_bukti_url}
                           </span>
                         </div>
@@ -371,33 +371,33 @@ export default function AdminPengaduanPage({ initialReports, initialPendaftaran 
                     </div>
 
                     {/* Breakdown Faktor Penilaian Spam */}
-                    <div className="p-4 rounded-2xl bg-white border border-slate-200 space-y-2 text-xs">
-                      <span className="font-bold text-[10px] uppercase text-slate-500 flex items-center gap-1">
+                    <div className="p-4 rounded-2xl bg-[#1A1A1E] border border-white/10 space-y-2 text-xs">
+                      <span className="font-bold text-[10px] uppercase text-slate-400 flex items-center gap-1">
                         <Sparkles className="w-3.5 h-3.5 text-amber-500" /> Analisis Algoritma Anti-Spam:
                       </span>
                       <div className="space-y-1.5 text-[11px]">
                         {analysis.reasons.map((reason, idx) => (
-                          <div key={idx} className="text-slate-600 leading-tight">
+                          <div key={idx} className="text-slate-400 leading-tight">
                             {reason}
                           </div>
                         ))}
                       </div>
-                      <div className="pt-2 border-t border-slate-100 text-[10px] text-slate-500 italic">
+                      <div className="pt-2 border-t border-white/10 text-[10px] text-slate-400 italic">
                         {analysis.rekomendasi}
                       </div>
                     </div>
                   </div>
 
                   {/* Respon Resmi & Tindak Lanjut Petugas (Tersinkron ke Token Pelapor) */}
-                  <div className="p-3.5 rounded-2xl bg-blue-50/70 border border-blue-200 text-xs text-blue-900 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+                  <div className="p-3.5 rounded-2xl bg-orange-500/10 border border-orange-500/30 text-xs text-[#F97316] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
                     <div>
                       <div className="flex items-center gap-1.5 mb-0.5">
-                        <MessageSquare className="w-3.5 h-3.5 text-[#1E3A8A]" />
-                        <span className="font-bold text-[10px] uppercase text-[#1E3A8A]">
+                        <MessageSquare className="w-3.5 h-3.5 text-[#F97316]" />
+                        <span className="font-bold text-[10px] uppercase text-[#F97316]">
                           Tanggapan Resmi Dinas (Terhubung ke Token Pelapor):
                         </span>
                       </div>
-                      <p className="text-slate-800 font-medium">
+                      <p className="text-[#E2E8F0] font-medium">
                         {r.respon_petugas || 'Laporan telah dicatat sistem. Menunggu telaah tim verifikator dinas.'}
                       </p>
                     </div>
@@ -409,15 +409,15 @@ export default function AdminPengaduanPage({ initialReports, initialPendaftaran 
                         setResponseText(r.respon_petugas || '');
                         setTargetStatus(r.status);
                       }}
-                      className="px-3.5 py-1.5 rounded-xl bg-[#1E3A8A] hover:bg-[#2563EB] text-white font-bold text-xs transition flex items-center gap-1.5 shrink-0 shadow-xs"
+                      className="px-3.5 py-1.5 rounded-xl bg-[#F97316] hover:bg-[#EA580C] text-white font-bold text-xs transition flex items-center gap-1.5 shrink-0 shadow-xs"
                     >
-                      <Send className="w-3.5 h-3.5 text-cyan-300" />
+                      <Send className="w-3.5 h-3.5 text-white" />
                       <span>Sunting Tanggapan Token</span>
                     </button>
                   </div>
 
                   {/* Tombol Aksi 1-Klik Petugas */}
-                  <div className="flex items-center justify-end gap-2 pt-1 border-t border-slate-100 flex-wrap">
+                  <div className="flex items-center justify-end gap-2 pt-1 border-t border-white/10 flex-wrap">
                     {!isValid && (
                       <button
                         type="button"
@@ -444,7 +444,7 @@ export default function AdminPengaduanPage({ initialReports, initialPendaftaran 
                       <button
                         type="button"
                         onClick={() => handleMarkAsSpam(r.id)}
-                        className="px-3.5 py-2 rounded-xl bg-slate-100 hover:bg-rose-100 text-slate-700 hover:text-rose-700 font-bold text-xs transition flex items-center gap-1.5 border border-slate-200"
+                        className="px-3.5 py-2 rounded-xl bg-[#222227] hover:bg-rose-500/15 text-slate-300 hover:text-[#FB7185] font-bold text-xs transition flex items-center gap-1.5 border border-white/10"
                       >
                         <ShieldOff className="w-3.5 h-3.5" />
                         <span>Karantina Spam / Aduan Palsu</span>
@@ -453,7 +453,7 @@ export default function AdminPengaduanPage({ initialReports, initialPendaftaran 
                       <button
                         type="button"
                         onClick={() => handleUpdateReportStatus(r.id, 'dalam_investigasi', 'Laporan dipulihkan dari karantina spam untuk ditelaah ulang.')}
-                        className="px-3.5 py-2 rounded-xl bg-slate-100 hover:bg-blue-100 text-slate-700 hover:text-blue-700 font-bold text-xs transition flex items-center gap-1.5 border border-slate-200"
+                        className="px-3.5 py-2 rounded-xl bg-[#222227] hover:bg-orange-500/15 text-slate-300 hover:text-[#F97316] font-bold text-xs transition flex items-center gap-1.5 border border-white/10"
                       >
                         <RotateCcw className="w-3.5 h-3.5" />
                         <span>Pulihkan dari Karantina</span>
@@ -464,9 +464,9 @@ export default function AdminPengaduanPage({ initialReports, initialPendaftaran 
               );
             })
           ) : (
-            <div className="bg-white rounded-3xl border border-slate-200 p-12 text-center">
+            <div className="bg-[#1A1A1E] rounded-3xl border border-white/10 p-12 text-center">
               <ShieldAlert className="w-12 h-12 text-slate-300 mx-auto mb-3" />
-              <h3 className="font-black text-slate-800 text-base">Tidak ada aduan yang sesuai filter</h3>
+              <h3 className="font-black text-[#E2E8F0] text-base">Tidak ada aduan yang sesuai filter</h3>
               <p className="text-xs text-slate-400 mt-1 max-w-sm mx-auto">
                 Coba sesuaikan tab filter atau kata kunci pencarian Anda.
               </p>
@@ -479,42 +479,42 @@ export default function AdminPengaduanPage({ initialReports, initialPendaftaran 
         {/* ============================================================== */}
         {responseModal && (
           <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
-            <div className="bg-white rounded-3xl max-w-lg w-full p-6 space-y-4 shadow-2xl animate-fade-in border border-slate-200">
+            <div className="bg-[#1A1A1E] rounded-3xl max-w-lg w-full p-6 space-y-4 shadow-2xl animate-fade-in border border-white/10">
               <div className="flex items-start justify-between">
                 <div>
-                  <h3 className="font-black text-base text-slate-900">
+                  <h3 className="font-black text-base text-white">
                     Sunting Tanggapan Resmi Petugas
                   </h3>
-                  <p className="text-xs text-slate-500 mt-0.5">
-                    Laporan: <strong className="font-mono text-[#1E3A8A]">{responseModal.kode_laporan}</strong> • Token: <strong className="font-mono">{responseModal.token_investigasi}</strong>
+                  <p className="text-xs text-slate-400 mt-0.5">
+                    Laporan: <strong className="font-mono text-[#F97316]">{responseModal.kode_laporan}</strong> • Token: <strong className="font-mono">{responseModal.token_investigasi}</strong>
                   </p>
                 </div>
                 <button
                   type="button"
                   onClick={() => setResponseModal(null)}
-                  className="p-1 rounded-lg text-slate-400 hover:text-slate-600"
+                  className="p-1 rounded-lg text-slate-400 hover:text-slate-400"
                 >
                   ✕
                 </button>
               </div>
 
-              <div className="p-3 rounded-xl bg-blue-50 border border-blue-200 text-xs text-blue-900">
+              <div className="p-3 rounded-xl bg-orange-500/10 border border-orange-500/30 text-xs text-[#F97316]">
                 <span className="font-bold flex items-center gap-1">
-                  <Lock className="w-3.5 h-3.5 text-blue-600" /> Transparansi Tanpa Mengorbankan Identitas:
+                  <Lock className="w-3.5 h-3.5 text-[#F97316]" /> Transparansi Tanpa Mengorbankan Identitas:
                 </span>
-                <p className="text-[11px] text-blue-800 mt-0.5">
+                <p className="text-[11px] text-[#F97316] mt-0.5">
                   Tanggapan ini akan dapat dibaca langsung oleh pelapor di portal publik <code>/whistleblower</code> dengan memasukkan Token Investigasi mereka.
                 </p>
               </div>
 
               <div>
-                <label className="text-xs font-bold text-slate-700 block mb-1">
+                <label className="text-xs font-bold text-slate-300 block mb-1">
                   Status Investigasi Laporan:
                 </label>
                 <select
                   value={targetStatus}
                   onChange={(e) => setTargetStatus(e.target.value)}
-                  className="w-full p-2.5 rounded-xl border border-slate-300 text-xs font-bold text-slate-800 bg-white focus:ring-2 focus:ring-[#2563EB]"
+                  className="w-full p-2.5 rounded-xl border border-white/10 text-xs font-bold text-[#E2E8F0] bg-[#1A1A1E] focus:ring-2 focus:ring-[#F97316]"
                 >
                   <option value="dalam_investigasi">⏳ Dalam Investigasi Lapangan</option>
                   <option value="bukti_valid_terverifikasi">✓ Terbukti Valid (Sanksi Diterapkan)</option>
@@ -524,7 +524,7 @@ export default function AdminPengaduanPage({ initialReports, initialPendaftaran 
               </div>
 
               <div>
-                <label className="text-xs font-bold text-slate-700 block mb-1">
+                <label className="text-xs font-bold text-slate-300 block mb-1">
                   Catatan Tindak Lanjut & Instruksi Dinas:
                 </label>
                 <textarea
@@ -532,22 +532,22 @@ export default function AdminPengaduanPage({ initialReports, initialPendaftaran 
                   value={responseText}
                   onChange={(e) => setResponseText(e.target.value)}
                   placeholder="Tuliskan temuan investigasi lapangan, sanksi yang dijatuhkan, atau alasan penutupan aduan..."
-                  className="w-full p-3 rounded-xl border border-slate-300 text-xs text-slate-800 font-medium focus:ring-2 focus:ring-[#2563EB]"
+                  className="w-full p-3 rounded-xl border border-white/10 text-xs text-[#E2E8F0] font-medium focus:ring-2 focus:ring-[#F97316]"
                 ></textarea>
               </div>
 
-              <div className="flex justify-end gap-2 pt-2 border-t border-slate-100">
+              <div className="flex justify-end gap-2 pt-2 border-t border-white/10">
                 <button
                   type="button"
                   onClick={() => setResponseModal(null)}
-                  className="px-4 py-2 rounded-xl text-xs font-bold text-slate-600 hover:bg-slate-100 transition"
+                  className="px-4 py-2 rounded-xl text-xs font-bold text-slate-400 hover:bg-white/10 transition"
                 >
                   Batal
                 </button>
                 <button
                   type="button"
                   onClick={() => handleUpdateReportStatus(responseModal.id, targetStatus, responseText)}
-                  className="px-5 py-2 rounded-xl text-xs font-bold bg-[#1E3A8A] hover:bg-[#2563EB] text-white shadow-md transition flex items-center gap-1.5"
+                  className="px-5 py-2 rounded-xl text-xs font-bold bg-[#F97316] hover:bg-[#EA580C] text-white shadow-md transition flex items-center gap-1.5"
                 >
                   <Send className="w-3.5 h-3.5" />
                   <span>Simpan & Terbitkan ke Token</span>

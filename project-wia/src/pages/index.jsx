@@ -25,14 +25,12 @@ import {
   Zap,
   Check,
   X,
-  Sparkles,
-  ChevronRight
+  Sparkles
 } from 'lucide-react';
 
 export default function Home({ initialKuota, initialPendaftaran }) {
   const [kuotaList, setKuotaList] = useState(initialKuota);
   const [selectedSchoolFilter, setSelectedSchoolFilter] = useState('all');
-  const [heroSchoolId, setHeroSchoolId] = useState(5); // Default SMAN 70 (Bulungan) dengan sisa 30 kursi prestasi
   const [searchTicket, setSearchTicket] = useState('');
 
   // 1. Kelompokkan Data Kuota Per-Sekolah Secara Menyeluruh
@@ -76,11 +74,6 @@ export default function Home({ initialKuota, initialPendaftaran }) {
     if (selectedSchoolFilter === 'all') return schoolsData;
     return schoolsData.filter((s) => s.school.id === parseInt(selectedSchoolFilter));
   }, [schoolsData, selectedSchoolFilter]);
-
-  // Data sekolah yang aktif di radar interaktif hero
-  const heroSchoolData = useMemo(() => {
-    return schoolsData.find((s) => s.school.id === heroSchoolId) || schoolsData[0];
-  }, [schoolsData, heroSchoolId]);
 
   const handleSimulateAdd = async (sekolahId, jalur) => {
     try {
@@ -157,198 +150,85 @@ export default function Home({ initialKuota, initialPendaftaran }) {
           </div>
         </div>
 
-        {/* Main Grid: 7 cols left (Strong Hook Copy), 5 cols right (Interactive Radar Card) */}
-        <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-          {/* Sisi Kiri: Hook Emosional, Janji Kuat, & CTA */}
-          <div className="lg:col-span-7 space-y-4">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-orange-500/20 border border-orange-500/30 text-xs font-black text-[#F97316]">
-              <ShieldCheck className="w-3.5 h-3.5 text-[#F97316]" />
-              <span>Gerakan Transparansi PPDB SMAN • WIA 2026</span>
+        {/* Hero Content */}
+        <div className="relative z-10 max-w-4xl space-y-5">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-orange-500/20 border border-orange-500/30 text-xs font-black text-[#F97316]">
+            <ShieldCheck className="w-3.5 h-3.5 text-[#F97316]" />
+            <span>Gerakan Transparansi PPDB SMAN • WIA 2026</span>
+          </div>
+
+          <h1 className="text-3xl sm:text-5xl font-black tracking-tight leading-[1.15]">
+            Kawal Hak Kursi SMAN Anak Anda.{' '}
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#F97316] via-[#FB7185] to-[#F43F5E]">
+              Tanpa Calo, Tanpa Numpang KK, Tanpa Server Down.
+            </span>
+          </h1>
+
+          <p className="text-xs sm:text-sm text-slate-200 max-w-2xl leading-relaxed">
+            Portal PPDB pertama yang membuka sisa kuota kursi real-time per detik, mengunci titik koordinat domisili via Auto-Snap Dukcapil resmi, dan mencatat setiap pendaftaran ke Buku Besar Audit Publik SHA-256 yang mustahil dimanipulasi orang dalam.
+          </p>
+
+          {/* 3 Garansi Utama */}
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-1 text-xs font-semibold max-w-3xl">
+            <div className="flex items-center gap-2 p-2.5 rounded-xl bg-white/5 border border-white/10">
+              <Check className="w-4 h-4 text-emerald-400 shrink-0 stroke-[3]" />
+              <span className="text-slate-100">Anti Numpang KK (Akurasi Centroid)</span>
             </div>
-
-            <h1 className="text-3xl sm:text-5xl font-black tracking-tight leading-[1.15]">
-              Kawal Hak Kursi SMAN Anak Anda.{' '}
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#F97316] via-[#FB7185] to-[#F43F5E]">
-                Tanpa Calo, Tanpa Numpang KK, Tanpa Server Down.
-              </span>
-            </h1>
-
-            <p className="text-xs sm:text-sm text-slate-200 max-w-xl leading-relaxed">
-              Portal PPDB pertama yang membuka sisa kuota kursi real-time per detik, mengunci titik koordinat domisili via Auto-Snap Dukcapil resmi, dan mencatat setiap pendaftaran ke Buku Besar Audit Publik SHA-256 yang mustahil dimanipulasi orang dalam.
-            </p>
-
-            {/* 3 Garansi Utama */}
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 pt-1 text-xs font-semibold">
-              <div className="flex items-center gap-2 p-2.5 rounded-xl bg-white/5 border border-white/10">
-                <Check className="w-4 h-4 text-emerald-400 shrink-0 stroke-[3]" />
-                <span className="text-slate-100">Anti Numpang KK (Akurasi Centroid)</span>
-              </div>
-              <div className="flex items-center gap-2 p-2.5 rounded-xl bg-white/5 border border-white/10">
-                <Flame className="w-4 h-4 text-amber-400 shrink-0" />
-                <span className="text-slate-100">Live Quota Burn-Rate Per Jam</span>
-              </div>
-              <div className="flex items-center gap-2 p-2.5 rounded-xl bg-white/5 border border-white/10">
-                <Lock className="w-4 h-4 text-[#F97316] shrink-0" />
-                <span className="text-slate-100">Buku Audit Berantai SHA-256</span>
-              </div>
+            <div className="flex items-center gap-2 p-2.5 rounded-xl bg-white/5 border border-white/10">
+              <Flame className="w-4 h-4 text-amber-400 shrink-0" />
+              <span className="text-slate-100">Live Quota Burn-Rate Per Jam</span>
             </div>
-
-            {/* Tombol Aksi Utama */}
-            <div className="pt-2 flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
-              <Link
-                href="/daftar"
-                className="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-2xl font-black text-xs sm:text-sm bg-gradient-to-r from-[#F97316] to-[#F43F5E] hover:opacity-90 text-white shadow-xl shadow-orange-500/25 hover:scale-[1.02] transition-all"
-              >
-                <span>Daftar Siswa Baru (4 Langkah)</span>
-                <ArrowRight className="w-4 h-4" />
-              </Link>
-
-              <Link
-                href="/simulator"
-                className="inline-flex items-center justify-center gap-2 px-4 py-3.5 rounded-2xl font-bold text-xs bg-white/10 hover:bg-white/20 text-white backdrop-blur border border-white/20 transition-all"
-              >
-                <Compass className="w-4 h-4 text-[#F97316]" />
-                <span>Simulator Peluang Lolos</span>
-              </Link>
+            <div className="flex items-center gap-2 p-2.5 rounded-xl bg-white/5 border border-white/10">
+              <Lock className="w-4 h-4 text-[#F97316] shrink-0" />
+              <span className="text-slate-100">Buku Audit Berantai SHA-256</span>
             </div>
+          </div>
 
-            {/* Pencarian Tiket Berkas Cepat */}
-            <form
-              onSubmit={(e) => {
-                e.preventDefault();
-                if (searchTicket) window.location.href = `/lacak?tiket=${encodeURIComponent(searchTicket)}`;
-              }}
-              className="pt-2 flex flex-col sm:flex-row items-center gap-2 max-w-lg"
+          {/* Tombol Aksi Utama */}
+          <div className="pt-2 flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
+            <Link
+              href="/daftar"
+              className="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-2xl font-black text-xs sm:text-sm bg-gradient-to-r from-[#F97316] to-[#F43F5E] hover:opacity-90 text-white shadow-xl shadow-orange-500/25 hover:scale-[1.02] transition-all"
             >
-              <div className="relative flex-1 w-full">
-                <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
-                <input
-                  type="text"
-                  placeholder="Lacak tiket berkas (contoh: TIKET-SMU-2026-098214)..."
-                  value={searchTicket}
-                  onChange={(e) => setSearchTicket(e.target.value)}
-                  className="w-full pl-10 pr-3 py-2 rounded-xl bg-[#141417] border border-white/10 text-white placeholder-slate-400 text-xs focus:outline-none focus:ring-2 focus:ring-[#F97316]"
-                />
-              </div>
-              <button
-                type="submit"
-                className="w-full sm:w-auto px-4 py-2 rounded-xl font-bold text-xs bg-[#F97316] hover:bg-[#EA580C] text-white transition flex items-center justify-center gap-1.5 shrink-0 shadow"
-              >
-                <FileCheck2 className="w-4 h-4 text-white" />
-                <span>Lacak</span>
-              </button>
-            </form>
+              <span>Daftar Siswa Baru (4 Langkah)</span>
+              <ArrowRight className="w-4 h-4" />
+            </Link>
+
+            <Link
+              href="/simulator"
+              className="inline-flex items-center justify-center gap-2 px-4 py-3.5 rounded-2xl font-bold text-xs bg-white/10 hover:bg-white/20 text-white backdrop-blur border border-white/20 transition-all"
+            >
+              <Compass className="w-4 h-4 text-[#F97316]" />
+              <span>Simulator Peluang Lolos</span>
+            </Link>
           </div>
 
-          {/* Sisi Kanan: Radar Peluang Cepat Interaktif (Interactive Hero Hook Card) */}
-          <div className="lg:col-span-5">
-            <div className="bg-[#141417] backdrop-blur-xl border border-white/20 rounded-3xl p-5 shadow-2xl relative overflow-hidden">
-              <div className="flex items-center justify-between pb-3 mb-3 border-b border-white/10">
-                <div className="flex items-center gap-2">
-                  <span className="w-2 h-2 rounded-full bg-[#F97316] animate-ping"></span>
-                  <span className="text-xs font-black uppercase tracking-wider text-[#F97316]">
-                    Radar Keterisian Cepat
-                  </span>
-                </div>
-                <span className="text-[10px] font-mono text-slate-400">Live Kuota</span>
-              </div>
-
-              {/* Selector Sekolah di Hero */}
-              <div className="mb-3">
-                <label className="text-[11px] font-bold text-slate-300 block mb-1">
-                  Pilih SMAN Target Pantau:
-                </label>
-                <select
-                  value={heroSchoolId}
-                  onChange={(e) => setHeroSchoolId(parseInt(e.target.value))}
-                  className="w-full px-3 py-2 rounded-xl bg-[#222227] border border-white/10 text-white text-xs font-bold focus:ring-2 focus:ring-[#F97316] outline-none"
-                >
-                  {INITIAL_SEKOLAH.map((s) => (
-                    <option key={s.id} value={s.id}>
-                      {s.nama_sekolah} ({s.kota})
-                    </option>
-                  ))}
-                </select>
-              </div>
-
-              {/* Status Sekolah Terpilih */}
-              {heroSchoolData && (
-                <div className="space-y-3">
-                  <div className="p-3 rounded-2xl bg-white/5 border border-white/10 space-y-2">
-                    <div className="flex justify-between items-center text-xs">
-                      <span className="font-bold text-white truncate max-w-[200px]">
-                        {heroSchoolData.school.nama_sekolah}
-                      </span>
-                      <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
-                        Akreditasi {heroSchoolData.school.akreditasi.split(' ')[0]}
-                      </span>
-                    </div>
-
-                    {/* Progress Bar Kuota */}
-                    <div className="space-y-1">
-                      <div className="flex justify-between text-[11px] text-slate-300">
-                        <span>Terisi: {heroSchoolData.totalTerisi} / {heroSchoolData.totalKuota}</span>
-                        <strong className="text-[#F97316] font-mono">{heroSchoolData.remainingSeats} Sisa Kursi</strong>
-                      </div>
-                      <div className="w-full h-2.5 bg-[#222227] rounded-full overflow-hidden p-0.5 border border-white/10">
-                        <div
-                          className="h-full rounded-full bg-gradient-to-r from-[#F97316] via-[#FB7185] to-[#F43F5E] transition-all duration-700"
-                          style={{ width: `${Math.min(100, heroSchoolData.saturationPct)}%` }}
-                        ></div>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Highlights 2 Jalur Utama (Prestasi & Zonasi) */}
-                  <div className="grid grid-cols-2 gap-2 text-xs">
-                    {/* Prestasi */}
-                    {(() => {
-                      const p = heroSchoolData.jalurList.find((j) => j.jalur === 'prestasi_akademik');
-                      const rem = p ? Math.max(0, p.total_kuota - p.kuota_terisi) : 0;
-                      return (
-                        <div className="p-2.5 rounded-xl bg-rose-500/15 border border-rose-500/30">
-                          <span className="text-[10px] font-bold text-rose-300 block">Jalur Prestasi:</span>
-                          <span className="text-base font-black text-white font-mono">{rem} Kursi</span>
-                          <span className="text-[10px] text-rose-200 block mt-0.5">Nilai Rapor & Piagam</span>
-                        </div>
-                      );
-                    })()}
-
-                    {/* Zonasi */}
-                    {(() => {
-                      const z = heroSchoolData.jalurList.find((j) => j.jalur === 'zonasi');
-                      const rem = z ? Math.max(0, z.total_kuota - z.kuota_terisi) : 0;
-                      return (
-                        <div className="p-2.5 rounded-xl bg-orange-500/15 border border-orange-500/30">
-                          <span className="text-[10px] font-bold text-orange-300 block">Jalur Zonasi:</span>
-                          <span className="text-base font-black text-white font-mono">{rem} Kursi</span>
-                          <span className="text-[10px] text-orange-300 block mt-0.5">Maks. {heroSchoolData.school.radius_max / 1000} km</span>
-                        </div>
-                      );
-                    })()}
-                  </div>
-
-                  {/* Direct Action Links */}
-                  <div className="grid grid-cols-2 gap-2 pt-1">
-                    <Link
-                      href="/simulator"
-                      className="py-2.5 px-3 rounded-xl bg-white/10 hover:bg-white/20 text-white font-bold text-xs text-center border border-white/20 transition flex items-center justify-center gap-1"
-                    >
-                      <span>Uji Peluang</span>
-                      <ChevronRight className="w-3.5 h-3.5 text-[#F97316]" />
-                    </Link>
-                    <Link
-                      href="/daftar"
-                      className="py-2.5 px-3 rounded-xl bg-gradient-to-r from-[#F97316] to-[#F43F5E] hover:opacity-90 text-white font-black text-xs text-center transition flex items-center justify-center gap-1 shadow-md shadow-orange-500/25"
-                    >
-                      <span>Daftar SMAN</span>
-                      <ArrowRight className="w-3.5 h-3.5" />
-                    </Link>
-                  </div>
-                </div>
-              )}
+          {/* Pencarian Tiket Berkas Cepat */}
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              if (searchTicket) window.location.href = `/lacak?tiket=${encodeURIComponent(searchTicket)}`;
+            }}
+            className="pt-2 flex flex-col sm:flex-row items-center gap-2 max-w-lg"
+          >
+            <div className="relative flex-1 w-full">
+              <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
+              <input
+                type="text"
+                placeholder="Lacak tiket berkas (contoh: TIKET-SMU-2026-098214)..."
+                value={searchTicket}
+                onChange={(e) => setSearchTicket(e.target.value)}
+                className="w-full pl-10 pr-3 py-2 rounded-xl bg-[#141417] border border-white/10 text-white placeholder-slate-400 text-xs focus:outline-none focus:ring-2 focus:ring-[#F97316]"
+              />
             </div>
-          </div>
+            <button
+              type="submit"
+              className="w-full sm:w-auto px-4 py-2 rounded-xl font-bold text-xs bg-[#F97316] hover:bg-[#EA580C] text-white transition flex items-center justify-center gap-1.5 shrink-0 shadow"
+            >
+              <FileCheck2 className="w-4 h-4 text-white" />
+              <span>Lacak</span>
+            </button>
+          </form>
         </div>
       </section>
 

@@ -20,15 +20,18 @@ import {
   LogIn,
   UserPlus,
   LogOut,
-  Ticket
+  Ticket,
+  Command
 } from 'lucide-react';
 import { NAV_LINKS_PUBLIC } from '@/utils/constants';
+import CommandPalette from '@/components/ui/CommandPalette';
 
 export default function Navbar() {
   const router = useRouter();
   const { user, isAuthenticated, isAdmin, logout } = useAuth();
   const [isExpanded, setIsExpanded] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [isCommandOpen, setIsCommandOpen] = useState(false);
 
   const getLinkIcon = (href, isActive) => {
     const iconClass = `w-5 h-5 transition-transform group-hover:scale-110 ${
@@ -80,6 +83,33 @@ export default function Navbar() {
 
           {/* Garis Pembatas */}
           <div className="my-3 border-t border-white/15"></div>
+
+          {/* Shortcut Command Palette (Ctrl+K) */}
+          {isExpanded ? (
+            <button
+              onClick={() => setIsCommandOpen(true)}
+              className="w-full flex items-center justify-between px-3 py-2 rounded-2xl bg-white/10 hover:bg-white/15 text-slate-200 text-xs font-medium border border-white/10 transition mb-2.5 text-left group"
+            >
+              <div className="flex items-center gap-2.5">
+                <Search className="w-4 h-4 text-slate-300 group-hover:text-white" />
+                <span className="text-[11px] font-semibold">Cari Cepat...</span>
+              </div>
+              <kbd className="text-[9px] bg-white/15 px-1.5 py-0.5 rounded font-mono text-slate-200 border border-white/20">
+                Ctrl+K
+              </kbd>
+            </button>
+          ) : (
+            <button
+              onClick={() => setIsCommandOpen(true)}
+              className="w-full flex items-center justify-center p-2.5 rounded-2xl bg-white/10 hover:bg-white/15 text-slate-200 transition mb-2.5 relative group"
+              title="Cari Cepat (Ctrl+K)"
+            >
+              <Search className="w-4 h-4 text-slate-300 group-hover:text-white" />
+              <div className="absolute left-full ml-3 px-2.5 py-1 bg-[#1E3A8A] text-white text-[11px] font-semibold rounded-xl shadow-xl border border-white/15 whitespace-nowrap opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity z-50">
+                Cari Cepat (Ctrl+K)
+              </div>
+            </button>
+          )}
 
           {/* Daftar Menu */}
           <nav className="space-y-1">
@@ -234,6 +264,13 @@ export default function Navbar() {
             </Link>
           )}
           <button
+            onClick={() => setIsCommandOpen(true)}
+            className="p-2 rounded-xl bg-white/10 text-white hover:bg-white/20 transition flex items-center justify-center"
+            title="Cari Cepat (Ctrl+K)"
+          >
+            <Search className="w-4 h-4" />
+          </button>
+          <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             className="p-2 rounded-xl bg-[#0F172A] text-white text-xs font-bold flex items-center gap-1.5 border border-slate-700"
           >
@@ -375,6 +412,9 @@ export default function Navbar() {
           </div>
         </div>
       )}
+
+      {/* Global Command Palette (Ctrl+K) */}
+      <CommandPalette open={isCommandOpen} onOpenChange={setIsCommandOpen} />
     </>
   );
 }

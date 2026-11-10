@@ -556,6 +556,10 @@ class DatabaseService {
     return this.auditChain.getLogs();
   }
 
+  getAllAuditLogs() {
+    return this.auditChain.getLogs();
+  }
+
   verifyAuditIntegrity() {
     return this.auditChain.verifyIntegrity();
   }

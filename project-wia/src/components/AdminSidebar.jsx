@@ -65,7 +65,9 @@ export default function AdminSidebar() {
                     : 'text-slate-400 hover:text-[#E2E8F0] hover:bg-white/5'
                 }`}
               >
-                {getAdminIcon(item.href)}
+                <span className="w-5 flex items-center justify-center shrink-0">
+                  {getAdminIcon(item.href)}
+                </span>
                 <span className="truncate">{item.label}</span>
               </Link>
             );
@@ -75,7 +77,7 @@ export default function AdminSidebar() {
 
       {/* Bottom Switch to Public Portal / Logout */}
       <div className="p-2.5 sm:p-3 border-t border-white/10 space-y-1.5">
-        <ThemeToggle variant="sidebar" isExpanded={true} className="rounded-xl" />
+        <ThemeToggle variant="admin" />
         <Link
           href="/"
           className="flex items-center justify-between px-2.5 py-1.5 rounded-lg text-xs font-medium text-slate-400 hover:text-[#E2E8F0] hover:bg-white/5 transition"
@@ -87,7 +89,9 @@ export default function AdminSidebar() {
           href="/admin/login"
           className="flex items-center gap-2 px-2.5 py-1.5 rounded-lg text-xs font-semibold text-rose-400 hover:bg-rose-500/15 transition"
         >
-          <LogOut className="w-4 h-4" />
+          <span className="w-5 flex items-center justify-center shrink-0">
+            <LogOut className="w-4 h-4" />
+          </span>
           <span>Keluar Sesi</span>
         </Link>
       </div>

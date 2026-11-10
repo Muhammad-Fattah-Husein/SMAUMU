@@ -58,16 +58,21 @@ export default function Navbar() {
       <aside
         onMouseEnter={() => setIsExpanded(true)}
         onMouseLeave={() => setIsExpanded(false)}
-        className={`hidden lg:flex fixed left-5 top-1/2 -translate-y-1/2 z-50 flex-col justify-between transition-all duration-300 ease-out bg-[#18181B]/95 backdrop-blur-xl border border-white/10 shadow-2xl shadow-black/60 rounded-3xl py-5 px-3.5 ${
+        className={`hidden lg:flex fixed left-5 top-1/2 -translate-y-1/2 z-50 flex-col justify-between transition-all duration-300 ease-out bg-[#18181B]/95 backdrop-blur-xl border border-white/10 shadow-2xl shadow-black/60 rounded-3xl py-4 px-3 ${
           isExpanded ? 'w-64' : 'w-20'
         }`}
         style={{ maxHeight: 'calc(100vh - 40px)' }}
       >
         {/* Logo & Brand */}
         <div>
-          <Link href="/" className="flex items-center gap-3 px-2 py-1.5 rounded-2xl hover:bg-white/5 transition-colors group">
-            <div className="w-11 h-11 rounded-2xl bg-gradient-to-tr from-[#F97316] to-[#F43F5E] flex items-center justify-center text-white shrink-0 shadow-lg shadow-orange-500/30 group-hover:rotate-6 transition-transform">
-              <ShieldCheck className="w-6 h-6" />
+          <Link
+            href="/"
+            className={`flex items-center rounded-2xl hover:bg-white/5 transition-colors group ${
+              isExpanded ? 'gap-2.5 px-2.5 py-1.5' : 'w-11 h-11 mx-auto justify-center'
+            }`}
+          >
+            <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-[#F97316] to-[#F43F5E] flex items-center justify-center text-white shrink-0 shadow-lg shadow-orange-500/30 group-hover:rotate-6 transition-transform">
+              <ShieldCheck className="w-5 h-5" />
             </div>
             {isExpanded && (
               <div className="min-w-0 animate-fade-in overflow-hidden">
@@ -89,10 +94,12 @@ export default function Navbar() {
           {isExpanded ? (
             <button
               onClick={() => setIsCommandOpen(true)}
-              className="w-full flex items-center justify-between px-3 py-2 rounded-2xl bg-white/5 hover:bg-white/10 text-[#E2E8F0] text-xs font-medium border border-white/10 transition mb-2.5 text-left group"
+              className="w-full flex items-center justify-between px-2.5 py-2 rounded-2xl bg-white/5 hover:bg-white/10 text-[#E2E8F0] text-xs font-medium border border-white/10 transition mb-2 text-left group"
             >
               <div className="flex items-center gap-2.5">
-                <Search className="w-4 h-4 text-[#F97316] group-hover:text-[#F43F5E] transition-colors" />
+                <span className="w-9 flex items-center justify-center shrink-0">
+                  <Search className="w-5 h-5 text-[#F97316] group-hover:text-[#F43F5E] transition-colors" />
+                </span>
                 <span className="text-[11px] font-semibold">Cari Cepat...</span>
               </div>
               <kbd className="text-[9px] bg-white/10 px-1.5 py-0.5 rounded font-mono text-slate-300 border border-white/15">
@@ -102,10 +109,10 @@ export default function Navbar() {
           ) : (
             <button
               onClick={() => setIsCommandOpen(true)}
-              className="w-full flex items-center justify-center p-2.5 rounded-2xl bg-white/5 hover:bg-white/10 text-[#E2E8F0] border border-white/10 transition mb-2.5 relative group"
+              className="w-11 h-11 mx-auto flex items-center justify-center rounded-2xl bg-white/5 hover:bg-white/10 text-[#E2E8F0] border border-white/10 transition mb-2 relative group"
               title="Cari Cepat (Ctrl+K)"
             >
-              <Search className="w-4 h-4 text-[#F97316] group-hover:text-white" />
+              <Search className="w-5 h-5 text-[#F97316] group-hover:text-white" />
               <div className="absolute left-full ml-3 px-2.5 py-1 bg-[#1E1E24] text-[#E2E8F0] text-[11px] font-semibold rounded-xl shadow-xl border border-white/15 whitespace-nowrap opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity z-50">
                 Cari Cepat (Ctrl+K)
               </div>
@@ -121,13 +128,15 @@ export default function Navbar() {
                   key={link.href}
                   href={link.href}
                   title={!isExpanded ? link.label : undefined}
-                  className={`flex items-center gap-3.5 px-3 py-2.5 rounded-2xl text-xs font-semibold transition-all group relative ${
+                  className={`flex items-center rounded-2xl text-xs font-semibold transition-all group relative ${
+                    isExpanded ? 'w-full gap-2.5 px-2.5 py-2' : 'w-11 h-11 mx-auto justify-center'
+                  } ${
                     isActive
                       ? 'bg-gradient-to-r from-[#F97316]/25 to-[#F43F5E]/20 text-white border border-orange-500/30 shadow-lg font-bold'
                       : 'text-slate-400 hover:text-[#E2E8F0] hover:bg-white/5'
                   }`}
                 >
-                  <div className="shrink-0">
+                  <div className={`flex items-center justify-center shrink-0 ${isExpanded ? 'w-9' : ''}`}>
                     {getLinkIcon(link.href, isActive)}
                   </div>
 
@@ -154,15 +163,21 @@ export default function Navbar() {
         </div>
 
         {/* Bagian Bawah: Profil Pengguna & Autentikasi */}
-        <div className="pt-3 border-t border-white/10 space-y-2">
+        <div className="pt-3 border-t border-white/10 space-y-1.5">
           <ThemeToggle variant="sidebar" isExpanded={isExpanded} />
 
           {isAuthenticated ? (
             /* Logged in state */
             <div className="space-y-2">
-              <div className="flex items-center gap-2.5 px-2 py-1.5 rounded-2xl bg-white/5 border border-white/10">
-                <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-[#F97316] to-[#F43F5E] text-white flex items-center justify-center font-bold text-xs shrink-0 shadow-sm">
-                  {user.nama ? user.nama.charAt(0).toUpperCase() : 'U'}
+              <div
+                className={`flex items-center rounded-2xl bg-white/5 border border-white/10 ${
+                  isExpanded ? 'gap-2.5 px-2.5 py-1.5' : 'w-11 h-11 mx-auto justify-center'
+                }`}
+              >
+                <div className={`flex items-center justify-center shrink-0 ${isExpanded ? 'w-9' : ''}`}>
+                  <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-[#F97316] to-[#F43F5E] text-white flex items-center justify-center font-bold text-xs shadow-sm">
+                    {user.nama ? user.nama.charAt(0).toUpperCase() : 'U'}
+                  </div>
                 </div>
                 {isExpanded && (
                   <div className="min-w-0 flex-1 text-left">
@@ -209,18 +224,26 @@ export default function Navbar() {
               <Link
                 href="/register"
                 title={!isExpanded ? 'Daftar Calon Siswa' : undefined}
-                className="flex items-center justify-center gap-2 px-3 py-2 rounded-2xl bg-gradient-to-r from-[#F97316] to-[#F43F5E] hover:from-[#EA580C] hover:to-[#E11D48] text-white font-bold text-xs shadow-md shadow-orange-500/20 transition group"
+                className={`flex items-center rounded-2xl bg-gradient-to-r from-[#F97316] to-[#F43F5E] hover:from-[#EA580C] hover:to-[#E11D48] text-white font-bold text-xs shadow-md shadow-orange-500/20 transition group ${
+                  isExpanded ? 'w-full gap-2.5 px-2.5 py-2' : 'w-11 h-11 mx-auto justify-center'
+                }`}
               >
-                <UserPlus className="w-4 h-4 shrink-0 text-white" />
+                <span className={`flex items-center justify-center shrink-0 ${isExpanded ? 'w-9' : ''}`}>
+                  <UserPlus className="w-5 h-5 text-white" />
+                </span>
                 {isExpanded && <span className="truncate">Daftar Akun</span>}
               </Link>
 
               <Link
                 href="/login"
                 title={!isExpanded ? 'Masuk Akun' : undefined}
-                className="flex items-center justify-center gap-2 px-3 py-1.5 rounded-2xl text-xs font-semibold text-slate-400 hover:text-[#E2E8F0] hover:bg-white/5 transition group"
+                className={`flex items-center rounded-2xl text-xs font-semibold text-slate-400 hover:text-[#E2E8F0] hover:bg-white/5 transition group ${
+                  isExpanded ? 'w-full gap-2.5 px-2.5 py-2' : 'w-11 h-11 mx-auto justify-center'
+                }`}
               >
-                <LogIn className="w-4 h-4 shrink-0" />
+                <span className={`flex items-center justify-center shrink-0 ${isExpanded ? 'w-9' : ''}`}>
+                  <LogIn className="w-5 h-5" />
+                </span>
                 {isExpanded && <span className="truncate text-[11px]">Masuk</span>}
               </Link>
             </div>
@@ -269,14 +292,14 @@ export default function Navbar() {
           <ThemeToggle variant="icon" />
           <button
             onClick={() => setIsCommandOpen(true)}
-            className="p-2 rounded-xl bg-white/10 text-[#E2E8F0] hover:bg-white/20 transition flex items-center justify-center"
+            className="w-9 h-9 rounded-xl bg-white/10 text-[#E2E8F0] hover:bg-white/20 transition flex items-center justify-center shrink-0"
             title="Cari Cepat (Ctrl+K)"
           >
             <Search className="w-4 h-4" />
           </button>
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="p-2 rounded-xl bg-[#222227] text-[#E2E8F0] text-xs font-bold flex items-center gap-1.5 border border-white/10"
+            className="w-9 h-9 rounded-xl bg-[#222227] text-[#E2E8F0] text-xs font-bold flex items-center justify-center border border-white/10 shrink-0"
           >
             {mobileMenuOpen ? <X className="w-4 h-4" /> : <Menu className="w-4 h-4" />}
           </button>
@@ -284,10 +307,10 @@ export default function Navbar() {
       </div>
 
       {/* Floating Bottom Dock untuk Akses Cepat di HP */}
-      <div className="lg:hidden fixed bottom-3 left-3 right-3 z-50 bg-[#18181B]/95 backdrop-blur-xl border border-white/10 rounded-2xl shadow-2xl shadow-black/60 px-2 py-2 flex items-center justify-around">
+      <div className="lg:hidden fixed bottom-3 left-3 right-3 z-50 bg-[#18181B]/95 backdrop-blur-xl border border-white/10 rounded-2xl shadow-2xl shadow-black/60 px-2 py-2 grid grid-cols-5 items-center">
         <Link
           href="/"
-          className={`flex flex-col items-center gap-1 p-1.5 rounded-xl text-[10px] ${
+          className={`flex flex-col items-center justify-center gap-1 p-1.5 rounded-xl text-[10px] ${
             router.pathname === '/' ? 'text-[#F97316] font-bold' : 'text-slate-400'
           }`}
         >
@@ -296,7 +319,7 @@ export default function Navbar() {
         </Link>
         <Link
           href="/kuota"
-          className={`flex flex-col items-center gap-1 p-1.5 rounded-xl text-[10px] ${
+          className={`flex flex-col items-center justify-center gap-1 p-1.5 rounded-xl text-[10px] ${
             router.pathname === '/kuota' ? 'text-[#F97316] font-bold' : 'text-slate-400'
           }`}
         >
@@ -305,14 +328,14 @@ export default function Navbar() {
         </Link>
         <Link
           href={isAuthenticated ? "/daftar" : "/register"}
-          className="flex flex-col items-center gap-1 p-2 rounded-2xl bg-gradient-to-tr from-[#F97316] to-[#F43F5E] hover:from-[#EA580C] hover:to-[#E11D48] text-white font-bold text-[10px] -mt-5 shadow-lg shadow-orange-500/30"
+          className="flex flex-col items-center justify-center gap-1 p-2 mx-auto w-14 rounded-2xl bg-gradient-to-tr from-[#F97316] to-[#F43F5E] hover:from-[#EA580C] hover:to-[#E11D48] text-white font-bold text-[10px] -mt-5 shadow-lg shadow-orange-500/30"
         >
           <FileEdit className="w-5 h-5" />
           <span>{isAuthenticated ? 'Formulir' : 'Daftar'}</span>
         </Link>
         <Link
           href="/lacak"
-          className={`flex flex-col items-center gap-1 p-1.5 rounded-xl text-[10px] ${
+          className={`flex flex-col items-center justify-center gap-1 p-1.5 rounded-xl text-[10px] ${
             router.pathname === '/lacak' ? 'text-[#F97316] font-bold' : 'text-slate-400'
           }`}
         >
@@ -321,7 +344,7 @@ export default function Navbar() {
         </Link>
         <button
           onClick={() => setMobileMenuOpen(true)}
-          className="flex flex-col items-center gap-1 p-1.5 rounded-xl text-[10px] text-slate-400"
+          className="flex flex-col items-center justify-center gap-1 p-1.5 rounded-xl text-[10px] text-slate-400"
         >
           <Menu className="w-5 h-5" />
           <span>Lainnya</span>

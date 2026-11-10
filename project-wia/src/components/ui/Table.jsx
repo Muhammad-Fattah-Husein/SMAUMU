@@ -1,80 +1,112 @@
-import React from 'react';
+import * as React from 'react';
 import { cn } from '@/lib/utils';
 
-export function Table({ className, children, ...props }) {
+const Table = React.forwardRef(function Table({ className, ...props }, ref) {
   return (
     <div className="relative w-full overflow-auto rounded-2xl border border-slate-200/90 shadow-xs bg-white">
-      <table className={cn('w-full caption-bottom text-xs', className)} {...props}>
-        {children}
-      </table>
+      <table
+        ref={ref}
+        className={cn('w-full caption-bottom text-xs', className)}
+        {...props}
+      />
     </div>
   );
-}
+});
+Table.displayName = 'Table';
 
-export function TableHeader({ className, children, ...props }) {
+const TableHeader = React.forwardRef(function TableHeader({ className, ...props }, ref) {
   return (
-    <thead className={cn('bg-slate-50/80 border-b border-slate-200', className)} {...props}>
-      {children}
-    </thead>
+    <thead
+      ref={ref}
+      className={cn('bg-slate-50/80 border-b border-slate-200 [&_tr]:border-b', className)}
+      {...props}
+    />
   );
-}
+});
+TableHeader.displayName = 'TableHeader';
 
-export function TableBody({ className, children, ...props }) {
+const TableBody = React.forwardRef(function TableBody({ className, ...props }, ref) {
   return (
-    <tbody className={cn('divide-y divide-slate-100', className)} {...props}>
-      {children}
-    </tbody>
+    <tbody
+      ref={ref}
+      className={cn('divide-y divide-slate-100 [&_tr:last-child]:border-0', className)}
+      {...props}
+    />
   );
-}
+});
+TableBody.displayName = 'TableBody';
 
-export function TableFooter({ className, children, ...props }) {
+const TableFooter = React.forwardRef(function TableFooter({ className, ...props }, ref) {
   return (
-    <tfoot className={cn('bg-slate-50 font-bold border-t border-slate-200', className)} {...props}>
-      {children}
-    </tfoot>
+    <tfoot
+      ref={ref}
+      className={cn('border-t bg-slate-50/50 font-bold [&>tr]:last:border-b-0', className)}
+      {...props}
+    />
   );
-}
+});
+TableFooter.displayName = 'TableFooter';
 
-export function TableRow({ className, children, ...props }) {
+const TableRow = React.forwardRef(function TableRow({ className, ...props }, ref) {
   return (
     <tr
+      ref={ref}
       className={cn(
-        'transition-colors hover:bg-slate-50/80 data-[state=selected]:bg-slate-100',
+        'border-b transition-colors hover:bg-slate-50/80 data-[state=selected]:bg-slate-100',
         className
       )}
       {...props}
-    >
-      {children}
-    </tr>
+    />
   );
-}
+});
+TableRow.displayName = 'TableRow';
 
-export function TableHead({ className, children, ...props }) {
+const TableHead = React.forwardRef(function TableHead({ className, ...props }, ref) {
   return (
     <th
+      ref={ref}
       className={cn(
-        'h-10 px-4 text-left align-middle font-bold text-[11px] uppercase tracking-wider text-slate-500 whitespace-nowrap',
+        'h-10 px-4 text-left align-middle font-bold text-[11px] uppercase tracking-wider text-slate-500 whitespace-nowrap [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px]',
         className
       )}
       {...props}
-    >
-      {children}
-    </th>
+    />
   );
-}
+});
+TableHead.displayName = 'TableHead';
 
-export function TableCell({ className, children, ...props }) {
+const TableCell = React.forwardRef(function TableCell({ className, ...props }, ref) {
   return (
-    <td className={cn('p-4 align-middle text-slate-800 text-xs', className)} {...props}>
-      {children}
-    </td>
+    <td
+      ref={ref}
+      className={cn(
+        'p-4 align-middle text-slate-800 text-xs [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px]',
+        className
+      )}
+      {...props}
+    />
   );
-}
+});
+TableCell.displayName = 'TableCell';
 
-export function TableCaption({ className, children, ...props }) {
+const TableCaption = React.forwardRef(function TableCaption({ className, ...props }, ref) {
   return (
-    <caption className={cn('mt-3 text-xs text-slate-400', className)} {...props}>
-      {children}
-    </caption>
+    <caption
+      ref={ref}
+      className={cn('mt-3 text-xs text-slate-400', className)}
+      {...props}
+    />
   );
-}
+});
+TableCaption.displayName = 'TableCaption';
+
+export {
+  Table,
+  TableHeader,
+  TableBody,
+  TableFooter,
+  TableHead,
+  TableRow,
+  TableCell,
+  TableCaption,
+};

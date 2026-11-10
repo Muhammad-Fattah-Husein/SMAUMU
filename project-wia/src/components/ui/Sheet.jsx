@@ -1,112 +1,128 @@
-import React, { useEffect } from 'react';
+import * as React from 'react';
+import * as SheetPrimitive from '@radix-ui/react-dialog';
+import { cva } from 'class-variance-authority';
 import { X } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
-export function Sheet({
-  open,
-  onOpenChange,
-  children,
-  side = 'right',
-  className
-}) {
-  useEffect(() => {
-    if (!open) return;
-    const handleKeyDown = (e) => {
-      if (e.key === 'Escape' && onOpenChange) {
-        onOpenChange(false);
-      }
-    };
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [open, onOpenChange]);
+const Sheet = SheetPrimitive.Root;
+const SheetTrigger = SheetPrimitive.Trigger;
+const SheetClose = SheetPrimitive.Close;
+const SheetPortal = SheetPrimitive.Portal;
 
-  if (!open) return null;
-
+const SheetOverlay = React.forwardRef(function SheetOverlay({ className, ...props }, ref) {
   return (
-    <div className="fixed inset-0 z-50 flex">
-      {/* Backdrop Overlay */}
-      <div
-        onClick={() => onOpenChange && onOpenChange(false)}
-        className="fixed inset-0 bg-slate-900/60 backdrop-blur-xs transition-opacity animate-fade-in"
-      />
+    <SheetPrimitive.Overlay
+      className={cn(
+        'fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0',
+        className
+      )}
+      {...props}
+      ref={ref}
+    />
+  );
+});
+SheetOverlay.displayName = SheetPrimitive.Overlay.displayName;
 
-      {/* Drawer Container */}
-      <div
-        className={cn(
-          'fixed inset-y-0 z-50 flex h-full flex-col bg-white shadow-2xl transition-all duration-300 ease-in-out',
-          side === 'right' && 'right-0 w-full sm:max-w-2xl border-l border-slate-200',
-          side === 'left' && 'left-0 w-full sm:max-w-2xl border-r border-slate-200',
-          className
-        )}
+const sheetVariants = cva(
+  'fixed z-50 flex flex-col bg-white shadow-2xl transition ease-in-out data-[state=closed]:duration-300 data-[state=open]:duration-500 data-[state=open]:animate-in data-[state=closed]:animate-out',
+  {
+    variants: {
+      side: {
+        top: 'inset-x-0 top-0 border-b border-slate-200 data-[state=closed]:slide-out-to-top data-[state=open]:slide-in-from-top',
+        bottom: 'inset-x-0 bottom-0 border-t border-slate-200 data-[state=closed]:slide-out-to-bottom data-[state=open]:slide-in-from-bottom',
+        left: 'inset-y-0 left-0 h-full w-full sm:max-w-2xl border-r border-slate-200 data-[state=closed]:slide-out-to-left data-[state=open]:slide-in-from-left',
+        right: 'inset-y-0 right-0 h-full w-full sm:max-w-2xl border-l border-slate-200 data-[state=closed]:slide-out-to-right data-[state=open]:slide-in-from-right',
+      },
+    },
+    defaultVariants: {
+      side: 'right',
+    },
+  }
+);
+
+const SheetContent = React.forwardRef(function SheetContent(
+  { side = 'right', className, children, closeButtonClassName, ...props },
+  ref
+) {
+  return (
+    <SheetPortal>
+      <SheetOverlay />
+      <SheetPrimitive.Content
+        ref={ref}
+        className={cn(sheetVariants({ side }), className)}
+        {...props}
       >
         {children}
-      </div>
-    </div>
-  );
-}
-
-export function SheetHeader({ className, children, onClose, ...props }) {
-  return (
-    <div
-      className={cn(
-        'flex items-start justify-between border-b border-slate-100 p-5 sm:p-6 pb-4 bg-slate-50/60',
-        className
-      )}
-      {...props}
-    >
-      <div className="space-y-1">{children}</div>
-      {onClose && (
-        <button
-          type="button"
-          onClick={onClose}
-          className="rounded-xl p-1.5 text-slate-400 hover:bg-slate-200 hover:text-slate-700 transition"
+        <SheetPrimitive.Close
+          className={cn(
+            'absolute right-4 top-4 rounded-xl p-1.5 text-slate-400 opacity-80 ring-offset-background transition-all hover:opacity-100 hover:bg-white/10 hover:text-white focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none',
+            closeButtonClassName
+          )}
           title="Tutup (Esc)"
         >
-          <X className="w-5 h-5" />
+          <X className="h-5 w-5" />
           <span className="sr-only">Tutup</span>
-        </button>
-      )}
-    </div>
+        </SheetPrimitive.Close>
+      </SheetPrimitive.Content>
+    </SheetPortal>
   );
-}
+});
+SheetContent.displayName = SheetPrimitive.Content.displayName;
 
-export function SheetTitle({ className, children, ...props }) {
+function SheetHeader({ className, ...props }) {
   return (
-    <h2
-      className={cn('text-lg sm:text-xl font-black text-slate-900 tracking-tight leading-snug', className)}
+    <div
+      className={cn('flex flex-col space-y-1.5 text-left border-b border-slate-100 p-5 sm:p-6 pb-4 bg-slate-50/60', className)}
       {...props}
-    >
-      {children}
-    </h2>
+    />
   );
 }
+SheetHeader.displayName = 'SheetHeader';
 
-export function SheetDescription({ className, children, ...props }) {
-  return (
-    <p className={cn('text-xs text-slate-500 font-medium', className)} {...props}>
-      {children}
-    </p>
-  );
-}
-
-export function SheetContent({ className, children, ...props }) {
-  return (
-    <div className={cn('flex-1 overflow-y-auto p-5 sm:p-6 space-y-5', className)} {...props}>
-      {children}
-    </div>
-  );
-}
-
-export function SheetFooter({ className, children, ...props }) {
+function SheetFooter({ className, ...props }) {
   return (
     <div
       className={cn(
-        'flex items-center justify-end gap-2 border-t border-slate-100 p-4 sm:p-5 bg-slate-50',
+        'flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-2 border-t border-slate-100 p-4 sm:p-5 bg-slate-50',
         className
       )}
       {...props}
-    >
-      {children}
-    </div>
+    />
   );
 }
+SheetFooter.displayName = 'SheetFooter';
+
+const SheetTitle = React.forwardRef(function SheetTitle({ className, ...props }, ref) {
+  return (
+    <SheetPrimitive.Title
+      ref={ref}
+      className={cn('text-lg sm:text-xl font-black text-slate-900 tracking-tight leading-snug', className)}
+      {...props}
+    />
+  );
+});
+SheetTitle.displayName = SheetPrimitive.Title.displayName;
+
+const SheetDescription = React.forwardRef(function SheetDescription({ className, ...props }, ref) {
+  return (
+    <SheetPrimitive.Description
+      ref={ref}
+      className={cn('text-xs text-slate-500 font-medium', className)}
+      {...props}
+    />
+  );
+});
+SheetDescription.displayName = SheetPrimitive.Description.displayName;
+
+export {
+  Sheet,
+  SheetPortal,
+  SheetOverlay,
+  SheetTrigger,
+  SheetClose,
+  SheetContent,
+  SheetHeader,
+  SheetFooter,
+  SheetTitle,
+  SheetDescription,
+};

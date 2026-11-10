@@ -1,9 +1,8 @@
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useAuth } from '@/contexts/AuthContext';
 import { 
-  ShieldCheck, 
   Home, 
   Flame, 
   FileEdit, 
@@ -11,21 +10,19 @@ import {
   Calculator, 
   AlertTriangle, 
   Lock, 
-  ChevronRight, 
   Menu, 
   X, 
   Compass, 
-  ArrowRight,
   User,
   LogIn,
   UserPlus,
   LogOut,
-  Ticket,
-  Command
+  Ticket
 } from 'lucide-react';
 import { NAV_LINKS_PUBLIC } from '@/utils/constants';
 import CommandPalette from '@/components/ui/CommandPalette';
 import ThemeToggle from './ThemeToggle';
+import BrandLogo from './BrandLogo';
 
 export default function Navbar() {
   const router = useRouter();
@@ -33,9 +30,32 @@ export default function Navbar() {
   const [isExpanded, setIsExpanded] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isCommandOpen, setIsCommandOpen] = useState(false);
+  const leaveTimerRef = useRef(null);
+
+  useEffect(() => {
+    return () => {
+      if (leaveTimerRef.current) clearTimeout(leaveTimerRef.current);
+    };
+  }, []);
+
+  const handleMouseEnter = () => {
+    if (leaveTimerRef.current) {
+      clearTimeout(leaveTimerRef.current);
+      leaveTimerRef.current = null;
+    }
+    setIsExpanded(true);
+  };
+
+  const handleMouseLeave = () => {
+    if (leaveTimerRef.current) clearTimeout(leaveTimerRef.current);
+    leaveTimerRef.current = setTimeout(() => {
+      setIsExpanded(false);
+      leaveTimerRef.current = null;
+    }, 90);
+  };
 
   const getLinkIcon = (href, isActive) => {
-    const iconClass = `w-5 h-5 transition-transform group-hover:scale-110 ${
+    const iconClass = `w-5 h-5 transition-colors ${
       isActive ? 'text-[#F97316]' : 'text-slate-400 group-hover:text-[#E2E8F0]'
     }`;
     switch (href) {
@@ -56,9 +76,9 @@ export default function Navbar() {
       {/* 1. DESKTOP FLOATING SIDE NAVBAR */}
       {/* ============================================================== */}
       <aside
-        onMouseEnter={() => setIsExpanded(true)}
-        onMouseLeave={() => setIsExpanded(false)}
-        className={`hidden lg:flex fixed left-5 top-1/2 -translate-y-1/2 z-50 flex-col justify-between transition-all duration-300 ease-out bg-[#18181B]/95 backdrop-blur-xl border border-white/10 shadow-2xl shadow-black/60 rounded-3xl py-4 px-3 ${
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
+        className={`hidden lg:flex fixed left-5 top-1/2 -translate-y-1/2 z-50 flex-col justify-between transition-[width] duration-200 ease-out overflow-hidden bg-[#18181B]/95 backdrop-blur-xl border border-white/10 shadow-2xl shadow-black/60 rounded-3xl py-4 px-3 ${
           isExpanded ? 'w-64' : 'w-20'
         }`}
         style={{ maxHeight: 'calc(100vh - 40px)' }}
@@ -67,15 +87,17 @@ export default function Navbar() {
         <div>
           <Link
             href="/"
-            className={`flex items-center rounded-2xl hover:bg-white/5 transition-colors group ${
-              isExpanded ? 'gap-2.5 px-2.5 py-1.5' : 'w-11 h-11 mx-auto justify-center'
-            }`}
+            className="w-full h-11 px-1.5 flex items-center rounded-2xl hover:bg-white/5 transition-colors group overflow-hidden"
           >
-            <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-[#F97316] to-[#F43F5E] flex items-center justify-center text-white shrink-0 shadow-lg shadow-orange-500/30 group-hover:rotate-6 transition-transform">
-              <ShieldCheck className="w-5 h-5" />
-            </div>
-            {isExpanded && (
-              <div className="min-w-0 animate-fade-in overflow-hidden">
+            <span className="w-11 h-11 flex items-center justify-center shrink-0">
+              <BrandLogo className="w-9 h-9 group-hover:scale-105 transition-transform" iconClassName="w-7 h-7" />
+            </span>
+            <div
+              className={`min-w-0 flex-1 overflow-hidden transition-opacity duration-200 ${
+                isExpanded ? 'opacity-100' : 'opacity-0 pointer-events-none'
+              }`}
+            >
+              <div className="pl-2.5 whitespace-nowrap">
                 <div className="flex items-center gap-1.5">
                   <span className="font-extrabold text-base text-[#E2E8F0] tracking-tight">SMAUMU</span>
                   <span className="text-[9px] bg-orange-500/15 text-[#F97316] font-bold px-1.5 py-0.2 rounded border border-orange-500/30">
@@ -84,42 +106,38 @@ export default function Navbar() {
                 </div>
                 <p className="text-[10px] text-slate-400 font-medium truncate">Portal Transparansi SMAN</p>
               </div>
-            )}
+            </div>
           </Link>
 
           {/* Garis Pembatas */}
-          <div className="my-3 border-t border-white/10"></div>
+          <div className="my-2.5 border-t border-white/10"></div>
 
           {/* Shortcut Command Palette (Ctrl+K) */}
-          {isExpanded ? (
-            <button
-              onClick={() => setIsCommandOpen(true)}
-              className="w-full flex items-center justify-between px-2.5 py-2 rounded-2xl bg-white/5 hover:bg-white/10 text-[#E2E8F0] text-xs font-medium border border-white/10 transition mb-2 text-left group"
+          <button
+            type="button"
+            onClick={() => setIsCommandOpen(true)}
+            title={!isExpanded ? 'Cari Cepat (Ctrl+K)' : undefined}
+            aria-label="Cari Cepat"
+            className="w-full h-11 px-1.5 flex items-center rounded-2xl bg-white/5 hover:bg-white/10 text-[#E2E8F0] text-xs font-medium border border-white/10 transition-colors mb-2 text-left group overflow-hidden"
+          >
+            <span className="w-11 h-11 flex items-center justify-center shrink-0">
+              <Search className="w-5 h-5 text-[#F97316] group-hover:text-[#F43F5E] transition-colors" />
+            </span>
+            <div
+              className={`min-w-0 flex-1 overflow-hidden transition-opacity duration-200 ${
+                isExpanded ? 'opacity-100' : 'opacity-0 pointer-events-none'
+              }`}
             >
-              <div className="flex items-center gap-2.5">
-                <span className="w-9 flex items-center justify-center shrink-0">
-                  <Search className="w-5 h-5 text-[#F97316] group-hover:text-[#F43F5E] transition-colors" />
-                </span>
-                <span className="text-[11px] font-semibold">Cari Cepat...</span>
+              <div className="pl-2.5 pr-1.5 flex items-center justify-between whitespace-nowrap">
+                <span className="text-[11px] font-semibold truncate">Cari Cepat...</span>
+                <kbd className="text-[9px] bg-white/10 px-1.5 py-0.5 rounded font-mono text-slate-300 border border-white/15 shrink-0">
+                  Ctrl+K
+                </kbd>
               </div>
-              <kbd className="text-[9px] bg-white/10 px-1.5 py-0.5 rounded font-mono text-slate-300 border border-white/15">
-                Ctrl+K
-              </kbd>
-            </button>
-          ) : (
-            <button
-              onClick={() => setIsCommandOpen(true)}
-              className="w-11 h-11 mx-auto flex items-center justify-center rounded-2xl bg-white/5 hover:bg-white/10 text-[#E2E8F0] border border-white/10 transition mb-2 relative group"
-              title="Cari Cepat (Ctrl+K)"
-            >
-              <Search className="w-5 h-5 text-[#F97316] group-hover:text-white" />
-              <div className="absolute left-full ml-3 px-2.5 py-1 bg-[#1E1E24] text-[#E2E8F0] text-[11px] font-semibold rounded-xl shadow-xl border border-white/15 whitespace-nowrap opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity z-50">
-                Cari Cepat (Ctrl+K)
-              </div>
-            </button>
-          )}
+            </div>
+          </button>
 
-          {/* Daftar Menu */}
+          {/* Daftar Menu (Tinggi baris dikunci h-11 agar tidak pernah memicu loncatan tinggi saat hover) */}
           <nav className="space-y-1">
             {NAV_LINKS_PUBLIC.map((link) => {
               const isActive = router.pathname === link.href;
@@ -128,135 +146,153 @@ export default function Navbar() {
                   key={link.href}
                   href={link.href}
                   title={!isExpanded ? link.label : undefined}
-                  className={`flex items-center rounded-2xl text-xs font-semibold transition-all group relative ${
-                    isExpanded ? 'w-full gap-2.5 px-2.5 py-2' : 'w-11 h-11 mx-auto justify-center'
-                  } ${
+                  className={`w-full h-11 px-1.5 flex items-center rounded-2xl text-xs font-semibold transition-colors group overflow-hidden ${
                     isActive
                       ? 'bg-gradient-to-r from-[#F97316]/25 to-[#F43F5E]/20 text-white border border-orange-500/30 shadow-lg font-bold'
-                      : 'text-slate-400 hover:text-[#E2E8F0] hover:bg-white/5'
+                      : 'text-slate-400 hover:text-[#E2E8F0] hover:bg-white/5 border border-transparent'
                   }`}
                 >
-                  <div className={`flex items-center justify-center shrink-0 ${isExpanded ? 'w-9' : ''}`}>
+                  <span className="w-11 h-11 flex items-center justify-center shrink-0">
                     {getLinkIcon(link.href, isActive)}
-                  </div>
+                  </span>
 
-                  {isExpanded && (
-                    <div className="min-w-0 flex-1 animate-fade-in text-left">
+                  <div
+                    className={`min-w-0 flex-1 overflow-hidden text-left transition-opacity duration-200 ${
+                      isExpanded ? 'opacity-100' : 'opacity-0 pointer-events-none'
+                    }`}
+                  >
+                    <div className="pl-2.5 whitespace-nowrap">
                       <p className="truncate text-xs font-bold leading-tight">{link.label}</p>
-                      <p className={`text-[10px] truncate mt-0.5 leading-none ${isActive ? 'text-orange-200/90' : 'text-slate-500'}`}>
+                      <p className={`text-[10px] truncate mt-0.5 leading-snug ${isActive ? 'text-orange-200/90' : 'text-slate-500'}`}>
                         {link.desc}
                       </p>
                     </div>
-                  )}
-
-                  {/* Tooltip Melayang (Collapsed Mode) */}
-                  {!isExpanded && (
-                    <div className="absolute left-full ml-3 px-3 py-1.5 bg-[#1E1E24] text-[#E2E8F0] text-xs font-semibold rounded-xl shadow-xl border border-white/15 whitespace-nowrap opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity z-50">
-                      <p className="font-bold text-white">{link.label}</p>
-                      <p className="text-[10px] text-slate-400 font-normal">{link.desc}</p>
-                    </div>
-                  )}
+                  </div>
                 </Link>
               );
             })}
           </nav>
         </div>
 
-        {/* Bagian Bawah: Profil Pengguna & Autentikasi */}
-        <div className="pt-3 border-t border-white/10 space-y-1.5">
+        {/* Bagian Bawah: Profil Pengguna & Autentikasi (Tinggi seragam tanpa reflow saat expand) */}
+        <div className="pt-2.5 mt-2 border-t border-white/10 space-y-1.5">
           <ThemeToggle variant="sidebar" isExpanded={isExpanded} />
 
           {isAuthenticated ? (
-            /* Logged in state */
-            <div className="space-y-2">
-              <div
-                className={`flex items-center rounded-2xl bg-white/5 border border-white/10 ${
-                  isExpanded ? 'gap-2.5 px-2.5 py-1.5' : 'w-11 h-11 mx-auto justify-center'
-                }`}
-              >
-                <div className={`flex items-center justify-center shrink-0 ${isExpanded ? 'w-9' : ''}`}>
+            <div className="space-y-1.5">
+              <div className="w-full h-11 px-1.5 flex items-center rounded-2xl bg-white/5 border border-white/10 overflow-hidden">
+                <span className="w-11 h-11 flex items-center justify-center shrink-0">
                   <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-[#F97316] to-[#F43F5E] text-white flex items-center justify-center font-bold text-xs shadow-sm">
                     {user.nama ? user.nama.charAt(0).toUpperCase() : 'U'}
                   </div>
-                </div>
-                {isExpanded && (
-                  <div className="min-w-0 flex-1 text-left">
+                </span>
+                <div
+                  className={`min-w-0 flex-1 overflow-hidden text-left transition-opacity duration-200 ${
+                    isExpanded ? 'opacity-100' : 'opacity-0 pointer-events-none'
+                  }`}
+                >
+                  <div className="pl-2.5 whitespace-nowrap">
                     <p className="font-bold text-xs text-[#E2E8F0] truncate">{user.nama}</p>
                     <span className="text-[9px] text-emerald-400 font-semibold block truncate">
                       {isAdmin ? 'Petugas Instansi' : 'Calon Siswa Baru'}
                     </span>
                   </div>
-                )}
+                </div>
               </div>
 
-              {isExpanded && (
-                <div className="flex items-center gap-1.5 animate-fade-in">
-                  {user.nomor_tiket && !isAdmin && (
-                    <Link
-                      href={`/lacak?tiket=${encodeURIComponent(user.nomor_tiket)}`}
-                      className="flex-1 py-1 px-2 rounded-xl bg-white/10 hover:bg-white/15 text-[#E2E8F0] text-[10px] font-bold text-center truncate flex items-center justify-center gap-1"
-                    >
-                      <Ticket className="w-3 h-3 text-[#F97316]" />
-                      <span>Tiket Saya</span>
-                    </Link>
-                  )}
-                  {isAdmin && (
-                    <Link
-                      href="/admin/dashboard"
-                      className="flex-1 py-1 px-2 rounded-xl bg-white/10 hover:bg-white/15 text-[#E2E8F0] text-[10px] font-bold text-center truncate"
-                    >
-                      Dashboard
-                    </Link>
-                  )}
-                  <button
-                    onClick={logout}
-                    title="Keluar Akun"
-                    className="p-1.5 rounded-xl bg-rose-500/20 hover:bg-rose-500/40 text-rose-300 transition"
+              <div
+                className={`h-7 flex items-center gap-1.5 overflow-hidden transition-opacity duration-200 ${
+                  isExpanded ? 'opacity-100' : 'opacity-0 pointer-events-none'
+                }`}
+              >
+                {user.nomor_tiket && !isAdmin && (
+                  <Link
+                    href={`/lacak?tiket=${encodeURIComponent(user.nomor_tiket)}`}
+                    className="flex-1 h-7 px-2 rounded-xl bg-white/10 hover:bg-white/15 text-[#E2E8F0] text-[10px] font-bold truncate flex items-center justify-center gap-1 whitespace-nowrap"
                   >
-                    <LogOut className="w-3.5 h-3.5" />
-                  </button>
-                </div>
-              )}
+                    <Ticket className="w-3 h-3 text-[#F97316] shrink-0" />
+                    <span>Tiket Saya</span>
+                  </Link>
+                )}
+                {isAdmin && (
+                  <Link
+                    href="/admin/dashboard"
+                    className="flex-1 h-7 px-2 rounded-xl bg-white/10 hover:bg-white/15 text-[#E2E8F0] text-[10px] font-bold truncate flex items-center justify-center whitespace-nowrap"
+                  >
+                    Dashboard
+                  </Link>
+                )}
+                <button
+                  type="button"
+                  onClick={logout}
+                  title="Keluar Akun"
+                  className="h-7 px-2 rounded-xl bg-rose-500/20 hover:bg-rose-500/40 text-rose-300 transition flex items-center justify-center shrink-0"
+                >
+                  <LogOut className="w-3.5 h-3.5" />
+                </button>
+              </div>
             </div>
           ) : (
-            /* Guest / Not logged in state */
             <div className="space-y-1.5">
               <Link
                 href="/register"
                 title={!isExpanded ? 'Daftar Calon Siswa' : undefined}
-                className={`flex items-center rounded-2xl bg-gradient-to-r from-[#F97316] to-[#F43F5E] hover:from-[#EA580C] hover:to-[#E11D48] text-white font-bold text-xs shadow-md shadow-orange-500/20 transition group ${
-                  isExpanded ? 'w-full gap-2.5 px-2.5 py-2' : 'w-11 h-11 mx-auto justify-center'
-                }`}
+                className="w-full h-11 px-1.5 flex items-center rounded-2xl bg-gradient-to-r from-[#F97316] to-[#F43F5E] hover:from-[#EA580C] hover:to-[#E11D48] text-white font-bold text-xs shadow-md shadow-orange-500/20 transition-colors group overflow-hidden"
               >
-                <span className={`flex items-center justify-center shrink-0 ${isExpanded ? 'w-9' : ''}`}>
+                <span className="w-11 h-11 flex items-center justify-center shrink-0">
                   <UserPlus className="w-5 h-5 text-white" />
                 </span>
-                {isExpanded && <span className="truncate">Daftar Akun</span>}
+                <div
+                  className={`min-w-0 flex-1 overflow-hidden transition-opacity duration-200 ${
+                    isExpanded ? 'opacity-100' : 'opacity-0 pointer-events-none'
+                  }`}
+                >
+                  <span className="block pl-2.5 whitespace-nowrap truncate">Daftar Akun</span>
+                </div>
               </Link>
 
               <Link
                 href="/login"
                 title={!isExpanded ? 'Masuk Akun' : undefined}
-                className={`flex items-center rounded-2xl text-xs font-semibold text-slate-400 hover:text-[#E2E8F0] hover:bg-white/5 transition group ${
-                  isExpanded ? 'w-full gap-2.5 px-2.5 py-2' : 'w-11 h-11 mx-auto justify-center'
-                }`}
+                className="w-full h-11 px-1.5 flex items-center rounded-2xl text-xs font-semibold text-slate-400 hover:text-[#E2E8F0] hover:bg-white/5 transition-colors group overflow-hidden"
               >
-                <span className={`flex items-center justify-center shrink-0 ${isExpanded ? 'w-9' : ''}`}>
+                <span className="w-11 h-11 flex items-center justify-center shrink-0">
                   <LogIn className="w-5 h-5" />
                 </span>
-                {isExpanded && <span className="truncate text-[11px]">Masuk</span>}
+                <div
+                  className={`min-w-0 flex-1 overflow-hidden transition-opacity duration-200 ${
+                    isExpanded ? 'opacity-100' : 'opacity-0 pointer-events-none'
+                  }`}
+                >
+                  <span className="block pl-2.5 whitespace-nowrap truncate text-[11px]">Masuk</span>
+                </div>
               </Link>
             </div>
           )}
 
-          {/* Akses Petugas Dinas */}
-          {!isAdmin && isExpanded && (
-            <Link
-              href="/admin/login"
-              className="block text-center text-[10px] text-slate-400 hover:text-[#F97316] py-1 transition"
-            >
-              Portal Petugas Instansi →
-            </Link>
+          {/* Slot Tetap Akses Petugas Dinas (selalu menempati h-6 agar tinggi aside konstan 0px delta) */}
+          {!isAdmin && (
+            <div className="relative h-6 flex items-center justify-center overflow-hidden">
+              <span
+                aria-hidden="true"
+                className={`absolute inset-0 flex items-center justify-center gap-1 transition-opacity duration-200 pointer-events-none ${
+                  isExpanded ? 'opacity-0' : 'opacity-40'
+                }`}
+              >
+                <span className="w-1 h-1 rounded-full bg-slate-500"></span>
+                <span className="w-1 h-1 rounded-full bg-slate-500"></span>
+                <span className="w-1 h-1 rounded-full bg-slate-500"></span>
+              </span>
+              <Link
+                href="/admin/login"
+                tabIndex={isExpanded ? 0 : -1}
+                className={`text-center text-[10px] text-slate-400 hover:text-[#F97316] whitespace-nowrap transition-opacity duration-200 ${
+                  isExpanded ? 'opacity-100' : 'opacity-0 pointer-events-none'
+                }`}
+              >
+                Portal Petugas Instansi →
+              </Link>
+            </div>
           )}
         </div>
       </aside>
@@ -267,9 +303,7 @@ export default function Navbar() {
       {/* Header Kecil di Atas Layar untuk HP */}
       <div className="lg:hidden sticky top-0 z-40 bg-[#18181B]/95 backdrop-blur-md border-b border-white/10 px-4 py-2.5 flex items-center justify-between">
         <Link href="/" className="flex items-center gap-2">
-          <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-[#F97316] to-[#F43F5E] flex items-center justify-center text-white shadow-md">
-            <ShieldCheck className="w-5 h-5" />
-          </div>
+          <BrandLogo className="w-8 h-8" iconClassName="w-5 h-5" />
           <div>
             <span className="font-black text-sm text-[#E2E8F0]">SMAUMU</span>
             <span className="text-[9px] text-slate-400 block -mt-0.5">SMAN UntukMu • WIA 2026</span>

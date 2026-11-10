@@ -49,38 +49,29 @@ export default function ThemeToggle({ variant = 'pill', isExpanded = false, clas
   }
 
   if (variant === 'sidebar') {
-    if (!isExpanded) {
-      return (
-        <button
-          type="button"
-          onClick={toggleTheme}
-          title={`Ganti Background: ${label}`}
-          aria-label={`Ganti Background: ${label}`}
-          className={`w-11 h-11 mx-auto p-0 flex items-center justify-center rounded-2xl bg-orange-500/15 hover:bg-orange-500/25 text-[#F97316] border border-orange-500/30 transition relative group ${className}`}
-        >
-          {showLightState ? <Moon className="w-5 h-5" /> : <Sun className="w-5 h-5" />}
-          <div className="absolute left-full ml-3 px-2.5 py-1 bg-[#1E1E24] text-[#E2E8F0] text-[11px] font-semibold rounded-xl shadow-xl border border-white/15 whitespace-nowrap opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity z-50">
-            {label}
-          </div>
-        </button>
-      );
-    }
-
     return (
       <button
         type="button"
         onClick={toggleTheme}
-        className={`w-full flex items-center justify-between px-2.5 py-2 rounded-2xl bg-orange-500/15 hover:bg-orange-500/25 text-[#F97316] border border-orange-500/30 text-xs font-bold transition ${className}`}
+        title={!isExpanded ? `Ganti Background: ${label}` : undefined}
+        aria-label={`Ganti Background: ${label}`}
+        className={`w-full h-11 px-1.5 flex items-center rounded-2xl bg-orange-500/15 hover:bg-orange-500/25 text-[#F97316] border border-orange-500/30 transition-colors overflow-hidden ${className}`}
       >
-        <div className="flex items-center gap-2.5">
-          <span className="w-9 flex items-center justify-center shrink-0">
-            {showLightState ? <Moon className="w-5 h-5" /> : <Sun className="w-5 h-5" />}
-          </span>
-          <span className="truncate">{label}</span>
-        </div>
-        <span className="text-[9px] font-mono uppercase px-1.5 py-0.5 rounded bg-orange-500/20 border border-orange-500/30">
-          {showLightState ? 'Gelap' : 'Terang'}
+        <span className="w-11 h-11 flex items-center justify-center shrink-0">
+          {showLightState ? <Moon className="w-5 h-5" /> : <Sun className="w-5 h-5" />}
         </span>
+        <div
+          className={`min-w-0 flex-1 overflow-hidden transition-opacity duration-200 ${
+            isExpanded ? 'opacity-100' : 'opacity-0 pointer-events-none'
+          }`}
+        >
+          <div className="pl-2.5 pr-1.5 flex items-center justify-between whitespace-nowrap">
+            <span className="text-xs font-bold truncate">{label}</span>
+            <span className="text-[9px] font-mono uppercase px-1.5 py-0.5 rounded bg-orange-500/20 border border-orange-500/30 shrink-0">
+              {showLightState ? 'Gelap' : 'Terang'}
+            </span>
+          </div>
+        </div>
       </button>
     );
   }

@@ -196,10 +196,11 @@ export default function AdminDashboardPage({ initialStats, initialPending, initi
               <h3 className="font-bold text-base text-white">Laporan Warga Masuk (Whistleblower Feed)</h3>
             </div>
             <Link
-              href="/admin/verifikasi-anomali"
-              className="text-xs font-bold text-rose-400 hover:text-rose-300 flex items-center gap-1"
+              href="/admin/pengaduan"
+              className="text-xs font-bold text-rose-400 hover:text-rose-300 flex items-center gap-1 transition"
             >
-              Tindak Lanjut di Menu Khusus <ArrowRight className="w-3.5 h-3.5" />
+              <span>Buka Posko Aduan & Mitigasi Spam</span>
+              <ArrowRight className="w-3.5 h-3.5" />
             </Link>
           </div>
 

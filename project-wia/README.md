@@ -87,28 +87,38 @@ PPDB mengalami lonjakan trafik (*massive traffic spike*) ekstrem saat gerbang pe
 
 ---
 
-### 📍 2. Pengujian Akurasi Titik Koordinat & Mekanisme Auto-Snap Dukcapil
-Untuk mencegah kecurangan manipulasi titik rumah pendaftar, SMAUMU menerapkan validasi geospasial berlapis:
-1. **DKI Jakarta Bounding Boundary**:
-   Sistem secara otomatis memverifikasi koordinat terhadap batas wilayah hukum administratif DKI Jakarta (`minLat: -6.375`, `maxLat: -6.085`, `minLng: 106.685`, `maxLng: 106.985`). Koordinat di luar batas langsung ditolak dengan peringatan spesifik.
-2. **Mekanisme Auto-Snap Dukcapil**:
-   Tersedia fitur **"Auto-Snap Lokasi Resmi"** yang mengunci titik pendaftar ke centroid pemetaan Dukcapil/kelurahan resmi (misal: Sawah Besar, Senen, Gambir, Cempaka Putih, Menteng, Tebet, dll.). Fitur ini meniadakan celah pendaftar yang sengaja menggeser titik koordinat ke gang dekat sekolah.
-3. **Formula Great-Circle (Haversine)**:
+### 📍 2. Pengujian Akurasi Titik Koordinat & Integrasi Peta Auto-Snap Dukcapil
+Untuk mencegah celah manipulasi titik rumah pendaftar, SMAUMU menerapkan validasi geospasial berlapis yang terintegrasi langsung pada Formulir Pendaftaran (`/daftar` - Langkah 2):
+1. **Interactive Leaflet Mini-Map (`ApplicantCoordinateMapView.jsx`)**:
+   Calon siswa dan orang tua dapat melihat penanda rumah (*blue pulsing home pin*), penanda SMAN pilihan (*navy school badge*), serta **Garis Geodesik Haversine** dinamis yang menghubungkan rumah ke sekolah lengkap dengan indikator jarak meter secara seketika (*real-time*).
+2. **Mekanisme Auto-Snap Dukcapil Resmi**:
+   Fitur **"Auto-Snap Lokasi Resmi"** mengunci titik pendaftar ke centroid pemetaan Dukcapil/kelurahan resmi (misal: Sawah Besar, Senen, Gambir, Cempaka Putih, Menteng, Tebet, Cilandak, Pasar Minggu, dll.). Titik yang terkunci diberi lencana keamanan: `✓ Auto-Snap Dukcapil Sah (100% Anti-Manipulasi)`.
+3. **Pembatas Administratif DKI Jakarta**:
+   Sistem memverifikasi koordinat terhadap batas wilayah administratif DKI Jakarta (`minLat: -6.375`, `maxLat: -6.085`, `minLng: 106.685`, `maxLng: 106.985`). Pin yang digeser ke luar wilayah akan ditolak dan otomatis di-snap kembali ke centroid terdekat.
+4. **Formula Great-Circle (Haversine)**:
    Perhitungan jarak spasial riil bumi bulat dengan presisi 2 desimal (meter):
    $$\Delta\sigma = 2 \arcsin \left( \sqrt{\sin^2\left(\frac{\Delta\phi}{2}\right) + \cos(\phi_1)\cos(\phi_2)\sin^2\left(\frac{\Delta\lambda}{2}\right)} \right)$$
    $$d = R \cdot \Delta\sigma \quad (R = 6.371.000\text{ m})$$
 
 ---
 
-### 🛡️ 3. Simulasi Alur Pengaduan Whistleblower & Mitigasi Spam
+### 🛡️ 3. Simulasi Alur Pengaduan Whistleblower & Dashboard Khusus Mitigasi Spam
 Untuk melindungi verifikator dinas dari banjir aduan palsu (*spam flood*) tanpa mengorbankan kerahasiaan pelapor:
-1. **Algoritma Scoring Risiko Spam**:
-   Setiap aduan yang masuk dihitung skor risikonya (0-100%) berdasarkan kelengkapan bukti dokumen, panjang narasi kronologi, kesesuaian tiket, dan pola kata kunci repetitif.
-2. **Dashboard Verifikator Terpadu (`/admin/verifikasi-anomali`)**:
-   - Tab penyaringan: *Semua Laporan*, *Perlu Investigasi*, *Terbukti Valid*, dan *Termitigasi Spam / Hoax*.
-   - Tindakan cepat satu klik: **"Validasi Bukti & Tindak Siswa"**, **"Eskalasi ke Inspektorat Lapangan"**, atau **"Mitigasi Laporan Palsu / Spam"**.
-3. **Transparansi Token Pelapor (`/whistleblower` -> Pantau Token)**:
-   Pelapor dapat memantau status secara mandiri menggunakan Token Rahasia tanpa perlu melakukan login atau meninggalkan jejak data pribadi.
+1. **Multi-Factor Spam Scoring Engine (`spamFilterService.js`)**:
+   Setiap aduan yang masuk dianalisis secara heuristik menghitung skor risiko spam (0% - 100%) berdasarkan 4 faktor:
+   - **Kelengkapan Bukti Otentik**: Ada lampiran PDF/foto (-35% risiko) vs klaim kosong (+25% risiko).
+   - **Validitas Nomor Tiket PPDB**: Terdaftar di database pendaftaran (-30% risiko) vs tiket fiktif (+40% risiko).
+   - **Kedalaman Kronologi**: Narasi deskriptif $\ge 100$ karakter dengan istilah administratif valid (-30% risiko).
+   - **Deteksi Emosi Fitnah & Spam Repetitif**: Pola kata provokatif tanpa rincian kronologi (+20% risiko).
+2. **Dashboard Khusus Petugas Posko Aduan (`/admin/pengaduan`)**:
+   - Menu mandiri di Admin Sidebar: **"Posko Aduan"** lengkap dengan statistik KPI.
+   - Filter Kredibilitas: *Semua*, *Prioritas Valid (<35%)*, *Sedang Investigasi*, *Terbukti Sanksi*, dan *Karantina Spam (≥70%)*.
+   - Tindakan 1-Klik Petugas:
+     - **"Validasi Bukti & Eksekusi Sanksi"**: Membekukan kuota calon siswa curang dan mencatat ke audit log.
+     - **"Tugaskan Tim Lapangan"**: Eskalasi ke tim pengawas inspektorat faktual.
+     - **"Karantina Spam / Aduan Palsu"**: Menutup aduan hoax tanpa membebani jadwal pemeriksaan dinas.
+3. **Transparansi Token Pelapor Real-Time (`/whistleblower` -> Pantau Token)**:
+   Setiap tanggapan atau instruksi dinas yang diinput petugas langsung tersinkronisasi ke portal publik pelapor melalui **Token Investigasi Anonim** (misal: `TOKEN-WBL-7719-XPQ` atau `TOKEN-WBL-8820-KLP`) tanpa membuka identitas pelapor.
 
 ---
 

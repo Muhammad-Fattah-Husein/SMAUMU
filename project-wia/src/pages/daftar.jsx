@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import dynamic from 'next/dynamic';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import Layout from '@/components/Layout';
@@ -31,6 +32,19 @@ import {
   Zap,
   LocateFixed
 } from 'lucide-react';
+
+const ApplicantCoordinateMapView = dynamic(
+  () => import('@/components/ApplicantCoordinateMapView'),
+  {
+    ssr: false,
+    loading: () => (
+      <div className="w-full h-[360px] rounded-2xl bg-slate-900 border border-slate-700 flex flex-col items-center justify-center text-slate-300 gap-3">
+        <div className="w-8 h-8 border-3 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+        <span className="text-xs font-semibold">Memuat Peta Spasial Auto-Snap Dukcapil...</span>
+      </div>
+    )
+  }
+);
 
 export default function DaftarPage() {
   const router = useRouter();
@@ -116,6 +130,21 @@ export default function DaftarPage() {
         : matched.alamatSample
     }));
     setIsAutoSnapped(true);
+  };
+
+  const handleMapCoordinateChange = (newLat, newLng, autoSnappedCentroid) => {
+    setFormData(prev => ({
+      ...prev,
+      klaim_lat: newLat,
+      klaim_lng: newLng,
+      alamat_domisili: autoSnappedCentroid?.alamatSample || prev.alamat_domisili
+    }));
+    if (autoSnappedCentroid?.id) {
+      setSelectedCentroidId(autoSnappedCentroid.id);
+      setIsAutoSnapped(true);
+    } else {
+      setIsAutoSnapped(false);
+    }
   };
 
   const handleDetectGps = () => {
@@ -592,6 +621,27 @@ export default function DaftarPage() {
                     </div>
                   )}
                 </div>
+              </div>
+
+              {/* Peta Interaktif Auto-Snap Dukcapil & Jarak Haversine */}
+              <div className="pt-2">
+                <div className="flex items-center justify-between mb-2">
+                  <span className="text-xs font-bold text-slate-800 flex items-center gap-1.5">
+                    <Compass className="w-4 h-4 text-[#2563EB]" />
+                    Peta Visual Auto-Snap Dukcapil & Garis Jarak Zonasi SMAN:
+                  </span>
+                  <span className="text-[11px] text-slate-400 hidden sm:inline">
+                    Klik peta atau geser penanda biru untuk verifikasi akurasi
+                  </span>
+                </div>
+                <ApplicantCoordinateMapView
+                  lat={formData.klaim_lat}
+                  lng={formData.klaim_lng}
+                  school={selectedSchool}
+                  onCoordinateChange={handleMapCoordinateChange}
+                  isAutoSnapped={isAutoSnapped}
+                  selectedCentroidId={selectedCentroidId}
+                />
               </div>
 
               {/* Nilai Angka Koordinat */}

@@ -10,7 +10,8 @@ import {
   Settings, 
   LogOut,
   ShieldCheck,
-  ChevronRight
+  ChevronRight,
+  MessageSquareWarning
 } from 'lucide-react';
 import { NAV_LINKS_ADMIN } from '@/utils/constants';
 
@@ -22,6 +23,7 @@ export default function AdminSidebar() {
       case '/admin/dashboard': return <LayoutDashboard className="w-4 h-4" />;
       case '/admin/permohonan': return <FileCheck className="w-4 h-4" />;
       case '/admin/verifikasi-anomali': return <ShieldAlert className="w-4 h-4" />;
+      case '/admin/pengaduan': return <MessageSquareWarning className="w-4 h-4 text-pink-400" />;
       case '/admin/master-kuota': return <Database className="w-4 h-4" />;
       case '/admin/audit-log': return <Lock className="w-4 h-4" />;
       case '/admin/export': return <FileSpreadsheet className="w-4 h-4" />;

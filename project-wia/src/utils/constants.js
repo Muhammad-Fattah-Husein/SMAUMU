@@ -17,6 +17,7 @@ export const NAV_LINKS_ADMIN = [
   { href: '/admin/dashboard', label: 'Dasbor' },
   { href: '/admin/permohonan', label: 'Berkas Masuk' },
   { href: '/admin/verifikasi-anomali', label: 'Verifikasi Anomali' },
+  { href: '/admin/pengaduan', label: 'Posko Aduan' },
   { href: '/admin/master-kuota', label: 'Master Kuota' },
   { href: '/admin/audit-log', label: 'Audit Log' },
   { href: '/admin/export', label: 'Export Data' },

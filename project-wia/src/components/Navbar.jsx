@@ -290,17 +290,17 @@ export default function Navbar() {
       {/* Drawer Menu Lengkap di HP */}
       {mobileMenuOpen && (
         <div className="lg:hidden fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex flex-col justify-end">
-          <div className="bg-[#1E3A8A] rounded-t-3xl border-t border-white/15 p-6 space-y-4 max-h-[85vh] overflow-y-auto animate-fade-in text-white">
-            <div className="flex items-center justify-between pb-3 border-b border-white/15">
+          <div className="bg-[#1E3A8A] rounded-t-3xl border-t border-white/15 p-4 sm:p-5 space-y-3 max-h-[85vh] overflow-y-auto animate-fade-in text-white">
+            <div className="flex items-center justify-between pb-2.5 border-b border-white/15">
               <div>
-                <h3 className="font-extrabold text-base text-white">Menu Layanan Publik</h3>
-                <p className="text-xs text-slate-300">Pilih menu transparansi atau masuk akun:</p>
+                <h3 className="font-extrabold text-sm sm:text-base text-white">Menu Layanan Publik</h3>
+                <p className="text-[11px] text-slate-300">Pilih menu transparansi atau masuk akun:</p>
               </div>
               <button
                 onClick={() => setMobileMenuOpen(false)}
-                className="p-2 rounded-xl bg-white/10 text-slate-300 hover:text-white"
+                className="p-1.5 rounded-xl bg-white/10 text-slate-300 hover:text-white"
               >
-                <X className="w-5 h-5" />
+                <X className="w-4 h-4" />
               </button>
             </div>
 

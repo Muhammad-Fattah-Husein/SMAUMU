@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import Link from 'next/link';
 import Layout from '@/components/Layout';
 import SchoolQuotaCard from '@/components/SchoolQuotaCard';
@@ -28,10 +28,47 @@ import {
   Sparkles
 } from 'lucide-react';
 
+const HERO_PHRASES = [
+  'Tanpa Calo.',
+  'Tanpa Numpang KK.',
+  'Tanpa Server Down.'
+];
+
 export default function Home({ initialKuota, initialPendaftaran }) {
   const [kuotaList, setKuotaList] = useState(initialKuota);
   const [selectedSchoolFilter, setSelectedSchoolFilter] = useState('all');
   const [searchTicket, setSearchTicket] = useState('');
+  const [phraseIndex, setPhraseIndex] = useState(0);
+  const [typedText, setTypedText] = useState('');
+  const [isDeleting, setIsDeleting] = useState(false);
+
+  // Animasi ketikan bergantian pada headline hero
+  useEffect(() => {
+    if (typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      setTypedText('Tanpa Calo, Tanpa Numpang KK, Tanpa Server Down.');
+      return;
+    }
+
+    const currentPhrase = HERO_PHRASES[phraseIndex];
+    let timeoutId;
+
+    if (!isDeleting && typedText === currentPhrase) {
+      timeoutId = setTimeout(() => setIsDeleting(true), 1700);
+    } else if (isDeleting && typedText === '') {
+      timeoutId = setTimeout(() => {
+        setIsDeleting(false);
+        setPhraseIndex((prev) => (prev + 1) % HERO_PHRASES.length);
+      }, 280);
+    } else {
+      const stepDelay = isDeleting ? 35 : 65;
+      timeoutId = setTimeout(() => {
+        const nextLength = isDeleting ? typedText.length - 1 : typedText.length + 1;
+        setTypedText(currentPhrase.slice(0, nextLength));
+      }, stepDelay);
+    }
+
+    return () => clearTimeout(timeoutId);
+  }, [typedText, isDeleting, phraseIndex]);
 
   // 1. Kelompokkan Data Kuota Per-Sekolah Secara Menyeluruh
   const schoolsData = useMemo(() => {
@@ -159,8 +196,15 @@ export default function Home({ initialKuota, initialPendaftaran }) {
 
           <h1 className="text-3xl sm:text-5xl font-black tracking-tight leading-[1.15]">
             Kawal Hak Kursi SMAN Anak Anda.{' '}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#F97316] via-[#FB7185] to-[#F43F5E]">
-              Tanpa Calo, Tanpa Numpang KK, Tanpa Server Down.
+            <span className="sr-only">Tanpa Calo, Tanpa Numpang KK, Tanpa Server Down.</span>
+            <span
+              aria-hidden="true"
+              className="block mt-1.5 min-h-[1.2em]"
+            >
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#F97316] via-[#FB7185] to-[#F43F5E]">
+                {typedText || '\u200B'}
+              </span>
+              <span className="inline-block w-[3px] sm:w-[4px] h-[0.9em] align-middle ml-1 rounded-full bg-gradient-to-b from-[#F97316] to-[#F43F5E] animate-pulse" />
             </span>
           </h1>
 

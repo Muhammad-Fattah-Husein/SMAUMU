@@ -25,6 +25,7 @@ import {
 } from 'lucide-react';
 import { NAV_LINKS_PUBLIC } from '@/utils/constants';
 import CommandPalette from '@/components/ui/CommandPalette';
+import ThemeToggle from './ThemeToggle';
 
 export default function Navbar() {
   const router = useRouter();
@@ -154,6 +155,8 @@ export default function Navbar() {
 
         {/* Bagian Bawah: Profil Pengguna & Autentikasi */}
         <div className="pt-3 border-t border-white/10 space-y-2">
+          <ThemeToggle variant="sidebar" isExpanded={isExpanded} />
+
           {isAuthenticated ? (
             /* Logged in state */
             <div className="space-y-2">
@@ -263,6 +266,7 @@ export default function Navbar() {
               Masuk
             </Link>
           )}
+          <ThemeToggle variant="icon" />
           <button
             onClick={() => setIsCommandOpen(true)}
             className="p-2 rounded-xl bg-white/10 text-[#E2E8F0] hover:bg-white/20 transition flex items-center justify-center"

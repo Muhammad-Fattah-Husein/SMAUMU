@@ -12,6 +12,11 @@ export default function Document() {
         />
       </Head>
       <body className="bg-[#121212] text-[#E2E8F0] antialiased selection:bg-[#F97316] selection:text-white">
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(){try{var t=localStorage.getItem('smaumu_theme');if(t==='light'){document.documentElement.classList.remove('dark');document.documentElement.classList.add('theme-light');}}catch(e){}})();`
+          }}
+        />
         <Main />
         <NextScript />
       </body>

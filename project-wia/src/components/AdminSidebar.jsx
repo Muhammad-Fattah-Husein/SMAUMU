@@ -13,6 +13,7 @@ import {
   MessageSquareWarning
 } from 'lucide-react';
 import { NAV_LINKS_ADMIN } from '@/utils/constants';
+import ThemeToggle from './ThemeToggle';
 
 export default function AdminSidebar() {
   const router = useRouter();
@@ -73,7 +74,8 @@ export default function AdminSidebar() {
       </div>
 
       {/* Bottom Switch to Public Portal / Logout */}
-      <div className="p-2.5 sm:p-3 border-t border-white/10 space-y-1">
+      <div className="p-2.5 sm:p-3 border-t border-white/10 space-y-1.5">
+        <ThemeToggle variant="sidebar" isExpanded={true} className="rounded-xl" />
         <Link
           href="/"
           className="flex items-center justify-between px-2.5 py-1.5 rounded-lg text-xs font-medium text-slate-400 hover:text-[#E2E8F0] hover:bg-white/5 transition"

@@ -1,13 +1,14 @@
 import Navbar from './Navbar';
 import Footer from './Footer';
+import ThemeToggle from './ThemeToggle';
 import { ShieldCheck, Info } from 'lucide-react';
 
 export default function Layout({ children, noContainer = false }) {
   return (
-    <div className="min-h-screen flex flex-col bg-[#121212] text-[#E2E8F0] font-sans selection:bg-[#F97316] selection:text-white">
+    <div className="min-h-screen flex flex-col bg-[#121212] text-[#E2E8F0] font-sans selection:bg-[#F97316] selection:text-white transition-colors duration-200">
       {/* Banner Ringkas di Paling Atas */}
-      <div className="bg-[#18181B] text-[#E2E8F0] text-xs py-1.5 px-4 border-b border-white/10 shadow-sm">
-        <div className="max-w-7xl mx-auto flex items-center justify-between text-xs">
+      <div className="bg-[#18181B] text-[#E2E8F0] text-xs py-1.5 px-4 border-b border-white/10 shadow-sm transition-colors duration-200">
+        <div className="max-w-7xl mx-auto flex items-center justify-between text-xs gap-2">
           <div className="flex items-center gap-2">
             <span className="bg-orange-500/15 text-[#F97316] border border-orange-500/30 text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider">
               WIA MIA 2026
@@ -16,9 +17,12 @@ export default function Layout({ children, noContainer = false }) {
               Transparansi PPDB SMAN: Sisa kuota, jarak zonasi, dan audit publik terbuka.
             </span>
           </div>
-          <div className="flex items-center gap-2 text-[11px] text-[#F97316] font-semibold">
-            <span className="w-2 h-2 rounded-full bg-[#F97316] animate-pulse"></span>
-            <span>Real-Time</span>
+          <div className="flex items-center gap-3">
+            <div className="flex items-center gap-1.5 text-[11px] text-[#F97316] font-semibold">
+              <span className="w-2 h-2 rounded-full bg-[#F97316] animate-pulse"></span>
+              <span>Real-Time</span>
+            </div>
+            <ThemeToggle variant="pill" />
           </div>
         </div>
       </div>

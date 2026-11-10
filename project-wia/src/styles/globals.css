@@ -111,3 +111,229 @@ body {
 .leaflet-popup-close-button {
   color: #94A3B8 !important;
 }
+
+/* ========================================================================== */
+/* THEME LIGHT OVERRIDE (Background Hitam -> Putih, Pertahankan Warna Aksen) */
+/* ========================================================================== */
+html.theme-light {
+  color-scheme: light;
+  background-color: #ffffff;
+  color: #0f172a;
+  --color-background: #ffffff;
+  --color-surface: #ffffff;
+  --color-text: #0f172a;
+  --color-muted: #475569;
+  --background: 0 0% 100%;
+  --foreground: 222 47% 11%;
+  --card: 0 0% 100%;
+  --card-foreground: 222 47% 11%;
+  --popover: 0 0% 100%;
+  --popover-foreground: 222 47% 11%;
+  --secondary: 210 40% 96.1%;
+  --secondary-foreground: 222 47% 11%;
+  --muted: 210 40% 96.1%;
+  --muted-foreground: 215 16% 47%;
+  --border: 214 32% 91%;
+  --input: 214 32% 91%;
+}
+
+html.theme-light body {
+  background-color: #ffffff !important;
+  color: #0f172a !important;
+}
+
+html.theme-light ::-webkit-scrollbar-track {
+  background: #f1f5f9;
+}
+
+html.theme-light ::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+}
+
+html.theme-light ::-webkit-scrollbar-thumb:hover {
+  background: #f97316;
+}
+
+html.theme-light input:not([type="checkbox"]):not([type="radio"]),
+html.theme-light select,
+html.theme-light textarea {
+  background-color: #ffffff !important;
+  color: #0f172a !important;
+  border-color: #cbd5e1 !important;
+}
+
+html.theme-light input.bg-transparent {
+  background-color: transparent !important;
+}
+
+html.theme-light select option {
+  background-color: #ffffff;
+  color: #0f172a;
+}
+
+/* Canvas, Kartu, & Surface Hitam -> Putih / Slate Terang */
+html.theme-light :is(
+  [class~="bg-[#121212]"],
+  [class*="bg-[#121212]/"],
+  [class~="bg-[#1A1A1E]"],
+  [class*="bg-[#1A1A1E]/"],
+  [class~="bg-slate-950"]
+) {
+  background-color: #ffffff !important;
+}
+
+html.theme-light :is(
+  [class~="bg-[#141417]"],
+  [class*="bg-[#141417]/"],
+  [class~="bg-[#1E1E24]"],
+  [class~="bg-[#222227]"]
+) {
+  background-color: #f8fafc !important;
+}
+
+html.theme-light :is(
+  [class~="bg-[#18181B]"],
+  [class*="bg-[#18181B]/"]
+) {
+  background-color: rgba(255, 255, 255, 0.96) !important;
+}
+
+html.theme-light [class~="bg-[#2A2A32]"] {
+  background-color: #e2e8f0 !important;
+}
+
+html.theme-light :is(
+  [class~="from-[#121212]"],
+  [class~="from-[#141417]"],
+  [class~="from-[#221417]"]
+) {
+  background-image: linear-gradient(135deg, #ffffff 0%, #fff7ed 52%, #fff1f2 100%) !important;
+}
+
+html.theme-light [class~="bg-white/5"] {
+  background-color: #f8fafc !important;
+}
+
+html.theme-light [class~="bg-white/10"] {
+  background-color: #f1f5f9 !important;
+}
+
+html.theme-light :is([class~="bg-white/15"], [class~="bg-white/20"]) {
+  background-color: #e2e8f0 !important;
+}
+
+/* Border & Divider di Background Putih */
+html.theme-light :is(
+  [class~="border-white/10"],
+  [class~="border-white/15"],
+  [class~="border-white/20"],
+  [class~="border-white/30"]
+) {
+  border-color: #e2e8f0 !important;
+}
+
+html.theme-light [class~="divide-white/10"] > :not([hidden]) ~ :not([hidden]),
+html.theme-light [class~="divide-white/5"] > :not([hidden]) ~ :not([hidden]) {
+  border-color: #e2e8f0 !important;
+}
+
+/* Hover States di Mode Putih */
+html.theme-light [class~="hover:bg-white/5"]:hover,
+html.theme-light [class~="hover:bg-white/10"]:hover,
+html.theme-light [class~="hover:bg-white/15"]:hover,
+html.theme-light [class~="hover:bg-white/20"]:hover {
+  background-color: #f1f5f9 !important;
+}
+
+/* Teks Utama Off-White -> Tinta Gelap Mudah Dibaca */
+html.theme-light :is(
+  [class~="text-white"],
+  [class~="text-[#E2E8F0]"],
+  [class~="text-slate-100"],
+  [class~="text-slate-200"]
+) {
+  color: #0f172a !important;
+}
+
+html.theme-light [class~="text-slate-300"] {
+  color: #334155 !important;
+}
+
+html.theme-light [class~="text-slate-400"] {
+  color: #475569 !important;
+}
+
+html.theme-light [class~="hover:text-[#E2E8F0]"]:hover,
+html.theme-light [class~="hover:text-white"]:hover {
+  color: #0f172a !important;
+}
+
+/* Penyesuaian Kontras Badge Semantik Pastel di Background Putih */
+html.theme-light :is([class~="text-emerald-300"], [class~="text-emerald-400"]) {
+  color: #047857 !important;
+}
+
+html.theme-light :is([class~="text-orange-200"], [class~="text-orange-300"], [class~="text-orange-200/90"]) {
+  color: #c2410c !important;
+}
+
+html.theme-light :is([class~="text-rose-200"], [class~="text-rose-300"], [class~="text-[#FB7185]"]) {
+  color: #be123c !important;
+}
+
+html.theme-light :is([class~="text-amber-300"], [class~="text-amber-400"]) {
+  color: #b45309 !important;
+}
+
+html.theme-light [class~="text-purple-300"] {
+  color: #6d28d9 !important;
+}
+
+html.theme-light :is([class~="text-cyan-300"], [class~="text-cyan-400"]) {
+  color: #0e7490 !important;
+}
+
+/* Pertahankan Teks Putih di Dalam Tombol CTA, Badge Solid, & Tab Aktif Berwarna */
+html.theme-light :is(
+  [class~="bg-[#F97316]"],
+  [class~="bg-[#F43F5E]"],
+  [class~="from-[#F97316]"]:not(.bg-clip-text),
+  [class~="bg-emerald-600"],
+  [class~="bg-rose-600"],
+  [class~="bg-amber-600"],
+  [class~="bg-emerald-500"],
+  [class~="bg-rose-500"],
+  [data-state="active"][class*="data-[state=active]:from-[#F97316]"]
+),
+html.theme-light :is(
+  [class~="bg-[#F97316]"],
+  [class~="bg-[#F43F5E]"],
+  [class~="from-[#F97316]"]:not(.bg-clip-text),
+  [class~="bg-emerald-600"],
+  [class~="bg-rose-600"],
+  [class~="bg-amber-600"],
+  [class~="bg-emerald-500"],
+  [class~="bg-rose-500"],
+  [data-state="active"][class*="data-[state=active]:from-[#F97316]"]
+) * {
+  color: #ffffff !important;
+}
+
+html.theme-light :is(
+  [class~="bg-[#F97316]"],
+  [class~="bg-[#F43F5E]"],
+  [class~="from-[#F97316]"]:not(.bg-clip-text),
+  [class~="bg-emerald-600"],
+  [class~="bg-rose-600"],
+  [class~="bg-amber-600"]
+):hover,
+html.theme-light :is(
+  [class~="bg-[#F97316]"],
+  [class~="bg-[#F43F5E]"],
+  [class~="from-[#F97316]"]:not(.bg-clip-text),
+  [class~="bg-emerald-600"],
+  [class~="bg-rose-600"],
+  [class~="bg-amber-600"]
+):hover * {
+  color: #ffffff !important;
+}

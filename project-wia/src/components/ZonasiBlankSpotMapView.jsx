@@ -289,7 +289,7 @@ export default function ZonasiBlankSpotMapView() {
   };
 
   return (
-    <div className="relative w-full h-[520px] sm:h-[600px] rounded-3xl overflow-hidden border border-white/10 shadow-xl bg-[#18181B]">
+    <div className="relative isolate z-0 w-full h-[520px] sm:h-[600px] rounded-3xl overflow-hidden border border-white/10 shadow-xl bg-[#18181B]">
       {/* Container Leaflet DOM */}
       <div ref={mapContainerRef} className="w-full h-full z-0" />
 

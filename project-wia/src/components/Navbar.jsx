@@ -78,7 +78,7 @@ export default function Navbar() {
       <aside
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
-        className={`hidden lg:flex fixed left-5 top-1/2 -translate-y-1/2 z-50 flex-col justify-between transition-[width] duration-200 ease-out overflow-hidden bg-[#18181B]/95 backdrop-blur-xl border border-white/10 shadow-2xl shadow-black/60 rounded-3xl py-4 px-3 ${
+        className={`hidden lg:flex fixed left-5 top-1/2 -translate-y-1/2 z-[1100] flex-col justify-between transition-[width] duration-200 ease-out overflow-hidden bg-[#18181B]/95 backdrop-blur-xl border border-white/10 shadow-2xl shadow-black/60 rounded-3xl py-4 px-3 ${
           isExpanded ? 'w-64' : 'w-20'
         }`}
         style={{ maxHeight: 'calc(100vh - 40px)' }}
@@ -301,7 +301,7 @@ export default function Navbar() {
       {/* 2. MOBILE TOP BANNER & FLOATING BOTTOM DOCK */}
       {/* ============================================================== */}
       {/* Header Kecil di Atas Layar untuk HP */}
-      <div className="lg:hidden sticky top-0 z-40 bg-[#18181B]/95 backdrop-blur-md border-b border-white/10 px-4 py-2.5 flex items-center justify-between">
+      <div className="lg:hidden sticky top-0 z-[1050] bg-[#18181B]/95 backdrop-blur-md border-b border-white/10 px-4 py-2.5 flex items-center justify-between">
         <Link href="/" className="flex items-center gap-2">
           <BrandLogo className="w-8 h-8" iconClassName="w-5 h-5" />
           <div>
@@ -341,7 +341,7 @@ export default function Navbar() {
       </div>
 
       {/* Floating Bottom Dock untuk Akses Cepat di HP */}
-      <div className="lg:hidden fixed bottom-3 left-3 right-3 z-50 bg-[#18181B]/95 backdrop-blur-xl border border-white/10 rounded-2xl shadow-2xl shadow-black/60 px-2 py-2 grid grid-cols-5 items-center">
+      <div className="lg:hidden fixed bottom-3 left-3 right-3 z-[1100] bg-[#18181B]/95 backdrop-blur-xl border border-white/10 rounded-2xl shadow-2xl shadow-black/60 px-2 py-2 grid grid-cols-5 items-center">
         <Link
           href="/"
           className={`flex flex-col items-center justify-center gap-1 p-1.5 rounded-xl text-[10px] ${
@@ -387,8 +387,13 @@ export default function Navbar() {
 
       {/* Drawer Menu Lengkap di HP */}
       {mobileMenuOpen && (
-        <div className="lg:hidden fixed inset-0 z-50 bg-black/75 backdrop-blur-sm flex flex-col justify-end">
-          <div className="bg-[#18181B] rounded-t-3xl border-t border-white/10 p-4 sm:p-5 space-y-3 max-h-[85vh] overflow-y-auto animate-fade-in text-[#E2E8F0]">
+        <div
+          onClick={(e) => {
+            if (e.target === e.currentTarget) setMobileMenuOpen(false);
+          }}
+          className="lg:hidden fixed inset-0 z-[1200] bg-black/75 backdrop-blur-sm flex flex-col justify-end"
+        >
+          <div className="bg-[#18181B] rounded-t-3xl border-t border-white/10 p-4 sm:p-5 pb-6 space-y-3 max-h-[85vh] overflow-y-auto animate-fade-in text-[#E2E8F0]">
             <div className="flex items-center justify-between pb-2.5 border-b border-white/10">
               <div>
                 <h3 className="font-extrabold text-sm sm:text-base text-white">Menu Layanan Publik</h3>

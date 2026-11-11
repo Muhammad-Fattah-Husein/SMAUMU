@@ -318,7 +318,7 @@ export default function DetailedMapView({
   };
 
   return (
-    <div className="relative w-full h-[470px] sm:h-[500px] rounded-2xl overflow-hidden shadow-inner border border-white/10 bg-[#18181B]">
+    <div className="relative isolate z-0 w-full h-[470px] sm:h-[500px] rounded-2xl overflow-hidden shadow-inner border border-white/10 bg-[#18181B]">
       {/* Container DOM tempat Leaflet me-render peta */}
       <div ref={mapContainerRef} className="w-full h-full z-0" />
 

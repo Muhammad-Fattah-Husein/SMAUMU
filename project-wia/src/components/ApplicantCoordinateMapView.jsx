@@ -337,7 +337,7 @@ export default function ApplicantCoordinateMapView({
   };
 
   return (
-    <div className="relative w-full rounded-2xl overflow-hidden border border-white/15 shadow-inner bg-[#18181B]">
+    <div className="relative isolate z-0 w-full rounded-2xl overflow-hidden border border-white/15 shadow-inner bg-[#18181B]">
       {/* Container Leaflet Peta */}
       <div 
         ref={mapContainerRef} 

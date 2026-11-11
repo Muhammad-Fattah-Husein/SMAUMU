@@ -2,6 +2,7 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import Layout from '@/components/Layout';
+import BrandLogo from '@/components/BrandLogo';
 import { useAuth } from '@/contexts/AuthContext';
 import { 
   LogIn, 
@@ -48,9 +49,7 @@ export default function LoginPage() {
         <div className="bg-[#1A1A1E] rounded-3xl border border-white/10 p-6 sm:p-8 shadow-sm space-y-6">
           {/* Header */}
           <div className="text-center space-y-2">
-            <div className="w-12 h-12 rounded-2xl bg-[#F97316] text-white flex items-center justify-center mx-auto shadow-md">
-              <LogIn className="w-6 h-6 text-white" />
-            </div>
+            <BrandLogo className="w-12 h-12 rounded-2xl mx-auto" iconClassName="w-8 h-8" />
             <h1 className="text-2xl font-black text-white tracking-tight">
               Masuk Akun Pendaftar
             </h1>

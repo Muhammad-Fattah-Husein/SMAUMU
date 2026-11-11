@@ -14,6 +14,7 @@ import {
 } from 'lucide-react';
 import { NAV_LINKS_ADMIN } from '@/utils/constants';
 import ThemeToggle from './ThemeToggle';
+import BrandLogo from './BrandLogo';
 
 export default function AdminSidebar() {
   const router = useRouter();
@@ -37,9 +38,7 @@ export default function AdminSidebar() {
       <div className="p-2.5 sm:p-3 space-y-3.5">
         {/* Admin Badge */}
         <div className="p-2.5 rounded-xl bg-[#222227] border border-white/10 flex items-center gap-2.5">
-          <div className="w-8 h-8 rounded-lg bg-gradient-to-tr from-[#F97316] to-[#F43F5E] text-white flex items-center justify-center font-bold text-xs shadow shadow-orange-500/20 shrink-0">
-            AD
-          </div>
+          <BrandLogo className="w-9 h-9 rounded-lg" iconClassName="w-6 h-6" />
           <div className="min-w-0">
             <h4 className="font-bold text-[#E2E8F0] text-xs truncate">Disdik WIA Provinsi</h4>
             <p className="text-[10px] text-emerald-400 font-semibold flex items-center gap-1">
